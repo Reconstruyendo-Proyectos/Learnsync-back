@@ -5,17 +5,17 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "categories")
-public class Category {
+@Entity(name = "topics")
+public class Topic {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_category")
-    private Integer idCategory;
+    @Column(name = "id_topic")
+    private Integer idTopic;
 
     @Column(name = "name", nullable = false, unique = true)
     private String name;
@@ -23,7 +23,10 @@ public class Category {
     @Column(name = "description", nullable = false)
     private String description;
 
-    // Mapear 1 a muchos con Topic
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
-    private List<Topic> topics;
+    @Column(name = "creation_date", nullable = false)
+    private final LocalDateTime creationDate = LocalDateTime.now();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_category", nullable = false, referencedColumnName = "id_category")
+    private Category category;
 }

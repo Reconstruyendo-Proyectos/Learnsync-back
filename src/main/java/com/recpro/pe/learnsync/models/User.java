@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -28,7 +28,7 @@ public class User {
     private String password;
 
     @Column(name = "creation_date", nullable = false)
-    private Date creationDate;
+    private final LocalDateTime creationDate = LocalDateTime.now();
 
     @Column(name = "enable", nullable = false)
     private boolean enable;
@@ -37,7 +37,7 @@ public class User {
     private boolean banned;
 
     @Column(name = "ban_date")
-    private Date banDate;
+    private LocalDateTime banDate;
 
     @Column(name = "points", nullable = false)
     private int points;

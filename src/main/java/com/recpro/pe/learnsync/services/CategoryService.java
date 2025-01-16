@@ -2,9 +2,11 @@ package com.recpro.pe.learnsync.services;
 
 import com.recpro.pe.learnsync.dtos.category.CategoryDTO;
 import com.recpro.pe.learnsync.dtos.category.CreateCategoryDTO;
+import com.recpro.pe.learnsync.dtos.topic.TopicDTO;
 import com.recpro.pe.learnsync.exceptions.ResourceAlreadyExistsException;
 import com.recpro.pe.learnsync.exceptions.ResourceNotExistsException;
 import com.recpro.pe.learnsync.models.Category;
+import com.recpro.pe.learnsync.models.Topic;
 import com.recpro.pe.learnsync.repos.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -27,18 +29,20 @@ public class CategoryService {
         if(categoryRepository.existsCategoryByName(request.getName())) {
             throw new ResourceAlreadyExistsException("La categoría "+ request.getName() +" existe");
         }
-        Category category = new Category(null, request.getName(), request.getDescription()/*, new ArrayList<>()*/);
+        Category category = new Category(null, request.getName(), request.getDescription(), new ArrayList<>());
         return returnCategoryDTO(categoryRepository.save(category));
     }
 
     public Category getCategory(String name) {
-        if(!categoryRepository.existsCategoryByName(name)) {
-            throw new ResourceNotExistsException("La categoria "+name+" no existe");
-        }
-        return categoryRepository.findByName(name);
+        return categoryRepository.findByName(name).orElseThrow(() -> new ResourceNotExistsException("La categoria "+name+" no existe"));
     }
 
     private CategoryDTO returnCategoryDTO(Category category) {
-        return new CategoryDTO(category.getName(), category.getDescription());
+        List<TopicDTO> topics = new ArrayList<>();
+        for(Topic topic : category.getTopics()) {
+            TopicDTO topicDTO = new TopicDTO(topic.getIdTopic(), topic.getName(), topic.getDescription());
+            topics.add(topicDTO);
+        }
+        return new CategoryDTO(category.getName(), category.getDescription(), topics);
     }
 }
