@@ -1,4 +1,4 @@
-package com.recpro.pe.learnsync.services;
+package com.recpro.pe.learnsync.services.forum;
 
 import com.recpro.pe.learnsync.dtos.topic.CreateTopicDTO;
 import com.recpro.pe.learnsync.dtos.topic.TopicDTO;
@@ -7,7 +7,7 @@ import com.recpro.pe.learnsync.exceptions.ResourceNotExistsException;
 import com.recpro.pe.learnsync.mappers.TopicMapper;
 import com.recpro.pe.learnsync.models.Category;
 import com.recpro.pe.learnsync.models.Topic;
-import com.recpro.pe.learnsync.repos.TopicRepository;
+import com.recpro.pe.learnsync.repos.forum.TopicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;

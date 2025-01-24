@@ -1,9 +1,9 @@
-package com.recpro.pe.learnsync.services;
+package com.recpro.pe.learnsync.services.auth;
 
 import com.recpro.pe.learnsync.dtos.user.UserDTO;
 import com.recpro.pe.learnsync.exceptions.ResourceNotExistsException;
 import com.recpro.pe.learnsync.models.User;
-import com.recpro.pe.learnsync.repos.UserRepository;
+import com.recpro.pe.learnsync.repos.auth.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;

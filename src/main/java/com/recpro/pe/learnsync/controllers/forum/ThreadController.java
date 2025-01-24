@@ -1,8 +1,8 @@
-package com.recpro.pe.learnsync.controllers;
+package com.recpro.pe.learnsync.controllers.forum;
 
 import com.recpro.pe.learnsync.dtos.thread.CreateThreadDTO;
 import com.recpro.pe.learnsync.dtos.thread.ThreadDTO;
-import com.recpro.pe.learnsync.services.ThreadService;
+import com.recpro.pe.learnsync.services.forum.ThreadService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;

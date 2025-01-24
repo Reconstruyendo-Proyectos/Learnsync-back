@@ -1,4 +1,4 @@
-package com.recpro.pe.learnsync.services;
+package com.recpro.pe.learnsync.services.forum;
 
 import com.recpro.pe.learnsync.dtos.thread.CreateThreadDTO;
 import com.recpro.pe.learnsync.dtos.thread.ThreadDTO;
@@ -7,7 +7,8 @@ import com.recpro.pe.learnsync.mappers.ThreadMapper;
 import com.recpro.pe.learnsync.models.Thread;
 import com.recpro.pe.learnsync.models.Topic;
 import com.recpro.pe.learnsync.models.User;
-import com.recpro.pe.learnsync.repos.ThreadRepository;
+import com.recpro.pe.learnsync.repos.forum.ThreadRepository;
+import com.recpro.pe.learnsync.services.auth.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;

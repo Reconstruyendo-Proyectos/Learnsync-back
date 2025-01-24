@@ -1,4 +1,4 @@
-package com.recpro.pe.learnsync.services;
+package com.recpro.pe.learnsync.services.forum;
 
 import com.recpro.pe.learnsync.dtos.comment.CommentDTO;
 import com.recpro.pe.learnsync.dtos.comment.CreateCommentDTO;
@@ -6,7 +6,8 @@ import com.recpro.pe.learnsync.mappers.CommentMapper;
 import com.recpro.pe.learnsync.models.Comment;
 import com.recpro.pe.learnsync.models.Thread;
 import com.recpro.pe.learnsync.models.User;
-import com.recpro.pe.learnsync.repos.CommentRepository;
+import com.recpro.pe.learnsync.repos.forum.CommentRepository;
+import com.recpro.pe.learnsync.services.auth.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package com.recpro.pe.learnsync.services;
+package com.recpro.pe.learnsync.services.auth;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

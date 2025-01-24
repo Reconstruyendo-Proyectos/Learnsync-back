@@ -1,8 +1,8 @@
-package com.recpro.pe.learnsync.controllers;
+package com.recpro.pe.learnsync.controllers.forum;
 
 import com.recpro.pe.learnsync.dtos.comment.CommentDTO;
 import com.recpro.pe.learnsync.dtos.comment.CreateCommentDTO;
-import com.recpro.pe.learnsync.services.CommentService;
+import com.recpro.pe.learnsync.services.forum.CommentService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;

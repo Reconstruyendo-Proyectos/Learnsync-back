@@ -1,4 +1,4 @@
-package com.recpro.pe.learnsync.repos;
+package com.recpro.pe.learnsync.repos.forum;
 
 import com.recpro.pe.learnsync.models.Thread;
 import org.springframework.data.domain.Page;

@@ -1,4 +1,4 @@
-package com.recpro.pe.learnsync.repos;
+package com.recpro.pe.learnsync.repos.auth;
 
 import com.recpro.pe.learnsync.models.ConfirmationToken;
 import com.recpro.pe.learnsync.models.User;

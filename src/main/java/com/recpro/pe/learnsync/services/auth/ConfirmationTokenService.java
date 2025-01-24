@@ -1,9 +1,9 @@
-package com.recpro.pe.learnsync.services;
+package com.recpro.pe.learnsync.services.auth;
 
 import com.recpro.pe.learnsync.exceptions.ResourceNotExistsException;
 import com.recpro.pe.learnsync.models.ConfirmationToken;
 import com.recpro.pe.learnsync.models.User;
-import com.recpro.pe.learnsync.repos.ConfirmationTokenRepository;
+import com.recpro.pe.learnsync.repos.auth.ConfirmationTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

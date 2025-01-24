@@ -1,13 +1,12 @@
-package com.recpro.pe.learnsync.services;
+package com.recpro.pe.learnsync.services.forum;
 
 import com.recpro.pe.learnsync.dtos.category.CategoryDTO;
 import com.recpro.pe.learnsync.dtos.category.CreateCategoryDTO;
-import com.recpro.pe.learnsync.dtos.topic.TopicDTO;
 import com.recpro.pe.learnsync.exceptions.ResourceAlreadyExistsException;
 import com.recpro.pe.learnsync.exceptions.ResourceNotExistsException;
 import com.recpro.pe.learnsync.mappers.CategoryMapper;
 import com.recpro.pe.learnsync.models.Category;
-import com.recpro.pe.learnsync.repos.CategoryRepository;
+import com.recpro.pe.learnsync.repos.forum.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
