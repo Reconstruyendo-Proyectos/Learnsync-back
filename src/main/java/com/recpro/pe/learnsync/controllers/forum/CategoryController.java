@@ -1,7 +1,7 @@
 package com.recpro.pe.learnsync.controllers.forum;
 
-import com.recpro.pe.learnsync.dtos.category.CategoryDTO;
-import com.recpro.pe.learnsync.dtos.category.CreateCategoryDTO;
+import com.recpro.pe.learnsync.dtos.forum.category.CategoryDTO;
+import com.recpro.pe.learnsync.dtos.forum.category.CreateCategoryDTO;
 import com.recpro.pe.learnsync.services.forum.CategoryService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

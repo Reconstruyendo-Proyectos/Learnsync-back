@@ -1,7 +1,7 @@
 package com.recpro.pe.learnsync.services.forum;
 
-import com.recpro.pe.learnsync.dtos.thread.CreateThreadDTO;
-import com.recpro.pe.learnsync.dtos.thread.ThreadDTO;
+import com.recpro.pe.learnsync.dtos.forum.thread.CreateThreadDTO;
+import com.recpro.pe.learnsync.dtos.forum.thread.ThreadDTO;
 import com.recpro.pe.learnsync.exceptions.ResourceNotExistsException;
 import com.recpro.pe.learnsync.mappers.ThreadMapper;
 import com.recpro.pe.learnsync.models.Thread;

@@ -1,7 +1,7 @@
 package com.recpro.pe.learnsync.services.forum;
 
-import com.recpro.pe.learnsync.dtos.comment.CommentDTO;
-import com.recpro.pe.learnsync.dtos.comment.CreateCommentDTO;
+import com.recpro.pe.learnsync.dtos.forum.comment.CommentDTO;
+import com.recpro.pe.learnsync.dtos.forum.comment.CreateCommentDTO;
 import com.recpro.pe.learnsync.mappers.CommentMapper;
 import com.recpro.pe.learnsync.models.Comment;
 import com.recpro.pe.learnsync.models.Thread;

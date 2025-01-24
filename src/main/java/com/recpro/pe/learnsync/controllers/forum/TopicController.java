@@ -1,7 +1,7 @@
 package com.recpro.pe.learnsync.controllers.forum;
 
-import com.recpro.pe.learnsync.dtos.topic.CreateTopicDTO;
-import com.recpro.pe.learnsync.dtos.topic.TopicDTO;
+import com.recpro.pe.learnsync.dtos.forum.topic.CreateTopicDTO;
+import com.recpro.pe.learnsync.dtos.forum.topic.TopicDTO;
 import com.recpro.pe.learnsync.services.forum.TopicService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

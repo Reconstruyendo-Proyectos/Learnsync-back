@@ -1,7 +1,7 @@
 package com.recpro.pe.learnsync.services.forum;
 
-import com.recpro.pe.learnsync.dtos.topic.CreateTopicDTO;
-import com.recpro.pe.learnsync.dtos.topic.TopicDTO;
+import com.recpro.pe.learnsync.dtos.forum.topic.CreateTopicDTO;
+import com.recpro.pe.learnsync.dtos.forum.topic.TopicDTO;
 import com.recpro.pe.learnsync.exceptions.ResourceAlreadyExistsException;
 import com.recpro.pe.learnsync.exceptions.ResourceNotExistsException;
 import com.recpro.pe.learnsync.mappers.TopicMapper;

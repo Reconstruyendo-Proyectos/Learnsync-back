@@ -1,6 +1,6 @@
 package com.recpro.pe.learnsync.mappers;
 
-import com.recpro.pe.learnsync.dtos.topic.TopicDTO;
+import com.recpro.pe.learnsync.dtos.forum.topic.TopicDTO;
 import com.recpro.pe.learnsync.models.Topic;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
