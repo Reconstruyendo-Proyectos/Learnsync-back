@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmación de Cuenta</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        .header img {
+            max-width: 150px;
+        }
+        .content {
+            margin: 20px 0;
+        }
+        .content p {
+            line-height: 1.6;
+        }
+        .button {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: #fff;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .footer {
+            text-align: center;
+            padding: 10px 0;
+            border-top: 1px solid #ddd;
+            color: #777;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <!-- Logo -->
+        <img th:src="@{/assets/logo.png}" alt="Logo de la Empresa">
+    </div>
+    <div class="content">
+        <h1>Confirmación de Cuenta</h1>
+        <p>Felicidades <strong th:text="${user}"></strong> por registrar su cuenta, estás a un solo paso de poder hacer uso de las funciones de Learnsync.</p>
+        <p>Por favor, haz clic en el botón de abajo para confirmar tu cuenta:</p>
+        <a th:href="${url}" class="button">Confirmar Cuenta</a>
+    </div>
+    <div class="footer">
+        <p>&copy; 2025 Learnsync. Todos los derechos reservados.</p>
+    </div>
+</div>
+</body>
+</html>

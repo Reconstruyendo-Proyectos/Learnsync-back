@@ -1,12 +1,17 @@
 package com.recpro.pe.learnsync.services.auth;
 
+import com.recpro.pe.learnsync.dtos.auth.email.Mail;
 import com.recpro.pe.learnsync.exceptions.ResourceNotExistsException;
 import com.recpro.pe.learnsync.models.ConfirmationToken;
 import com.recpro.pe.learnsync.models.User;
 import com.recpro.pe.learnsync.repos.auth.ConfirmationTokenRepository;
+import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -14,13 +19,17 @@ public class ConfirmationTokenService {
 
     @Autowired private ConfirmationTokenRepository confirmationTokenRepository;
     @Autowired private EmailService emailService;
+    @Value("${email.sender}")
+    private String mailFrom;
 
-    public void sendEmail(User user) { //Cambiar URL a la del back desplegado
+    public void sendEmail(User user) throws MessagingException { //Cambiar URL a la del back desplegado
+        Map<String, Object> model = new HashMap<>();
         String token = generateToken(user);
-        String url = "http://localhost:8080/autenticacion/confirmation-token/"+token; //modificar puerto
-        String mensaje = "Felicidades "+user.getUsername()+" por registrar su cuenta, estas a un solo paso de poder hacer uso " +
-                "de las funciones de Learnsync, entra a este link para que puedas registrate," +url;
-        emailService.sendEmail(user.getEmail(), "Activacion de cuenta", mensaje);
+        String url = "http://localhost:8080/autenticacion/confirmation-token/"+token;
+        model.put("user", user.getUsername());
+        model.put("url", url);
+        Mail mail = emailService.createMail(user.getEmail(), "", model, mailFrom);
+        emailService.sendEmail(mail, "email/activate-user-email-template");
     }
 
     public ConfirmationToken findToken(String token){
