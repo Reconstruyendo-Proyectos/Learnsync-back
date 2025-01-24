@@ -25,10 +25,10 @@ public class ConfirmationTokenService {
     public void sendEmail(User user) throws MessagingException { //Cambiar URL a la del back desplegado
         Map<String, Object> model = new HashMap<>();
         String token = generateToken(user);
-        String url = "http://localhost:8080/autenticacion/confirmation-token/"+token;
+        String url = "http://localhost:8080/auth/confirmation-token/"+token;
         model.put("user", user.getUsername());
         model.put("url", url);
-        Mail mail = emailService.createMail(user.getEmail(), "", model, mailFrom);
+        Mail mail = emailService.createMail(user.getEmail(), "Activa tu cuenta", model, mailFrom);
         emailService.sendEmail(mail, "email/activate-user-email-template");
     }
 

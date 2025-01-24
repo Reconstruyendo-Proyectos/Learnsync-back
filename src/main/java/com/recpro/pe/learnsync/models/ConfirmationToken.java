@@ -25,6 +25,6 @@ public class ConfirmationToken {
     private LocalDateTime activationDate;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", nullable = false, referencedColumnName = "user_id")
+    @JoinColumn(name = "id_user", nullable = false, referencedColumnName = "id_user")
     private User user;
 }

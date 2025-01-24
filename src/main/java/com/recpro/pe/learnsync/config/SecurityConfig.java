@@ -44,6 +44,7 @@ public class SecurityConfig {
                     auth.requestMatchers(HttpMethod.POST, "/auth/**").permitAll();
                     auth.requestMatchers(HttpMethod.PATCH, "/auth/**").permitAll();
                     auth.requestMatchers(HttpMethod.OPTIONS, "/auth/**").permitAll();
+                    auth.requestMatchers(HttpMethod.GET, "/assets/**").permitAll();
                     // Configure the others endpoints
                     auth.anyRequest().authenticated();
                 })

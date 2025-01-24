@@ -15,7 +15,7 @@ public class RoleService {
 
     public Role getRole(String roleName) {
         ERole enumRole = transformStringtoERole(roleName);
-        Optional<Role> role = roleRepository.findByRole(enumRole);
+        Optional<Role> role = roleRepository.findByRoleName(enumRole);
         if(role.isEmpty()) {
             throw new ResourceNotExistsException("El rol no existe");
         }

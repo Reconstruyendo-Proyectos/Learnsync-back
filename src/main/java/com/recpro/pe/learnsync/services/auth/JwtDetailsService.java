@@ -24,7 +24,7 @@ public class JwtDetailsService implements UserDetailsService {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("El usuario "+username + " no fue encontrado"));
 
-        GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_"+user.getRole().getRole().name());
+        GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_"+user.getRole().getRoleName().name());
         return new UserSecurity(user.getUsername(), user.getPassword(), Collections.singletonList(authority), user);
     }
 }

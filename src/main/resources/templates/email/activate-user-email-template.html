@@ -12,6 +12,7 @@
         }
         .container {
             width: 80%;
+            color: #000;
             max-width: 600px;
             margin: 20px auto;
             background-color: #fff;
@@ -39,7 +40,6 @@
             margin: 20px auto;
             padding: 10px 20px;
             background-color: #4CAF50;
-            color: #fff;
             text-align: center;
             text-decoration: none;
             border-radius: 5px;
@@ -51,19 +51,22 @@
             color: #777;
             font-size: 12px;
         }
+        #confirm-account {
+            color: #fff;
+        }
     </style>
 </head>
 <body>
 <div class="container">
     <div class="header">
         <!-- Logo -->
-        <img th:src="@{/assets/logo.png}" alt="Logo de la Empresa">
+        <img src="https://drive.google.com/file/d/1_mymK80srQarHkia8QPocVErRHg9KDLa/view?usp=sharing" alt="Logo de la Empresa">
     </div>
     <div class="content">
         <h1>Confirmación de Cuenta</h1>
         <p>Felicidades <strong th:text="${user}"></strong> por registrar su cuenta, estás a un solo paso de poder hacer uso de las funciones de Learnsync.</p>
         <p>Por favor, haz clic en el botón de abajo para confirmar tu cuenta:</p>
-        <a th:href="${url}" class="button">Confirmar Cuenta</a>
+        <a th:href="${url}" class="button"><span id="confirm-account">Confirmar Cuenta</span></a>
     </div>
     <div class="footer">
         <p>&copy; 2025 Learnsync. Todos los derechos reservados.</p>

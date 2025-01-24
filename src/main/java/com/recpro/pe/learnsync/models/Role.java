@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "Role")
+@Entity(name = "roles")
 public class Role {
 
     @Id
@@ -19,9 +19,9 @@ public class Role {
     @Column(name = "id_role")
     private Integer idRole;
 
-    @Column(name = "role", nullable = false)
+    @Column(name = "role_name", nullable = false)
     @Enumerated(EnumType.STRING)
-    private ERole role;
+    private ERole roleName;
 
     // Mapear 1 a Muchos con User
     @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
