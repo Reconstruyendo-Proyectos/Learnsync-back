@@ -1,5 +1,6 @@
 package com.recpro.pe.learnsync.dtos.auth.user;
 
+import com.recpro.pe.learnsync.dtos.auth.role.RoleDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -13,4 +14,5 @@ public class UserDTO {
     private String email;
     private LocalDateTime creationDate;
     private int points;
+    private RoleDTO role;
 }

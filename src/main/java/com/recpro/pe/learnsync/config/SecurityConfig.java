@@ -23,7 +23,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
-public class SecurityConfiguration {
+public class SecurityConfig {
 
     // To create AuthenticationManager
     @Autowired
@@ -44,10 +44,6 @@ public class SecurityConfiguration {
                     auth.requestMatchers(HttpMethod.POST, "/auth/**").permitAll();
                     auth.requestMatchers(HttpMethod.PATCH, "/auth/**").permitAll();
                     auth.requestMatchers(HttpMethod.OPTIONS, "/auth/**").permitAll();
-                    auth.requestMatchers(HttpMethod.POST, "/customer/send-code/").permitAll();
-                    auth.requestMatchers(HttpMethod.OPTIONS, "/customer/send-code/").permitAll();
-                    auth.requestMatchers(HttpMethod.POST, "/customer/verify-code/").permitAll();
-                    auth.requestMatchers(HttpMethod.OPTIONS, "/customer/verify-code/").permitAll();
                     // Configure the others endpoints
                     auth.anyRequest().authenticated();
                 })
