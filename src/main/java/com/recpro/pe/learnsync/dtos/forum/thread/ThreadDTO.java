@@ -1,6 +1,6 @@
-package com.recpro.pe.learnsync.dtos.thread;
+package com.recpro.pe.learnsync.dtos.forum.thread;
 
-import com.recpro.pe.learnsync.dtos.user.UserDTO;
+import com.recpro.pe.learnsync.dtos.auth.user.UserDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

@@ -1,4 +1,4 @@
-package com.recpro.pe.learnsync.dtos.user;
+package com.recpro.pe.learnsync.dtos.auth.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

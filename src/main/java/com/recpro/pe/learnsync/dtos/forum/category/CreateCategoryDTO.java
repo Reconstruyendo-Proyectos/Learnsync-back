@@ -1,4 +1,4 @@
-package com.recpro.pe.learnsync.dtos.category;
+package com.recpro.pe.learnsync.dtos.forum.category;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;

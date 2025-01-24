@@ -1,4 +1,4 @@
-package com.recpro.pe.learnsync.dtos.topic;
+package com.recpro.pe.learnsync.dtos.forum.topic;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

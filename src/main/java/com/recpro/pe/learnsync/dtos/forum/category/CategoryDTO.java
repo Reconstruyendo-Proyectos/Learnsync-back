@@ -1,6 +1,6 @@
-package com.recpro.pe.learnsync.dtos.category;
+package com.recpro.pe.learnsync.dtos.forum.category;
 
-import com.recpro.pe.learnsync.dtos.topic.TopicDTO;
+import com.recpro.pe.learnsync.dtos.forum.topic.TopicDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
