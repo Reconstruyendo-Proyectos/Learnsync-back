@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -35,7 +36,7 @@ public class TopicService {
         }
         String slug = request.getName().replaceAll(" ", "-").toLowerCase();
         Category category = categoryService.getCategory(request.getCategoryName());
-        Topic topic = new Topic(null, request.getName(), request.getDescription(), slug, category);
+        Topic topic = new Topic(null, request.getName(), request.getDescription(), slug, category, new ArrayList<>());
         return topicMapper.toDTO(topicRepository.save(topic));
     }
 

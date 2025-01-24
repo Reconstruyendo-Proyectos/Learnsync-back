@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -25,7 +25,7 @@ public class UserService {
         return userRepository.findByUsername(username).orElseThrow(() -> new ResourceNotExistsException("El usuario "+ username + " no fue encontrado"));
     }
 
-    public UserDTO banUser(String username, Date banDate) {
+    public UserDTO banUser(String username, LocalDateTime banDate) {
         User user = findByUser(username);
         user.setBanned(true);
         user.setBanDate(banDate);

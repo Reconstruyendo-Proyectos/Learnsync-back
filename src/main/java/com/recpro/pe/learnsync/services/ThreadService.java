@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -28,7 +29,7 @@ public class ThreadService {
     public ThreadDTO createThread(CreateThreadDTO request) {
         User user = userService.findByUser(request.getUsername());
         Topic topic = topicService.getTopic(request.getTopicname());
-        Thread thread = new Thread(null, request.getTitle(), request.getMessage(), topic, user);
+        Thread thread = new Thread(null, request.getTitle(), request.getMessage(), topic, user, new ArrayList<>());
         return threadMapper.toDTO(threadRepository.save(thread));
     }
 
