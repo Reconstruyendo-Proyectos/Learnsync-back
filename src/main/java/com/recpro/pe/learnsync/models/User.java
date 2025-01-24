@@ -44,6 +44,8 @@ public class User {
     private int points;
 
     // Mapear 1 a Muchos con Comment
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Comment> comments;
 
     // Mapear 1 a Muchos con Thread
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
