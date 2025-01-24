@@ -9,6 +9,7 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 public class CategoryDTO {
+    private Integer idCategory;
     private String name;
     private String description;
     private List<TopicDTO> topics;

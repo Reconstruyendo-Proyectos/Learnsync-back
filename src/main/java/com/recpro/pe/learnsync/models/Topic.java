@@ -23,6 +23,9 @@ public class Topic {
     @Column(name = "description", nullable = false)
     private String description;
 
+    @Column(name = "slug", nullable = false, unique = true)
+    private String slug;
+
     @Column(name = "creation_date", nullable = false)
     private final LocalDateTime creationDate = LocalDateTime.now();
 

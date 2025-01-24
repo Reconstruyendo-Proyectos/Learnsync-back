@@ -6,7 +6,8 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class TopicDTO {
-    private Integer id;
+    private Integer idTopic;
     private String name;
     private String description;
+    private String slug;
 }
