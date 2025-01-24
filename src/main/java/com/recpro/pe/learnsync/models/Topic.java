@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -32,4 +33,7 @@ public class Topic {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_category", nullable = false, referencedColumnName = "id_category")
     private Category category;
+
+    @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL)
+    private List<Thread> threads;
 }

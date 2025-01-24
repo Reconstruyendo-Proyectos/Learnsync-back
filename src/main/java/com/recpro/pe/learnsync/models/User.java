@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -45,6 +46,8 @@ public class User {
     // Mapear 1 a Muchos con Comment
 
     // Mapear 1 a Muchos con Thread
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Thread> threads;
 
     // Mapear 1 a Muchos con Maze
 

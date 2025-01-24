@@ -3,6 +3,7 @@ package com.recpro.pe.learnsync.controllers;
 import com.recpro.pe.learnsync.dtos.topic.CreateTopicDTO;
 import com.recpro.pe.learnsync.dtos.topic.TopicDTO;
 import com.recpro.pe.learnsync.services.TopicService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,7 @@ public class TopicController {
     }
 
     @PostMapping("/create/")
-    public TopicDTO createTopic(@RequestBody CreateTopicDTO request) {
+    public TopicDTO createTopic(@Valid @RequestBody CreateTopicDTO request) {
         return topicService.createTopic(request);
     }
 }
