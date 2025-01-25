@@ -12,6 +12,5 @@ import java.util.Optional;
 public interface TopicRepository extends JpaRepository<Topic, Integer> {
     Page<Topic> findAll(Pageable pageable);
     boolean existsTopicByName(String name);
-    boolean existsTopicBySlug(String slug);
     Optional<Topic> findBySlug(String slug);
 }

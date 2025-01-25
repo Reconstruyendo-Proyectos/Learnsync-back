@@ -48,4 +48,22 @@ public class Topic {
         }
         return new TopicDTO(topic.getIdTopic(), topic.getName(), topic.getDescription(), topic.getSlug(), threads);
     }
+
+    public static String transformName(String input) {
+        if (input == null || input.isEmpty()) {
+            return input;
+        }
+
+        String[] words = input.split("\\s+");
+        StringBuilder capitalizedText = new StringBuilder();
+
+        for (String word : words) {
+            if (!word.isEmpty()) {
+                String capitalizedWord = word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase();
+                capitalizedText.append(capitalizedWord).append(" ");
+            }
+        }
+
+        return capitalizedText.toString().trim();
+    }
 }

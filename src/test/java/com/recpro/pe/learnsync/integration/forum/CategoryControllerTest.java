@@ -15,7 +15,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -104,6 +103,6 @@ public class CategoryControllerTest {
                 .andExpect(jsonPath("$.errors", hasKey("name")))
                 .andExpect(jsonPath("$.errors", hasKey("description")))
                 .andExpect(jsonPath("$.errors.name", containsInAnyOrder("No es valido un dato con solo espacio en blanco")))
-                .andExpect(jsonPath("$.errors.description", containsInAnyOrder("Las descripción tienen un maximo de 50 caracteres")));
+                .andExpect(jsonPath("$.errors.description", containsInAnyOrder("La descripción tiene un maximo de 50 caracteres")));
     }
 }
