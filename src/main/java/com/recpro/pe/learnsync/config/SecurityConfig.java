@@ -45,7 +45,8 @@ public class SecurityConfig {
                     auth.requestMatchers(HttpMethod.PATCH, "/auth/**").permitAll();
                     auth.requestMatchers(HttpMethod.OPTIONS, "/auth/**").permitAll();
                     auth.requestMatchers(HttpMethod.GET, "/assets/**").permitAll();
-                    auth.requestMatchers("/category/list/", "/topic/list/", "thread/list/", "comment/list/").permitAll();
+                    auth.requestMatchers("/category/list/", "thread/list/", "comment/list/").permitAll();
+                    auth.requestMatchers(HttpMethod.GET, "/topic/**").permitAll();
                     auth.requestMatchers("/doc/**", "/v3/api-docs/**").permitAll();
                     // Configure the others endpoints
                     auth.anyRequest().authenticated();
