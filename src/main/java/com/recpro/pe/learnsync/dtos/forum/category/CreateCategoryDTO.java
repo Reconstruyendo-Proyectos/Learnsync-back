@@ -15,6 +15,6 @@ public class CreateCategoryDTO {
     @NotBlank(message = "No es valido un dato con solo espacio en blanco")
     @Size(max = 40 , message = "Las categorias tienen un maximo de 40 caracteres")
     private String name;
-    @Size(max = 50 , message = "Las descripción tienen un maximo de 50 caracteres")
+    @Size(max = 50 , message = "La descripción tiene un maximo de 50 caracteres")
     private String description;
 }
