@@ -1,6 +1,5 @@
 package com.recpro.pe.learnsync.models;
 
-import com.recpro.pe.learnsync.dtos.auth.user.UserDTO;
 import com.recpro.pe.learnsync.dtos.forum.comment.CommentDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

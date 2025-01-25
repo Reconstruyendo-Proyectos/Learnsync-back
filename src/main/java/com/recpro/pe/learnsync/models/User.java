@@ -1,6 +1,5 @@
 package com.recpro.pe.learnsync.models;
 
-import com.recpro.pe.learnsync.dtos.auth.role.RoleDTO;
 import com.recpro.pe.learnsync.dtos.auth.user.UserDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
