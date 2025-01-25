@@ -3,7 +3,6 @@ package com.recpro.pe.learnsync.services.forum;
 import com.recpro.pe.learnsync.dtos.forum.thread.CreateThreadDTO;
 import com.recpro.pe.learnsync.dtos.forum.thread.ThreadDTO;
 import com.recpro.pe.learnsync.exceptions.ResourceNotExistsException;
-import com.recpro.pe.learnsync.mappers.ThreadMapper;
 import com.recpro.pe.learnsync.models.Thread;
 import com.recpro.pe.learnsync.models.Topic;
 import com.recpro.pe.learnsync.models.User;
@@ -19,19 +18,19 @@ import java.util.List;
 @Service
 public class ThreadService {
     @Autowired private ThreadRepository threadRepository;
-    @Autowired private ThreadMapper threadMapper;
     @Autowired private UserService userService;
     @Autowired private TopicService topicService;
 
     public List<ThreadDTO> listThreads(Pageable pageable) {
-        return threadRepository.findAll(pageable).stream().map(it -> threadMapper.toDTO(it)).toList();
+        return threadRepository.findAll(pageable).stream().map(Thread::toDTO).toList();
     }
 
     public ThreadDTO createThread(CreateThreadDTO request) {
         User user = userService.findByUser(request.getUsername());
         Topic topic = topicService.getTopic(request.getTopicname());
         Thread thread = new Thread(null, request.getTitle(), request.getMessage(), topic, user, new ArrayList<>());
-        return threadMapper.toDTO(threadRepository.save(thread));
+        threadRepository.save(thread);
+        return Thread.toDTO(thread);
     }
 
     public Thread getThread(Integer id) {
