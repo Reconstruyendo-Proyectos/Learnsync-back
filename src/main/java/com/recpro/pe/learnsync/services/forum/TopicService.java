@@ -32,13 +32,17 @@ public class TopicService {
             throw new ResourceAlreadyExistsException("El tópico " + request.getName() + " ya existe");
         }
         String slug = request.getName().replaceAll(" ", "-").toLowerCase();
+        if(topicRepository.existsTopicBySlug(slug)) {
+            throw new ResourceAlreadyExistsException("El slug " + slug + " ya existe");
+        }
         Category category = categoryService.getCategory(request.getCategoryName());
         Topic topic = new Topic(null, request.getName(), request.getDescription(), slug, category, new ArrayList<>());
-        return Topic.toDTO(topicRepository.save(topic));
+        topicRepository.save(topic);
+        return Topic.toDTO(topic);
     }
 
-    public Topic getTopic(String name) {
-        return topicRepository.findByName(name).orElseThrow(() -> new ResourceNotExistsException("El tópico " + name + " no existe"));
+    public Topic getTopic(String slug) {
+        return topicRepository.findBySlug(slug).orElseThrow(() -> new ResourceNotExistsException("El tópico " + slug + " no existe"));
     }
 
 }

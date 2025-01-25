@@ -13,5 +13,5 @@ public interface TopicRepository extends JpaRepository<Topic, Integer> {
     Page<Topic> findAll(Pageable pageable);
     boolean existsTopicByName(String name);
     boolean existsTopicBySlug(String slug);
-    Optional<Topic> findByName(String name);
+    Optional<Topic> findBySlug(String slug);
 }
