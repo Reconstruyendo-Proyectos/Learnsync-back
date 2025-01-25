@@ -1,5 +1,7 @@
 package com.recpro.pe.learnsync.models;
 
+import com.recpro.pe.learnsync.dtos.auth.user.UserDTO;
+import com.recpro.pe.learnsync.dtos.forum.comment.CommentDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,4 +32,8 @@ public class Comment {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_user", nullable = false, referencedColumnName = "id_user")
     private User user;
+
+    public static CommentDTO toDto(Comment comment) {
+        return new CommentDTO(comment.getIdComment(), comment.getMessage(), comment.getCreationDate(), User.toDto(comment.getUser()));
+    }
 }

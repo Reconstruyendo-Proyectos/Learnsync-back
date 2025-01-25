@@ -1,5 +1,7 @@
 package com.recpro.pe.learnsync.models;
 
+import com.recpro.pe.learnsync.dtos.auth.role.RoleDTO;
+import com.recpro.pe.learnsync.dtos.auth.user.UserDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -63,4 +65,8 @@ public class User {
     private ConfirmationToken token;
 
     // Mapear Muchos a Uno con Prize
+
+    public static UserDTO toDto(User user) {
+        return new UserDTO(user.getUsername(), user.getEmail(), user.getCreationDate(), user.getPoints(), Role.toDto(user.getRole()));
+    }
 }

@@ -1,5 +1,6 @@
 package com.recpro.pe.learnsync.models;
 
+import com.recpro.pe.learnsync.dtos.auth.role.RoleDTO;
 import com.recpro.pe.learnsync.models.enums.ERole;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -26,4 +27,8 @@ public class Role {
     // Mapear 1 a Muchos con User
     @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
     private List<User> users;
+
+    public static RoleDTO toDto(Role role) {
+        return new RoleDTO(role.getRoleName().name());
+    }
 }

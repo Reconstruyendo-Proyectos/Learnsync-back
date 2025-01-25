@@ -1,11 +1,14 @@
 package com.recpro.pe.learnsync.models;
 
+import com.recpro.pe.learnsync.dtos.forum.thread.ThreadDTO;
+import com.recpro.pe.learnsync.dtos.forum.topic.TopicDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -36,4 +39,13 @@ public class Topic {
 
     @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL)
     private List<Thread> threads;
+
+    public static TopicDTO toDTO(Topic topic){
+        List<ThreadDTO> threads = new ArrayList<>();
+        for (Thread thread : topic.getThreads()) {
+            ThreadDTO threadDTO = Thread.toDTO(thread);
+            threads.add(threadDTO);
+        }
+        return new TopicDTO(topic.getIdTopic(), topic.getName(), topic.getDescription(), topic.getSlug(), threads);
+    }
 }
