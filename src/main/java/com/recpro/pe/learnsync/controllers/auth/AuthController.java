@@ -8,6 +8,8 @@ import com.recpro.pe.learnsync.services.auth.AuthService;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -26,7 +28,7 @@ public class AuthController {
     }
 
     @PostMapping("/login/")
-    public AuthResponseDTO login(@Valid @RequestBody AuthRequestDTO request) {
-        return authService.login(request);
+    public ResponseEntity<AuthResponseDTO> login(@Valid @RequestBody AuthRequestDTO request) {
+        return new ResponseEntity<>(authService.login(request), HttpStatus.OK);
     }
 }

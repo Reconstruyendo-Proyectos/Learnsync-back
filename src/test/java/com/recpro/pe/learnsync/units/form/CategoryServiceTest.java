@@ -1,4 +1,4 @@
-package com.recpro.pe.learnsync.units.services.form;
+package com.recpro.pe.learnsync.units.form;
 
 import com.recpro.pe.learnsync.dtos.forum.category.CategoryDTO;
 import com.recpro.pe.learnsync.dtos.forum.category.CreateCategoryDTO;
