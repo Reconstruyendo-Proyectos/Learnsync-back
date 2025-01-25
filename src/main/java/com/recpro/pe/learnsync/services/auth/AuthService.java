@@ -23,9 +23,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class AuthService {
@@ -37,6 +41,7 @@ public class AuthService {
     @Autowired private ConfirmationTokenService confirmationTokenService;
     @Autowired private UserMapper userMapper;
     @Autowired private RoleService roleService;
+    @Autowired private SpringTemplateEngine templateEngine;
 
     public UserDTO register(CreateUserDTO request) throws MessagingException {
         Role role = roleService.getRole("STUDENT");
@@ -66,7 +71,13 @@ public class AuthService {
         User user = confirmationToken.getUser();
         user.setEnable(true);
         userRepository.save(user);
-        return "account-activated-template";
+        Map<String, Object> model = new HashMap<>();
+        model.put("image", "http://localhost:8080/assets/logo.png");
+        // Configurar el contexto de Thymeleaf con los datos del modelo
+        Context context = new Context();
+        context.setVariables(model);
+        // Procesar la plantilla usando Thymeleaf
+        return templateEngine.process("account-activated-template", context);
     }
 
     public AuthResponseDTO login(AuthRequestDTO request){

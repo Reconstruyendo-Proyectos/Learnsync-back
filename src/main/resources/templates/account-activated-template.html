@@ -27,14 +27,6 @@
         .email-body {
             padding: 40px;
         }
-        .title {
-            text-align: center;
-            font-size: 18px;
-            color: #000;
-            text-transform: uppercase;
-            font-weight: bold;
-            font-family: 'Roboto Mono', monospace;
-        }
         .subtitle {
             text-align: center;
             font-size: 24px;
@@ -61,6 +53,10 @@
             font-size: 18px;
             font-weight: bold;
         }
+        .image {
+            width: 120px;
+            height: 100px;
+        }
     </style>
 </head>
 <body>
@@ -71,7 +67,7 @@
                 <table role="presentation" class="email-content">
                     <tr>
                         <td class="email-body">
-                            <h6 class="title">LEARNSYNC</h6>
+                            <img class="image" th:src="${image}" alt="Logo de la empresa">
                             <h3 class="subtitle">ACTIVACIÓN DE CUENTA</h3>
                             <p class="message">Se activó la cuenta correctamente.</p>
                             <div class="button-container">

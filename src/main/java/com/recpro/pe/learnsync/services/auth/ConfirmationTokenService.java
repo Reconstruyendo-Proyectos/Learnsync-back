@@ -26,8 +26,10 @@ public class ConfirmationTokenService {
         Map<String, Object> model = new HashMap<>();
         String token = generateToken(user);
         String url = "http://localhost:8080/auth/confirmation-token/"+token;
+        String image = "http://localhost:8080/assets/logo.png";
         model.put("user", user.getUsername());
         model.put("url", url);
+        model.put("image", image);
         Mail mail = emailService.createMail(user.getEmail(), "Activa tu cuenta", model, mailFrom);
         emailService.sendEmail(mail, "email/activate-user-email-template");
     }

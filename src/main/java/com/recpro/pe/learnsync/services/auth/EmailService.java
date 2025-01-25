@@ -5,6 +5,9 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.InputStreamSource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -67,6 +70,8 @@ public class EmailService {
 
         // Si necesitas adjuntar un archivo
         //helper.addAttachment("MyTestFile.txt", new ByteArrayResource("test".getBytes()));
+        InputStreamSource imageSource = new ClassPathResource("static/assets/logo.png");
+        helper.addInline("logo", imageSource, "image/png");
 
         mailSender.send(message);
 
