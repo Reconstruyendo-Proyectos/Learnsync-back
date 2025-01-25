@@ -49,7 +49,7 @@ public class CategoryControllerTest {
     }
 
     @Test
-    void testListBook() throws Exception {
+    void testListCategories() throws Exception {
         mockMvc.perform(get("/category/list/")
                         .param("page", "0"))
                 .andExpect(status().isOk())
