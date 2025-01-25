@@ -41,9 +41,8 @@ dependencies {
     runtimeOnly("com.h2database:h2")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     implementation(kotlin("stdlib-jdk8"))
-    implementation("org.modelmapper:modelmapper:3.2.2")
     implementation("com.auth0:java-jwt:4.4.0")
-
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.3")
 }
 
 tasks.withType<Test> {

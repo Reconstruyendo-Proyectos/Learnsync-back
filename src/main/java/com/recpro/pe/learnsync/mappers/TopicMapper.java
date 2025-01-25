@@ -1,17 +1,26 @@
 package com.recpro.pe.learnsync.mappers;
 
+import com.recpro.pe.learnsync.dtos.forum.thread.ThreadDTO;
 import com.recpro.pe.learnsync.dtos.forum.topic.TopicDTO;
+import com.recpro.pe.learnsync.models.Thread;
 import com.recpro.pe.learnsync.models.Topic;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class TopicMapper {
 
-    @Autowired private ModelMapper modelMapper;
+    @Autowired private ThreadMapper threadMapper;
 
     public TopicDTO toDTO(Topic topic){
-        return modelMapper.map(topic, TopicDTO.class);
+        List<ThreadDTO> threads = new ArrayList<>();
+        for (Thread thread : topic.getThreads()) {
+            ThreadDTO threadDTO = threadMapper.toDTO(thread);
+            threads.add(threadDTO);
+        }
+        return new TopicDTO(topic.getIdTopic(), topic.getName(), topic.getDescription(), topic.getSlug(), threads);
     }
 }
