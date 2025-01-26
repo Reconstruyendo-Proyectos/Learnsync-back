@@ -32,15 +32,31 @@ Sigue estos pasos para configurar e instalar el proyecto:
    ```bash
    git clone https://github.com/tu-usuario/learnsync.git
    cd learnsync
+   ```
 2. Configura Docker: Asegúrate de tener Docker instalado y en funcionamiento en tu máquina. Construye y ejecuta los contenedores de Docker:
    ```bash
    docker-compose up --build
+   ```
 3. Construye el proyecto con Gradle:
    ```bash
    ./gradlew build
+   ```
 3. Ejecuta la aplicación:
    ```bash
    ./gradlew bootRun
+   ```
+
+> [!WARNING]
+> Tener en cuenta que si tienes alguna versión de Java menor a la recomendada, la aplicación dará fallos
+
+## Ejecución de los Tests
+
+Para ejecutar los test unitarios y de integración debes abrir tu terminal y ejecutar le siguiente comando:
+   ```bash
+   ./gradlew test
+   ```
+> [!IMPORTANT]
+> Debes de tener en cuenta que es posible que algunos tests fallen al usar este comando debido a que se ejecutan en orden aleatorio. 
 
 ## Sugerencias
 
