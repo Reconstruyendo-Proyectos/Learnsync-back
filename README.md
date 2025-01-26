@@ -58,6 +58,9 @@ Para ejecutar los test unitarios y de integración debes abrir tu terminal y eje
 > [!IMPORTANT]
 > Debes de tener en cuenta que es posible que algunos tests fallen al usar este comando debido a que se ejecutan en orden aleatorio. 
 
+> [!WARNING]
+> El test sendEmail de ConfirmationToken solo funciona cuando en el servicio que se testea no se usa el @Value porque al entrar en el contexto de solo ese metodo no se puede usar el valor correctamente.
+
 ## Sugerencias
 
 Si tienes sugerencias, no dudes en dejar una issue en el repositorio. Nos encantaría recibir tu feedback para mejorar el proyecto.

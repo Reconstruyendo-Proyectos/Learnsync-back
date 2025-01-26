@@ -34,15 +34,12 @@ public class ConfirmationTokenService {
     }
 
     public ConfirmationToken findToken(String token){
-        if(!confirmationTokenRepository.existsConfirmationTokenByToken(token)){
-            throw new ResourceNotExistsException("Token no válido");
-        }
-        return confirmationTokenRepository.findByToken(token);
+        return confirmationTokenRepository.findByToken(token).orElseThrow(() -> new ResourceNotExistsException("Token no válido"));
     }
 
     public void saveChanges(ConfirmationToken confirmationToken){confirmationTokenRepository.saveAndFlush(confirmationToken);}
 
-    private String generateToken(User user){
+    public String generateToken(User user){
         String token = UUID.randomUUID().toString();
         ConfirmationToken confirmationToken = new ConfirmationToken(null, token, null, user);
         return confirmationTokenRepository.save(confirmationToken).getToken();
