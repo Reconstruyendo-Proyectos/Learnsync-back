@@ -14,20 +14,12 @@ public class RoleService {
     @Autowired private RoleRepository roleRepository;
 
     public Role getRole(String roleName) {
-        ERole enumRole = transformStringtoERole(roleName);
+        ERole enumRole = Role.transformStringtoERole(roleName);
         Optional<Role> role = roleRepository.findByRoleName(enumRole);
         if(role.isEmpty()) {
             throw new ResourceNotExistsException("El rol no existe");
         }
         return role.get();
-    }
-
-    private ERole transformStringtoERole(String roleName) {
-        try {
-            return ERole.valueOf(roleName.toUpperCase());
-        } catch (IllegalArgumentException e) {
-            throw new ResourceNotExistsException("El rol no existe");
-        }
     }
 
 }

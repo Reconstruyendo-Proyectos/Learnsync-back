@@ -1,6 +1,7 @@
 package com.recpro.pe.learnsync.models;
 
 import com.recpro.pe.learnsync.dtos.auth.role.RoleDTO;
+import com.recpro.pe.learnsync.exceptions.ResourceNotExistsException;
 import com.recpro.pe.learnsync.models.enums.ERole;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -30,5 +31,13 @@ public class Role {
 
     public static RoleDTO toDto(Role role) {
         return new RoleDTO(role.getRoleName().name());
+    }
+
+    public static ERole transformStringtoERole(String roleName) {
+        try {
+            return ERole.valueOf(roleName.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new ResourceNotExistsException("El rol no existe");
+        }
     }
 }
