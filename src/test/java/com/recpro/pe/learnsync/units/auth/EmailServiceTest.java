@@ -1,8 +1,11 @@
 package com.recpro.pe.learnsync.units.auth;
 
 import com.recpro.pe.learnsync.dtos.auth.email.Mail;
+import com.recpro.pe.learnsync.exceptions.ConfigMailException;
 import com.recpro.pe.learnsync.services.auth.EmailService;
+import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -17,6 +20,7 @@ import java.util.Map;
 
 import static org.mockito.Mockito.*;
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(MockitoExtension.class)
 public class EmailServiceTest {
@@ -25,14 +29,22 @@ public class EmailServiceTest {
     @Mock private SpringTemplateEngine templateEngine;
     @InjectMocks private EmailService emailService;
 
+    private String to;
+    private String from;
+    private String subject;
+    private Map<String, Object> model;
+
+    @BeforeEach
+    void setUp() {
+        to = "jluyoc1@upao.edu.pe";
+        from = "example@example.com";
+        subject = "Asunto";
+        model = new HashMap<>();
+        model.put("key", "value");
+    }
+
     @Test
     void testCreateEmail() {
-        // Given
-        String to = "jluyoc1@upao.edu.pe";
-        String from = "example@example.com";
-        String subject = "Asunto";
-        Map<String, Object> model = new HashMap<>();
-
         // When
         Mail result = emailService.createMail(to, subject, model, from);
 
@@ -48,12 +60,6 @@ public class EmailServiceTest {
         // Given
         MimeMessage mimeMessage = mock(MimeMessage.class);
 
-        String to = "recipient@example.com";
-        String subject = "Test Subject";
-        String from = "sender@example.com";
-        Map<String, Object> model = new HashMap<>();
-        model.put("key", "value");
-
         Mail mail = emailService.createMail(to, subject, model, from);
         String templateName = "test-template";
 
@@ -67,5 +73,27 @@ public class EmailServiceTest {
         verify(mailSender).createMimeMessage();
         verify(templateEngine).process(eq(templateName), any(Context.class));
         verify(mailSender).send(mimeMessage);
+    }
+
+    @Test
+    void testSendEmailWhenHaveAnException() {
+        // Given
+        MimeMessage mimeMessage = mock(MimeMessage.class);
+        Mail mail = emailService.createMail(to, subject, model, from);
+        String templateName = "test-template";
+
+        // When
+        when(mailSender.createMimeMessage()).thenReturn(mimeMessage);
+        when(templateEngine.process(anyString(), any(Context.class))).thenReturn("<html><body>Test</body></html>");
+        doThrow(new RuntimeException(new MessagingException())).when(mailSender).send(mimeMessage);
+
+        ConfigMailException ex = assertThrows(ConfigMailException.class, () -> emailService.sendEmail(mail, templateName));
+
+        // Then
+        assertThat(ex.getMessage()).isEqualTo("Problemas al configurar el correo");
+
+        verify(mailSender, times(1)).createMimeMessage();
+        verify(templateEngine, times(1)).process(eq(templateName), any(Context.class));
+        verify(mailSender, times(1)).send(mimeMessage);
     }
 }

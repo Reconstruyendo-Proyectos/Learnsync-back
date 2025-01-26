@@ -2,7 +2,6 @@ package com.recpro.pe.learnsync.services.auth;
 
 import com.recpro.pe.learnsync.dtos.auth.email.Mail;
 import com.recpro.pe.learnsync.exceptions.ConfigMailException;
-import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -33,7 +32,6 @@ public class EmailService {
     }
 
     public void sendEmail(Mail mail, String templateName) {
-
         try {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message,
@@ -56,9 +54,8 @@ public class EmailService {
             helper.addInline("logo", imageSource, "image/png");
 
             mailSender.send(message);
-        } catch (MessagingException e) {
+        } catch (Exception e) {
             throw new ConfigMailException("Problemas al configurar el correo");
         }
-
     }
 }
