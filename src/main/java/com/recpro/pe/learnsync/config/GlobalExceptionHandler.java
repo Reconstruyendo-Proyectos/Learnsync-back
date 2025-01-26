@@ -5,6 +5,7 @@ import com.recpro.pe.learnsync.utils.ValidationErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -77,6 +78,12 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<?> handleBadCredentialsException(BadCredentialsException ex) {
+        String errorMessage = ex.getMessage();
+        return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public ResponseEntity<?> handleUsernameNotFoundException(UsernameNotFoundException ex) {
         String errorMessage = ex.getMessage();
         return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
     }
