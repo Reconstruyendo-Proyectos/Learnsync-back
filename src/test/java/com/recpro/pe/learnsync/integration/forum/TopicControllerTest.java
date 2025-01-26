@@ -2,7 +2,6 @@ package com.recpro.pe.learnsync.integration.forum;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.recpro.pe.learnsync.dtos.auth.auth.AuthRequestDTO;
-import com.recpro.pe.learnsync.dtos.forum.category.CreateCategoryDTO;
 import com.recpro.pe.learnsync.dtos.forum.topic.CreateTopicDTO;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
@@ -76,7 +75,7 @@ public class TopicControllerTest {
                 .andExpect(jsonPath("$.name").value("Formativa I"))
                 .andExpect(jsonPath("$.description").value("Descripcion para Formativa I"))
                 .andExpect(jsonPath("$.slug").value("formativa-i"))
-                .andExpect(jsonPath("$.threads").isEmpty());;
+                .andExpect(jsonPath("$.threads").isEmpty());
     }
 
     @Test
@@ -108,11 +107,11 @@ public class TopicControllerTest {
     @Test
     void testCreateTopicWhenAtributtesAreEmptyOrNull() throws Exception {
         CreateTopicDTO request = new CreateTopicDTO(" ", "ESTO ES UNA DESCRIPCION DE MAS DE 50 CARACTERES DE TAMAÑO", null);
-        String categoryJson = objectMapper.writeValueAsString(request);
+        String topicJson = objectMapper.writeValueAsString(request);
 
         mockMvc.perform(post("/topic/create/")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(categoryJson)
+                        .content(topicJson)
                         .header("Authorization", token))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message").value("Validation failed"))
