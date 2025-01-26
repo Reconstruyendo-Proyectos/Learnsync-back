@@ -8,7 +8,6 @@ import com.recpro.pe.learnsync.dtos.auth.user.UserDTO;
 import com.recpro.pe.learnsync.exceptions.EmailConfirmedException;
 import com.recpro.pe.learnsync.exceptions.ExpiredTokenException;
 import com.recpro.pe.learnsync.exceptions.ResourceAlreadyExistsException;
-import com.recpro.pe.learnsync.mappers.UserMapper;
 import com.recpro.pe.learnsync.models.ConfirmationToken;
 import com.recpro.pe.learnsync.models.Role;
 import com.recpro.pe.learnsync.models.User;
@@ -39,7 +38,6 @@ public class AuthService {
     @Autowired private JwtUtils jwtUtils;
     @Autowired private JwtDetailsService userDetailsService;
     @Autowired private ConfirmationTokenService confirmationTokenService;
-    @Autowired private UserMapper userMapper;
     @Autowired private RoleService roleService;
     @Autowired private SpringTemplateEngine templateEngine;
 
@@ -54,7 +52,7 @@ public class AuthService {
         }
         userRepository.save(user);
         confirmationTokenService.sendEmail(user);
-        return userMapper.toDto(user);
+        return User.toDto(user);
     }
 
     public String activateAccount(String token) {
