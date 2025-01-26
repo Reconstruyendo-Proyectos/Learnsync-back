@@ -23,7 +23,7 @@ public class CommentService {
         return commentRepository.findAll(pageable).stream().map(Comment::toDto).toList();
     }
 
-    public CommentDTO createComments(CreateCommentDTO request) {
+    public CommentDTO createComment(CreateCommentDTO request) {
         Thread thread = threadService.getThread(request.getIdThread());
         User user = userService.findByUser(request.getUsername());
         Comment comment = new Comment(null, request.getMessage(), thread, user);
