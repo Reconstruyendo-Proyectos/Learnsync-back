@@ -66,6 +66,6 @@ public class User {
     // Mapear Muchos a Uno con Prize
 
     public static UserDTO toDto(User user) {
-        return new UserDTO(user.getUsername(), user.getEmail(), user.getCreationDate(), user.getPoints(), Role.toDto(user.getRole()));
+        return new UserDTO(user.getUsername(), user.getEmail(), user.getCreationDate(), user.getBanDate(), user.getPoints(), Role.toDto(user.getRole()));
     }
 }

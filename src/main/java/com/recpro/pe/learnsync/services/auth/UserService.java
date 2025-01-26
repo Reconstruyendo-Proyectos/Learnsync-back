@@ -1,5 +1,6 @@
 package com.recpro.pe.learnsync.services.auth;
 
+import com.recpro.pe.learnsync.dtos.auth.user.BanUserDTO;
 import com.recpro.pe.learnsync.dtos.auth.user.UserDTO;
 import com.recpro.pe.learnsync.exceptions.ResourceNotExistsException;
 import com.recpro.pe.learnsync.models.User;
@@ -8,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -24,10 +24,10 @@ public class UserService {
         return userRepository.findByUsername(username).orElseThrow(() -> new ResourceNotExistsException("El usuario "+ username + " no fue encontrado"));
     }
 
-    public UserDTO banUser(String username, LocalDateTime banDate) {
-        User user = findByUser(username);
+    public UserDTO banUser(BanUserDTO request) {
+        User user = findByUser(request.getUsername());
         user.setBanned(true);
-        user.setBanDate(banDate);
+        user.setBanDate(request.getBanDate());
         userRepository.save(user);
         return User.toDto(user);
     }

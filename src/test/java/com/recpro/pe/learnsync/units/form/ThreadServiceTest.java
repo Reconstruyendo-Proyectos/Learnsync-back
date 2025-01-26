@@ -140,7 +140,7 @@ public class ThreadServiceTest {
     }
 
     @Test
-    void testGetTopicWhenTopicNotExists() {
+    void testGetThreadWhenTopicNotExists() {
         // Given
         Integer idThread = 99999;
 
