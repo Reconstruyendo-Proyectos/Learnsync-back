@@ -25,5 +25,5 @@ public class CreateThreadDTO {
 
     @NotEmpty(message = "Dato vacio")
     @NotBlank(message = "No es valido un dato con solo espacio en blanco")
-    private String topicname;
+    private String slug;
 }

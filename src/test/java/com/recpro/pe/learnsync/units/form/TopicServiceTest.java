@@ -60,7 +60,6 @@ public class TopicServiceTest {
 
         // When
         when(topicRepository.findAll(pageable)).thenReturn(page);
-
         List<TopicDTO> result = topicService.listTopics(pageable);
 
         // Then

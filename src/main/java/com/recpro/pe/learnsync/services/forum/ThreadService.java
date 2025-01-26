@@ -27,7 +27,7 @@ public class ThreadService {
 
     public ThreadDTO createThread(CreateThreadDTO request) {
         User user = userService.findByUser(request.getUsername());
-        Topic topic = topicService.getTopic(request.getTopicname());
+        Topic topic = topicService.getTopic(request.getSlug());
         Thread thread = new Thread(null, request.getTitle(), request.getMessage(), topic, user, new ArrayList<>());
         threadRepository.save(thread);
         return Thread.toDTO(thread);
