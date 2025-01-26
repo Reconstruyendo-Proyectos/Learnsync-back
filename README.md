@@ -47,7 +47,7 @@ Sigue estos pasos para configurar e instalar el proyecto:
    ```
 
 > [!WARNING]
-> Tener en cuenta que si tienes alguna versión de Java menor a la recomendada, la aplicación dará fallos
+> Tener en cuenta que si tienes alguna versión de Java menor a la recomendada, la aplicación dará fallos.
 
 ## Ejecución de los Tests
 

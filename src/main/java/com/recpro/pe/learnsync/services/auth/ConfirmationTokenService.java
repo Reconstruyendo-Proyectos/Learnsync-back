@@ -5,7 +5,6 @@ import com.recpro.pe.learnsync.exceptions.ResourceNotExistsException;
 import com.recpro.pe.learnsync.models.ConfirmationToken;
 import com.recpro.pe.learnsync.models.User;
 import com.recpro.pe.learnsync.repos.auth.ConfirmationTokenRepository;
-import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -22,7 +21,7 @@ public class ConfirmationTokenService {
     @Value("${email.sender}")
     private String mailFrom;
 
-    public void sendEmail(User user) throws MessagingException { //Cambiar URL a la del back desplegado
+    public void sendEmail(User user) { //Cambiar URL a la del back desplegado
         Map<String, Object> model = new HashMap<>();
         String token = generateToken(user);
         String url = "http://localhost:8080/auth/confirmation-token/"+token;
