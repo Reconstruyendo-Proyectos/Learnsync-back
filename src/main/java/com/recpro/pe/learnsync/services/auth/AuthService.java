@@ -41,7 +41,7 @@ public class AuthService {
     @Autowired private RoleService roleService;
     @Autowired private SpringTemplateEngine templateEngine;
 
-    public UserDTO register(CreateUserDTO request) throws MessagingException {
+    public UserDTO register(CreateUserDTO request) {
         Role role = roleService.getRole("STUDENT");
         User user = new User(null, request.getUsername(), request.getEmail(), passwordEncoder.encode(request.getPassword()), false, false, null, 0, new ArrayList<>(), new ArrayList<>(), role, null);
         if(userRepository.existsByUsername(user.getUsername())){
@@ -92,15 +92,15 @@ public class AuthService {
         return new AuthResponseDTO(request.getUsername(), role, accessToken);
     }
 
-    private Authentication authenticate(String username, String password){
+    public Authentication authenticate(String username, String password){
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
         if(userDetails == null){
-            throw new BadCredentialsException("Invalid Username or Password");
+            throw new BadCredentialsException("Usuario o contraseña inválida");
         }
 
         if(!passwordEncoder.matches(password, userDetails.getPassword())){
-            throw new BadCredentialsException("Invalid Password");
+            throw new BadCredentialsException("Contraseña inválida");
         }
 
         return new UsernamePasswordAuthenticationToken(username, userDetails.getPassword(), userDetails.getAuthorities());
