@@ -49,7 +49,7 @@ public class JwtUtils {
 
             return jwtVerifier.verify(token);
         } catch (JWTVerificationException e){
-            throw new JWTVerificationException("Token invalid, not authorized");
+            throw new JWTVerificationException("Token inválido, no estás autorizado");
         }
     }
 
