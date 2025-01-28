@@ -24,7 +24,6 @@ import static org.hamcrest.Matchers.*;
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 public class ThreadControllerTest {
-
     @Autowired
     private MockMvc mockMvc;
 

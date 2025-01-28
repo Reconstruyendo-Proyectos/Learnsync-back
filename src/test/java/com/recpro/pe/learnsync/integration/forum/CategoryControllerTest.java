@@ -82,9 +82,9 @@ public class CategoryControllerTest {
         String categoryJson = objectMapper.writeValueAsString(request);
 
         mockMvc.perform(post("/category/create/")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(categoryJson)
-                .header("Authorization", token))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(categoryJson)
+                        .header("Authorization", token))
                 .andExpect(status().isConflict())
                 .andExpect(jsonPath("$").value("La categoría Technology existe"));
     }
@@ -95,9 +95,9 @@ public class CategoryControllerTest {
         String categoryJson = objectMapper.writeValueAsString(request);
 
         mockMvc.perform(post("/category/create/")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(categoryJson)
-                .header("Authorization", token))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(categoryJson)
+                        .header("Authorization", token))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message").value("Validation failed"))
                 .andExpect(jsonPath("$.errors", hasKey("name")))

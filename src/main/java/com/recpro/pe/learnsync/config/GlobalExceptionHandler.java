@@ -1,5 +1,6 @@
 package com.recpro.pe.learnsync.config;
 
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.recpro.pe.learnsync.exceptions.*;
 import com.recpro.pe.learnsync.utils.ValidationErrorResponse;
 import org.springframework.http.HttpStatus;
@@ -91,6 +92,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ConfigMailException.class)
     public ResponseEntity<?> handleConfigMailException(ConfigMailException ex) {
         String errorMessage = ex.getMessage();
-        return new ResponseEntity<>(errorMessage, HttpStatus.CONFLICT);
+        return new ResponseEntity<>(errorMessage, HttpStatus.FAILED_DEPENDENCY);
+    }
+
+    @ExceptionHandler(JWTVerificationException.class)
+    public ResponseEntity<?> handleJWTVerificationException(JWTVerificationException ex) {
+        String errorMessage = ex.getMessage();
+        return new ResponseEntity<>(errorMessage, HttpStatus.FORBIDDEN);
     }
 }

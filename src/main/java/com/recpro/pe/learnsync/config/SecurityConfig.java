@@ -47,6 +47,7 @@ public class SecurityConfig {
                     auth.requestMatchers(HttpMethod.GET, "/assets/**").permitAll();
                     auth.requestMatchers(HttpMethod.GET, "/topic/**", "/thread/**", "/category/**", "/comment/**").permitAll();
                     auth.requestMatchers("/doc/**", "/v3/api-docs/**").permitAll();
+                    auth.requestMatchers("/h2-console").permitAll();
                     // Configure the others endpoints
                     auth.anyRequest().authenticated();
                 })

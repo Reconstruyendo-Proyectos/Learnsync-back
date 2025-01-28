@@ -3,9 +3,9 @@
 -- CATEGORY
 
 CREATE TABLE categories (
-                          id_category SERIAL PRIMARY KEY,
-                          name VARCHAR(255) NOT NULL UNIQUE,
-                          description VARCHAR(255) NOT NULL
+                            id_category SERIAL PRIMARY KEY,
+                            name VARCHAR(255) NOT NULL UNIQUE,
+                            description VARCHAR(255) NOT NULL
 );
 
 -- TOPIC
@@ -84,16 +84,16 @@ CREATE TABLE comments (
 -- CATEGORY
 
 INSERT INTO categories (name, description) VALUES
-                                             ('Technology', 'All about technology'),
-                                             ('Science', 'Scientific discoveries and research'),
-                                             ('Art', 'Artistic expressions and creativity'),
-                                             ('Literature', 'Books and literary works'),
-                                             ('Music', 'Musical genres and artists'),
-                                             ('Health', 'Well-being and medical topics'),
-                                             ('Travel', 'Travel destinations and tips'),
-                                             ('Education', 'Learning and educational resources'),
-                                             ('Sports', 'All about sports and activities'),
-                                             ('Food', 'Culinary delights and recipes');
+                                               ('Technology', 'All about technology'),
+                                               ('Science', 'Scientific discoveries and research'),
+                                               ('Art', 'Artistic expressions and creativity'),
+                                               ('Literature', 'Books and literary works'),
+                                               ('Music', 'Musical genres and artists'),
+                                               ('Health', 'Well-being and medical topics'),
+                                               ('Travel', 'Travel destinations and tips'),
+                                               ('Education', 'Learning and educational resources'),
+                                               ('Sports', 'All about sports and activities'),
+                                               ('Food', 'Culinary delights and recipes');
 
 -- TOPIC
 
@@ -124,8 +124,8 @@ INSERT INTO roles (role_name) VALUES
 
 INSERT INTO users (username, email, password, creation_date, enable, banned, ban_date, points, id_role) VALUES
                                                                                                             ('jluyo', 'jluyoc1@upao.edu.pe', '$2a$10$459Kv.wQEQVP8YOETbkS7.KEm16iNW8k.v.2pI/XD1qol3dbd7ml6', '2023-01-01T00:00:00', true, false, NULL, 100, 1),
-                                                                                                            ('user2', 'user2@example.com', 'password2', '2023-01-02T00:00:00', true, true, '2024-01-02T00:00:00', 200, 2),
-                                                                                                            ('user3', 'user3@example.com', 'password3', '2023-01-03T00:00:00', true, false, NULL, 150, 1),
+                                                                                                            ('activate_user', 'user2@example.com', 'activate', NOW(), false, false, NULL, 200, 2),
+                                                                                                            ('user3', 'user3@example.com', 'password3', '2023-01-03T00:00:00', false, false, NULL, 150, 1),
                                                                                                             ('user4', 'user4@example.com', 'password4', '2023-01-04T00:00:00', true, false, NULL, 300, 2),
                                                                                                             ('user5', 'user5@example.com', 'password5', '2023-01-05T00:00:00', true, true, '2024-01-05T00:00:00', 250, 1),
                                                                                                             ('user6', 'user6@example.com', 'password6', '2023-01-06T00:00:00', true, false, NULL, 120, 2),
@@ -143,8 +143,8 @@ INSERT INTO users (username, email, password, creation_date, enable, banned, ban
 
 INSERT INTO confirmation_tokens (token, expiration_date, activation_date, id_user) VALUES
                                                                                        ('550e8400-e29b-41d4-a716-446655440000', '2023-01-01T00:10:00', '2023-01-01T00:05:00', 1),
-                                                                                       ('550e8400-e29b-41d4-a716-446655440001', '2023-01-02T00:10:00', '2023-01-02T00:05:00', 2),
-                                                                                       ('550e8400-e29b-41d4-a716-446655440002', '2023-01-03T00:10:00', '2023-01-03T00:05:00', 3),
+                                                                                       ('550e8400-e29b-41d4-a716-446655440001', TIMESTAMPADD(MINUTE, 10, NOW()), null, 2),
+                                                                                       ('550e8400-e29b-41d4-a716-446655440002', '2023-01-03T00:10:00', NULL, 3),
                                                                                        ('550e8400-e29b-41d4-a716-446655440003', '2023-01-04T00:10:00', '2023-01-04T00:05:00', 4),
                                                                                        ('550e8400-e29b-41d4-a716-446655440004', '2023-01-05T00:10:00', '2023-01-05T00:05:00', 5),
                                                                                        ('550e8400-e29b-41d4-a716-446655440005', '2023-01-06T00:10:00', '2023-01-06T00:05:00', 6),
