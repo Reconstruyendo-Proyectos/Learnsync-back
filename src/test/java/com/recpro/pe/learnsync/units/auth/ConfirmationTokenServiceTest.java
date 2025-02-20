@@ -36,7 +36,7 @@ public class ConfirmationTokenServiceTest {
 
     @BeforeEach
     void setUp() {
-        user = new User(1, "jluyo", "jluyoc1@upao.edu.pe", "upao2025", true, false, null, 100, new ArrayList<>(), new ArrayList<>(), new Role(1, ERole.ADMIN, new ArrayList<>()), null);
+        user = new User(1, "jluyo", "jluyoc1@upao.edu.pe", "upao2025", true, false, null, 100, null, new ArrayList<>(), new ArrayList<>(), new Role(1, ERole.ADMIN, new ArrayList<>()), null);
         confirmationToken = new ConfirmationToken(1, "Token", null, user);
         mailFrom = "eprueba736@gmail.com";
     }

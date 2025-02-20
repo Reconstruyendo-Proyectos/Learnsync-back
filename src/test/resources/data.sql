@@ -33,12 +33,13 @@ CREATE TABLE users (
                        id_user SERIAL PRIMARY KEY,
                        username VARCHAR(255) NOT NULL UNIQUE,
                        email VARCHAR(255) NOT NULL UNIQUE,
-                       password VARCHAR(255) NOT NULL,
+                       password VARCHAR(255),
                        creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                        enable BOOLEAN NOT NULL,
                        banned BOOLEAN NOT NULL,
                        ban_date TIMESTAMP,
                        points INT NOT NULL,
+                       profile_photo VARCHAR(255),
                        id_role INT NOT NULL,
                        FOREIGN KEY (id_role) REFERENCES roles(id_role)
 );
@@ -123,21 +124,21 @@ INSERT INTO roles (role_name) VALUES
 -- USER
 
 INSERT INTO users (username, email, password, creation_date, enable, banned, ban_date, points, id_role) VALUES
-                                                                                                            ('jluyo', 'jluyoc1@upao.edu.pe', '$2a$10$459Kv.wQEQVP8YOETbkS7.KEm16iNW8k.v.2pI/XD1qol3dbd7ml6', '2023-01-01T00:00:00', true, false, NULL, 100, 1),
-                                                                                                            ('activate_user', 'user2@example.com', 'activate', NOW(), false, false, NULL, 200, 2),
-                                                                                                            ('user3', 'user3@example.com', 'password3', '2023-01-03T00:00:00', false, false, NULL, 150, 1),
-                                                                                                            ('user4', 'user4@example.com', 'password4', '2023-01-04T00:00:00', true, false, NULL, 300, 2),
-                                                                                                            ('user5', 'user5@example.com', 'password5', '2023-01-05T00:00:00', true, true, '2024-01-05T00:00:00', 250, 1),
-                                                                                                            ('user6', 'user6@example.com', 'password6', '2023-01-06T00:00:00', true, false, NULL, 120, 2),
-                                                                                                            ('user7', 'user7@example.com', 'password7', '2023-01-07T00:00:00', true, false, NULL, 180, 1),
-                                                                                                            ('user8', 'user8@example.com', 'password8', '2023-01-08T00:00:00', true, true, '2024-01-08T00:00:00', 220, 2),
-                                                                                                            ('user9', 'user9@example.com', 'password9', '2023-01-09T00:00:00', true, false, NULL, 170, 1),
-                                                                                                            ('user10', 'user10@example.com', 'password10', '2023-01-10T00:00:00', true, false, NULL, 190, 2),
-                                                                                                            ('user11', 'user11@example.com', 'password11', '2023-01-11T00:00:00', true, true, '2024-01-11T00:00:00', 140, 1),
-                                                                                                            ('user12', 'user12@example.com', 'password12', '2023-01-12T00:00:00', true, false, NULL, 160, 2),
-                                                                                                            ('user13', 'user13@example.com', 'password13', '2023-01-13T00:00:00', true, false, NULL, 210, 1),
-                                                                                                            ('user14', 'user14@example.com', 'password14', '2023-01-14T00:00:00', true, false, NULL, 230, 2),
-                                                                                                            ('user15', 'user15@example.com', 'password15', '2023-01-15T00:00:00', true, false, NULL, 280, 1);
+                                                                                                            ('jluyo', 'jluyoc1@upao.edu.pe', '$2a$10$459Kv.wQEQVP8YOETbkS7.KEm16iNW8k.v.2pI/XD1qol3dbd7ml6', '2023-01-01T00:00:00', true, false, NULL, 100, NULL, 1),
+                                                                                                            ('activate_user', 'user2@example.com', 'activate', NOW(), false, false, NULL, 200, NULL, 2),
+                                                                                                            ('user3', 'user3@example.com', 'password3', '2023-01-03T00:00:00', false, false, NULL, 150, NULL, 1),
+                                                                                                            ('user4', 'user4@example.com', 'password4', '2023-01-04T00:00:00', true, false, NULL, 300, NULL, 2),
+                                                                                                            ('user5', 'user5@example.com', 'password5', '2023-01-05T00:00:00', true, true, '2024-01-05T00:00:00', 250, NULL, 1),
+                                                                                                            ('user6', 'user6@example.com', 'password6', '2023-01-06T00:00:00', true, false, NULL, 120, NULL, 2),
+                                                                                                            ('user7', 'user7@example.com', 'password7', '2023-01-07T00:00:00', true, false, NULL, 180, NULL, 1),
+                                                                                                            ('user8', 'user8@example.com', 'password8', '2023-01-08T00:00:00', true, true, '2024-01-08T00:00:00', 220, NULL, 2),
+                                                                                                            ('user9', 'user9@example.com', 'password9', '2023-01-09T00:00:00', true, false, NULL, 170, NULL, 1),
+                                                                                                            ('user10', 'user10@example.com', 'password10', '2023-01-10T00:00:00', true, false, NULL, 190, NULL, 2),
+                                                                                                            ('user11', 'user11@example.com', 'password11', '2023-01-11T00:00:00', true, true, '2024-01-11T00:00:00', 140, NULL, 1),
+                                                                                                            ('user12', 'user12@example.com', 'password12', '2023-01-12T00:00:00', true, false, NULL, 160, NULL, 2),
+                                                                                                            ('user13', 'user13@example.com', 'password13', '2023-01-13T00:00:00', true, false, NULL, 210, NULL, 1),
+                                                                                                            ('user14', 'user14@example.com', 'password14', '2023-01-14T00:00:00', true, false, NULL, 230, NULL, 2),
+                                                                                                            ('user15', 'user15@example.com', 'password15', '2023-01-15T00:00:00', true, false, NULL, 280, NULL, 1);
 
 -- CONFIRMATION TOKEN
 

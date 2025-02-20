@@ -66,7 +66,7 @@ public class AuthServiceTest {
     void testRegister() {
         // Given
         CreateUserDTO request = new CreateUserDTO("username", "password", "email@example.com");
-        User user = new User(null, request.getUsername(), request.getEmail(), "$2a$10$C6wCl1T//l1uD9rOgbWV..SNN3puoSw9n.iEfHIMMrZmelmN5Ivya", false, false, null, 0, new ArrayList<>(), new ArrayList<>(), role, null);
+        User user = new User(null, request.getUsername(), request.getEmail(), "$2a$10$C6wCl1T//l1uD9rOgbWV..SNN3puoSw9n.iEfHIMMrZmelmN5Ivya", false, false, null, 0, null, new ArrayList<>(), new ArrayList<>(), role, null);
 
         // When
         when(roleService.getRole("STUDENT")).thenReturn(role);

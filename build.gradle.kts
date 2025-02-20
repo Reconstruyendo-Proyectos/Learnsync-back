@@ -43,6 +43,7 @@ dependencies {
     implementation(kotlin("stdlib-jdk8"))
     implementation("com.auth0:java-jwt:4.4.0")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.3")
+    implementation("com.google.api-client:google-api-client:2.7.2")
 }
 
 tasks.withType<Test> {

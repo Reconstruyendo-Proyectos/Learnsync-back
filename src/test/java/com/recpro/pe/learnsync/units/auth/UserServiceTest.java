@@ -44,11 +44,11 @@ public class UserServiceTest {
         Role studentRole = new Role(2, ERole.STUDENT, new ArrayList<>());
 
         users = List.of(
-                new User(1, "jluyo", "jluyoc1@upao.edu.pe", "upao2025", true, false, null, 100, new ArrayList<>(), new ArrayList<>(), adminRole, null),
-                new User(2, "user2", "user2@example.com", "password2",  true, false, null, 200, new ArrayList<>(), new ArrayList<>(), studentRole, null),
-                new User(3, "user3", "user3@example.com", "password3", true, false, null, 150, new ArrayList<>(), new ArrayList<>(), adminRole, null),
-                new User(4, "user4", "user4@example.com", "password4", true, false, null, 300, new ArrayList<>(), new ArrayList<>(), studentRole, null),
-                new User(5, "user5", "user5@example.com", "password5", true, false, null, 250, new ArrayList<>(), new ArrayList<>(), adminRole, null)
+                new User(1, "jluyo", "jluyoc1@upao.edu.pe", "upao2025", true, false, null, 100, null, new ArrayList<>(), new ArrayList<>(), adminRole, null),
+                new User(2, "user2", "user2@example.com", "password2",  true, false, null, 200, null, new ArrayList<>(), new ArrayList<>(), studentRole, null),
+                new User(3, "user3", "user3@example.com", "password3", true, false, null, 150, null, new ArrayList<>(), new ArrayList<>(), adminRole, null),
+                new User(4, "user4", "user4@example.com", "password4", true, false, null, 300, null, new ArrayList<>(), new ArrayList<>(), studentRole, null),
+                new User(5, "user5", "user5@example.com", "password5", true, false, null, 250, null, new ArrayList<>(), new ArrayList<>(), adminRole, null)
         );
     }
 

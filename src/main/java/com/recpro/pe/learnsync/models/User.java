@@ -26,7 +26,7 @@ public class User {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "password", nullable = false)
+    @Column(name = "password")
     private String password;
 
     @Column(name = "creation_date", nullable = false)
@@ -43,6 +43,9 @@ public class User {
 
     @Column(name = "points", nullable = false)
     private int points;
+
+    @Column(name = "profile_photo")
+    private String profilePhoto;
 
     // Mapear 1 a Muchos con Comment
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
@@ -66,6 +69,6 @@ public class User {
     // Mapear Muchos a Uno con Prize
 
     public static UserDTO toDto(User user) {
-        return new UserDTO(user.getUsername(), user.getEmail(), user.getCreationDate(), user.getBanDate(), user.getPoints(), Role.toDto(user.getRole()));
+        return new UserDTO(user.getUsername(), user.getEmail(), user.getCreationDate(), user.getBanDate(), user.getPoints(), user.getProfilePhoto(), Role.toDto(user.getRole()));
     }
 }

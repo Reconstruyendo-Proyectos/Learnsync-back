@@ -43,7 +43,7 @@ public class SecurityConfig {
                     auth.requestMatchers(HttpMethod.GET, "/auth/**").permitAll();
                     auth.requestMatchers(HttpMethod.POST, "/auth/**").permitAll();
                     auth.requestMatchers(HttpMethod.PATCH, "/auth/**").permitAll();
-                    auth.requestMatchers(HttpMethod.OPTIONS, "/auth/**").permitAll();
+                    auth.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
                     auth.requestMatchers(HttpMethod.GET, "/assets/**").permitAll();
                     auth.requestMatchers(HttpMethod.GET, "/topic/**", "/thread/**", "/category/**", "/comment/**").permitAll();
                     auth.requestMatchers("/doc/**", "/v3/api-docs/**").permitAll();

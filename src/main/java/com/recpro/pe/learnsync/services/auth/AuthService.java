@@ -1,8 +1,10 @@
 package com.recpro.pe.learnsync.services.auth;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
 import com.recpro.pe.learnsync.dtos.auth.auth.AuthRequestDTO;
 import com.recpro.pe.learnsync.dtos.auth.auth.AuthResponseDTO;
+import com.recpro.pe.learnsync.dtos.auth.auth.GoogleLoginDTO;
 import com.recpro.pe.learnsync.dtos.auth.user.CreateUserDTO;
 import com.recpro.pe.learnsync.dtos.auth.user.UserDTO;
 import com.recpro.pe.learnsync.exceptions.EmailConfirmedException;
@@ -28,6 +30,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class AuthService {
@@ -42,7 +45,7 @@ public class AuthService {
 
     public UserDTO register(CreateUserDTO request) {
         Role role = roleService.getRole("STUDENT");
-        User user = new User(null, request.getUsername(), request.getEmail(), passwordEncoder.encode(request.getPassword()), false, false, null, 0, new ArrayList<>(), new ArrayList<>(), role, null);
+        User user = new User(null, request.getUsername(), request.getEmail(), passwordEncoder.encode(request.getPassword()), false, false, null, 0, null, new ArrayList<>(), new ArrayList<>(), role, null);
         if(userRepository.existsByUsername(user.getUsername())){
             throw new ResourceAlreadyExistsException("El usuario "+user.getUsername()+" existe");
         }
@@ -105,4 +108,22 @@ public class AuthService {
         return new UsernamePasswordAuthenticationToken(username, userDetails.getPassword(), userDetails.getAuthorities());
     }
 
+    public AuthResponseDTO getUserByToken(String token) {
+        Payload decodedJWT = jwtUtils.validateGoogleJWT(token);
+        String username = jwtUtils.extractSpecificClaim(decodedJWT, "name").toString();
+        String email = jwtUtils.extractSpecificClaim(decodedJWT, "email").toString();
+        String profilePhoto = jwtUtils.extractSpecificClaim(decodedJWT, "picture").toString();
+        GoogleLoginDTO googleLogin = new GoogleLoginDTO(username, email, profilePhoto);
+        handleGoogleLogin(googleLogin);
+        return new AuthResponseDTO(username, "[ROLE_STUDENT]", token);
+    }
+
+    private void handleGoogleLogin(GoogleLoginDTO request) {
+        Optional<User> user = userRepository.findByUsername(request.getUsername());
+        if(user.isEmpty()) {
+            Role role = roleService.getRole("STUDENT");
+            User newUser = new User(null, request.getUsername(), request.getEmail(), null, true, false, null, 0, request.getProfilePhoto(), new ArrayList<>(), new ArrayList<>(), role, null);
+            userRepository.save(newUser);
+        }
+    }
 }

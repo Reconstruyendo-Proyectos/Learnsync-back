@@ -6,10 +6,18 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.gson.GsonFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Map;
 import java.util.UUID;
@@ -22,6 +30,9 @@ public class JwtUtils {
 
     @Value("${security.jwt.user.generator}")
     private String userGenerator;
+
+    @Value("${google.client.id}")
+    private String clientId;
 
     public String generateToken(Authentication authentication) {
         Algorithm algorithm = Algorithm.HMAC256(this.privateKey);
@@ -53,13 +64,38 @@ public class JwtUtils {
         }
     }
 
+    public Payload validateGoogleJWT(String token) {
+        try {
+            GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), GsonFactory.getDefaultInstance())
+                    .setAudience(Collections.singletonList(clientId))
+                    .build();
+
+            GoogleIdToken idToken = verifier.verify(token);
+
+            return idToken.getPayload();
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Token inválido");
+        } catch (GeneralSecurityException | IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public String extractUsername(DecodedJWT decodedJWT){
         return decodedJWT.getSubject();
+    }
+
+    public String extractUsername(Payload payload){
+        return payload.get("name").toString();
     }
 
     public Claim extractSpecificClaim(DecodedJWT decodedJWT, String claimName){
         return decodedJWT.getClaim(claimName);
     }
+
+    public Object extractSpecificClaim(Payload payload, String claimName){
+        return payload.get(claimName);
+    }
+
 
     public Map<String, Claim> returnAllClaims(DecodedJWT decodedJWT){
         return decodedJWT.getClaims();

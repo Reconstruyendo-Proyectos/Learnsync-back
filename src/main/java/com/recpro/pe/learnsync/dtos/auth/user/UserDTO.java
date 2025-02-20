@@ -14,5 +14,6 @@ public class UserDTO {
     private LocalDateTime creationDate;
     private LocalDateTime banDate;
     private int points;
+    private String profilePhoto;
     private RoleDTO role;
 }

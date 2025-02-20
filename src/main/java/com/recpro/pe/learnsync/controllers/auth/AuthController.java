@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("auth")
+@CrossOrigin("http://localhost:4200")
 public class AuthController {
     @Autowired private AuthService authService;
 
@@ -29,5 +30,10 @@ public class AuthController {
     @PostMapping("/login/")
     public ResponseEntity<AuthResponseDTO> login(@Valid @RequestBody AuthRequestDTO request) {
         return new ResponseEntity<>(authService.login(request), HttpStatus.OK);
+    }
+
+    @GetMapping("/user-by-token/")
+    public ResponseEntity<AuthResponseDTO> getUserByToken(@RequestParam String token) {
+        return new ResponseEntity<>(authService.getUserByToken(token), HttpStatus.OK);
     }
 }

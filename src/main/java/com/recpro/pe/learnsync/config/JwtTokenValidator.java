@@ -1,6 +1,7 @@
 package com.recpro.pe.learnsync.config;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
 import com.recpro.pe.learnsync.utils.JwtUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -33,7 +34,7 @@ public class JwtTokenValidator extends OncePerRequestFilter {
             throws ServletException, IOException {
         String jwtToken = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-        if(jwtToken != null){
+        if(jwtToken != null && jwtToken.startsWith("Bearer")){
             jwtToken = jwtToken.substring(7); // Extract only token
             DecodedJWT decodedJWT = jwtUtils.validateJWT(jwtToken);
 
@@ -41,6 +42,16 @@ public class JwtTokenValidator extends OncePerRequestFilter {
             String stringAuthorities = jwtUtils.extractSpecificClaim(decodedJWT, "authorities").asString();
 
             Collection<? extends GrantedAuthority> authorities = AuthorityUtils.commaSeparatedStringToAuthorityList(stringAuthorities);
+            SecurityContext context = SecurityContextHolder.getContext();
+            Authentication authentication = new UsernamePasswordAuthenticationToken(username, null, authorities);
+            context.setAuthentication(authentication);
+            SecurityContextHolder.setContext(context);
+        } else if (jwtToken != null && jwtToken.startsWith("Google")) {
+            jwtToken = jwtToken.substring(7);
+            Payload payload = jwtUtils.validateGoogleJWT(jwtToken);
+            String username = jwtUtils.extractUsername(payload);
+
+            Collection<? extends GrantedAuthority> authorities = AuthorityUtils.createAuthorityList("ROLE_STUDENT");
             SecurityContext context = SecurityContextHolder.getContext();
             Authentication authentication = new UsernamePasswordAuthenticationToken(username, null, authorities);
             context.setAuthentication(authentication);

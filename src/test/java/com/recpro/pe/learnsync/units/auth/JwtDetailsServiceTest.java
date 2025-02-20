@@ -30,7 +30,7 @@ public class JwtDetailsServiceTest {
     void testLoadUserByUsername() {
         // Given
         String username = "jluyo";
-        User user = new User(1, "jluyo", "jluyoc1@upao.edu.pe", "upao2025", true, false, null, 100, new ArrayList<>(), new ArrayList<>(), new Role(1, ERole.ADMIN, new ArrayList<>()), null);
+        User user = new User(1, "jluyo", "jluyoc1@upao.edu.pe", "upao2025", true, false, null, 100, null, new ArrayList<>(), new ArrayList<>(), new Role(1, ERole.ADMIN, new ArrayList<>()), null);
 
         // When
         when(userRepository.findByUsername(username)).thenReturn(Optional.of(user));
