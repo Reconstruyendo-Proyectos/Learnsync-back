@@ -13,5 +13,7 @@ public class TopicDTO {
     private String name;
     private String description;
     private String slug;
+    private String topicIcon;
+    private String topicPoster;
     private List<ThreadDTO> threads;
 }

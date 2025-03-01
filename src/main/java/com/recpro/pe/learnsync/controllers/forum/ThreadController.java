@@ -33,4 +33,10 @@ public class ThreadController {
     public ResponseEntity<ThreadDTO> createThread(@Valid @RequestBody CreateThreadDTO request) {
         return new ResponseEntity<>(threadService.createThread(request), HttpStatus.CREATED);
     }
+
+    // Sin uso de momento
+    @GetMapping("/get-number-threads/{slug}")
+    public ResponseEntity<Integer> getNumberThreadsByTopic(@PathVariable String slug) {
+        return new ResponseEntity<>(threadService.getThreadsByTopic(slug), HttpStatus.OK);
+    }
 }

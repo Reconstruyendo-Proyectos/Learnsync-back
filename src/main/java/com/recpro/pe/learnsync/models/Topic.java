@@ -33,6 +33,12 @@ public class Topic {
     @Column(name = "creation_date", nullable = false)
     private final LocalDateTime creationDate = LocalDateTime.now();
 
+    @Column(name = "topic_icon", nullable = false)
+    private String topicIcon;
+
+    @Column(name = "topic_poster", nullable = false)
+    private String topicPoster;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_category", nullable = false, referencedColumnName = "id_category")
     private Category category;
@@ -46,7 +52,7 @@ public class Topic {
             ThreadDTO threadDTO = Thread.toDTO(thread);
             threads.add(threadDTO);
         }
-        return new TopicDTO(topic.getIdTopic(), topic.getName(), topic.getDescription(), topic.getSlug(), threads);
+        return new TopicDTO(topic.getIdTopic(), topic.getName(), topic.getDescription(), topic.getSlug(), topic.getTopicIcon(), topic.getTopicPoster(), threads);
     }
 
     public static String transformName(String input) {

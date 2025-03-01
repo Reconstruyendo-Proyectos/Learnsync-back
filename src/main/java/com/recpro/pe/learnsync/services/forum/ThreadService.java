@@ -26,7 +26,7 @@ public class ThreadService {
     }
 
     public ThreadDTO createThread(CreateThreadDTO request) {
-        User user = userService.findByUser(request.getUsername());
+        User user = userService.getAuthenticatedUser();
         Topic topic = topicService.getTopic(request.getSlug());
         Thread thread = new Thread(null, request.getTitle(), request.getMessage(), topic, user, new ArrayList<>());
         threadRepository.save(thread);
@@ -35,5 +35,10 @@ public class ThreadService {
 
     public Thread getThread(Integer id) {
         return threadRepository.findById(id).orElseThrow(() -> new ResourceNotExistsException("No existe el hilo #"+id));
+    }
+
+    public Integer getThreadsByTopic(String slug) {
+        Topic topic = topicService.getTopic(slug);
+        return threadRepository.countByTopic(topic);
     }
 }

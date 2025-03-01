@@ -26,7 +26,7 @@ public class TopicController {
 
     @GetMapping("/{slug}")
     public ResponseEntity<TopicDTO> getTopic(@PathVariable String slug) {
-        return new ResponseEntity<>(Topic.toDTO(topicService.getTopic(slug)), HttpStatus.FOUND);
+        return new ResponseEntity<>(Topic.toDTO(topicService.getTopic(slug)), HttpStatus.OK);
     }
 
     @PostMapping("/create/")

@@ -22,4 +22,10 @@ public class CreateTopicDTO {
     @NotEmpty(message = "Dato vacio")
     @NotBlank(message = "No es valido un dato con solo espacio en blanco")
     private String categoryName;
+    @NotEmpty(message = "Dato vacio")
+    @NotBlank(message = "No es valido un dato con solo espacio en blanco")
+    private String topicIcon;
+    @NotEmpty(message = "Dato vacio")
+    @NotBlank(message = "No es valido un dato con solo espacio en blanco")
+    private String topicPoster;
 }

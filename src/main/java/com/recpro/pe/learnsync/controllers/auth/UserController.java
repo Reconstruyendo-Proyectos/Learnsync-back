@@ -1,5 +1,6 @@
 package com.recpro.pe.learnsync.controllers.auth;
 
+import com.recpro.pe.learnsync.dtos.auth.user.ImageUserDTO;
 import com.recpro.pe.learnsync.dtos.auth.user.UserDTO;
 import com.recpro.pe.learnsync.models.User;
 import com.recpro.pe.learnsync.services.auth.UserService;
@@ -17,5 +18,20 @@ public class UserController {
     @GetMapping("/get-user/{username}")
     public ResponseEntity<UserDTO> getUser(@PathVariable String username) {
         return new ResponseEntity<>(User.toDto(userService.findByUser(username)), HttpStatus.OK);
+    }
+
+    @PatchMapping("/upload-profile/photo/")
+    public ResponseEntity<Void> uploadProfilePhoto(@RequestBody ImageUserDTO request) {
+        return new ResponseEntity<>(userService.uploadProfilePhoto(request), HttpStatus.NO_CONTENT);
+    }
+
+    @DeleteMapping("/delete-profile-photo/")
+    public ResponseEntity<Void> deleteProfilePhoto() {
+        return new ResponseEntity<>(userService.deleteProfilePhoto(), HttpStatus.NO_CONTENT);
+    }
+
+    @PatchMapping("/upload-profile/username/")
+    public ResponseEntity<Void> uploadProfileUsername(@RequestParam String username) {
+        return new ResponseEntity<>(userService.uploadUsername(username), HttpStatus.NO_CONTENT);
     }
 }

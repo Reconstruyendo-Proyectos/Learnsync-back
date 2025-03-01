@@ -34,7 +34,7 @@ public class TopicService {
         }
         String slug = request.getName().replaceAll(" ", "-").toLowerCase();
         Category category = categoryService.getCategory(request.getCategoryName());
-        Topic topic = new Topic(null, nameTransformed, request.getDescription(), slug, category, new ArrayList<>());
+        Topic topic = new Topic(null, nameTransformed, request.getDescription(), slug, request.getTopicIcon(), request.getTopicPoster(), category, new ArrayList<>());
         topicRepository.save(topic);
         return Topic.toDTO(topic);
     }
@@ -42,5 +42,4 @@ public class TopicService {
     public Topic getTopic(String slug) {
         return topicRepository.findBySlug(slug).orElseThrow(() -> new ResourceNotExistsException("El tópico " + Topic.transformName(slug.replaceAll("-", " ")) + " no existe"));
     }
-
 }

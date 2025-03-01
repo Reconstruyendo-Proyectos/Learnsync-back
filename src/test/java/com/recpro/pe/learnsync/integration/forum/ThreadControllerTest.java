@@ -59,7 +59,7 @@ public class ThreadControllerTest {
 
     @Test
     void createThread() throws Exception {
-        CreateThreadDTO request = new CreateThreadDTO("¿Quien es Antenor Orrego?", "Ayuden que es para mi tarea gente", "jluyo", "physics-fundamentals");
+        CreateThreadDTO request = new CreateThreadDTO("¿Quien es Antenor Orrego?", "Ayuden que es para mi tarea gente", "physics-fundamentals");
         String threadJson = objectMapper.writeValueAsString(request);
 
         mockMvc.perform(post("/thread/create/")
@@ -77,7 +77,7 @@ public class ThreadControllerTest {
 
     @Test
     void createThreadWhenUserNotExists() throws Exception {
-        CreateThreadDTO request = new CreateThreadDTO("¿Quien es Antenor Orrego?", "Ayuden que es para mi tarea gente", "USER_NOT_EXISTS", "physics-fundamentals");
+        CreateThreadDTO request = new CreateThreadDTO("¿Quien es Antenor Orrego?", "Ayuden que es para mi tarea gente", "physics-fundamentals");
         String threadJson = objectMapper.writeValueAsString(request);
 
         mockMvc.perform(post("/thread/create/")
@@ -90,7 +90,7 @@ public class ThreadControllerTest {
 
     @Test
     void createThreadWhenTopicNotExists() throws Exception {
-        CreateThreadDTO request = new CreateThreadDTO("¿Quien es Antenor Orrego?", "Ayuden que es para mi tarea gente", "jluyo", "topic-not-exists");
+        CreateThreadDTO request = new CreateThreadDTO("¿Quien es Antenor Orrego?", "Ayuden que es para mi tarea gente", "topic-not-exists");
         String threadJson = objectMapper.writeValueAsString(request);
 
         mockMvc.perform(post("/thread/create/")
@@ -103,7 +103,7 @@ public class ThreadControllerTest {
 
     @Test
     void testCreateThreadWhenAtributtesAreEmptyOrNull() throws Exception {
-        CreateThreadDTO request = new CreateThreadDTO(" ", "", "jluyo", " ");
+        CreateThreadDTO request = new CreateThreadDTO(" ", "", " ");
         String threadJson = objectMapper.writeValueAsString(request);
 
         mockMvc.perform(post("/thread/create/")
