@@ -15,6 +15,9 @@ public class ThreadDTO {
     private String title;
     private String message;
     private LocalDateTime creationDate;
+    private Integer likes;
+    private Integer stars;
+    private String file;
     private UserDTO user;
     private List<CommentDTO> comments;
 }

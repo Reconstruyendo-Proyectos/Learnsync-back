@@ -31,6 +31,15 @@ public class Thread {
     @Column(name = "creation_date", nullable = false)
     private final LocalDateTime creationDate = LocalDateTime.now();
 
+    @Column(name = "likes", nullable = false)
+    private Integer likes;
+
+    @Column(name = "stars", nullable = false)
+    private Integer stars;
+
+    @Column(name = "file")
+    private String file;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_topic", nullable = false, referencedColumnName = "id_topic")
     private Topic topic;
@@ -48,6 +57,6 @@ public class Thread {
             CommentDTO commentDTO = Comment.toDto(comment);
             comments.add(commentDTO);
         }
-        return new ThreadDTO(thread.getIdThread(), thread.getTitle(), thread.getMessage(), thread.getCreationDate(), User.toDto(thread.getUser()), comments);
+        return new ThreadDTO(thread.getIdThread(), thread.getTitle(), thread.getMessage(), thread.getCreationDate(), thread.likes, thread.stars, thread.file, User.toDto(thread.getUser()), comments);
     }
 }

@@ -64,6 +64,9 @@ CREATE TABLE threads (
                          title VARCHAR(255) NOT NULL,
                          message TEXT NOT NULL,
                          creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                         likes INT NOT NULL,
+                         stars INT NOT NULL,
+                         file VARCHAR(255),
                          id_topic INT NOT NULL,
                          id_user INT NOT NULL,
                          FOREIGN KEY (id_topic) REFERENCES topics(id_topic),
@@ -175,39 +178,38 @@ INSERT INTO confirmation_tokens (token, expiration_date, activation_date, id_use
 
 -- THREAD
 
-INSERT INTO threads (title, message, id_topic, id_user) VALUES
-                                                            ('Introduction to Java: Getting Started', 'This thread is for beginners starting with Java.', 1, 1),
-                                                            ('Java Collections Framework', 'Discussion on the different collections available in Java.', 1, 2),
-                                                            ('Concurrency in Java', 'Let''s talk about concurrency and multithreading in Java.', 1, 3),
-                                                            ('Advanced Java Topics', 'Deep dive into advanced Java topics.', 2, 1),
-                                                            ('Java Performance Tuning', 'Tips and tricks for optimizing Java code.', 2, 4),
-                                                            ('Spring Boot Basics', 'An introduction to Spring Boot framework.', 3, 1),
-                                                            ('Spring Boot with Docker', 'How to containerize Spring Boot applications using Docker.', 3, 2),
-                                                            ('Machine Learning 101', 'Beginner''s guide to machine learning.', 4, 5),
-                                                            ('Supervised vs Unsupervised Learning', 'Discussion on different types of machine learning.', 4, 6),
-                                                            ('Neural Networks', 'Basics of neural networks and deep learning.', 5, 5),
-                                                            ('Deep Learning Libraries', 'Overview of popular deep learning libraries.', 5, 7),
-                                                            ('Quantum Mechanics Basics', 'Introduction to quantum mechanics.', 6, 8),
-                                                            ('Classical Mechanics vs Quantum Mechanics', 'Discussion on the differences between classical and quantum mechanics.', 6, 9),
-                                                            ('Impressionism: An Overview', 'Exploring the world of Impressionist art.', 7, 10),
-                                                            ('Modern Art Movements', 'A look into various modern art movements.', 8, 10),
-                                                            ('Literary Classics', 'Discussing great works of classical literature.', 9, 11),
-                                                            ('Contemporary Literature', 'Analysis of contemporary novels and works.', 10, 11),
-                                                            ('History of Rock Music', 'The evolution of rock music.', 11, 12),
-                                                            ('Famous Composers in Classical Music', 'Discussion on famous composers and their works.', 12, 12),
-                                                            ('Healthy Diets', 'Guide to maintaining a healthy diet.', 13, 13),
-                                                            ('Traveling on a Budget', 'Tips for traveling without breaking the bank.', 14, 14),
-                                                            ('Best Online Learning Platforms', 'Review of the best platforms for online learning.', 15, 15),
-                                                            ('Java Debugging Techniques', 'Effective debugging techniques in Java.', 1, 4),
-                                                            ('Microservices with Spring Boot', 'Building microservices using Spring Boot.', 3, 1),
-                                                            ('AI Ethics', 'Discussion on the ethical considerations in AI.', 4, 5),
-                                                            ('Quantum Computing', 'Basics of quantum computing and its applications.', 6, 8),
-                                                            ('Cubism: Art Movement', 'Exploring Cubism and its impact on art.', 8, 10),
-                                                            ('Postmodern Literature', 'Analysis of postmodern literary works.', 10, 11),
-                                                            ('Jazz Music History', 'The history and evolution of jazz music.', 11, 12),
-                                                            ('Home Workouts', 'Effective workout routines you can do at home.', 13, 13),
-                                                            ('Solo Travel Tips', 'Tips and advice for solo travelers.', 14, 14);
-
+INSERT INTO threads (title, message, likes, stars, id_topic, id_user, file) VALUES
+                                                                                ('Introduction to Java: Getting Started', 'This thread is for beginners starting with Java.', 12, 5, 1, 1, 'https://i.imgur.com/6vZTJ8z.jpg'),
+                                                                                ('Java Collections Framework', 'Discussion on the different collections available in Java.', 25, 8, 1, 2, 'https://i.imgur.com/9Xb4qLr.png'),
+                                                                                ('Concurrency in Java', 'Let''s talk about concurrency and multithreading in Java.', 30, 10, 1, 3, NULL),
+                                                                                ('Advanced Java Topics', 'Deep dive into advanced Java topics.', 40, 15, 2, 1, 'https://www.youtube.com/embed/dQw4w9WgXcQ'), -- Video de YouTube
+                                                                                ('Java Performance Tuning', 'Tips and tricks for optimizing Java code.', 35, 12, 2, 4, 'https://i.imgur.com/7yRjFtZ.jpeg'),
+                                                                                ('Spring Boot Basics', 'An introduction to Spring Boot framework.', 50, 20, 3, 1, 'https://i.imgur.com/5xO8pKm.jpg'),
+                                                                                ('Spring Boot with Docker', 'How to containerize Spring Boot applications using Docker.', 45, 18, 3, 2, NULL),
+                                                                                ('Machine Learning 101', 'Beginner''s guide to machine learning.', 60, 25, 4, 5, 'https://www.youtube.com/embed/JwV5YjUdMqA'), -- Video de YouTube
+                                                                                ('Supervised vs Unsupervised Learning', 'Discussion on different types of machine learning.', 55, 22, 4, 6, 'https://i.imgur.com/3ZCkHlN.png'),
+                                                                                ('Neural Networks', 'Basics of neural networks and deep learning.', 70, 30, 5, 5, 'https://i.imgur.com/1a2b3c4.jpg'),
+                                                                                ('Deep Learning Libraries', 'Overview of popular deep learning libraries.', 65, 28, 5, 7, 'https://www.youtube.com/embed/3Kx5n5z5z5k'), -- Video de YouTube
+                                                                                ('Quantum Mechanics Basics', 'Introduction to quantum mechanics.', 80, 35, 6, 8, 'https://i.imgur.com/8hY9fGk.jpeg'),
+                                                                                ('Classical Mechanics vs Quantum Mechanics', 'Discussion on the differences between classical and quantum mechanics.', 75, 32, 6, 9, NULL),
+                                                                                ('Impressionism: An Overview', 'Exploring the world of Impressionist art.', 90, 40, 7, 10, 'https://i.imgur.com/6vZTJ8z.jpg'),
+                                                                                ('Modern Art Movements', 'A look into various modern art movements.', 85, 38, 8, 10, 'https://i.imgur.com/9Xb4qLr.png'),
+                                                                                ('Literary Classics', 'Discussing great works of classical literature.', 100, 45, 9, 11, 'https://i.imgur.com/7yRjFtZ.jpeg'),
+                                                                                ('Contemporary Literature', 'Analysis of contemporary novels and works.', 95, 42, 10, 11, 'https://www.youtube.com/embed/dQw4w9WgXcQ'), -- Video de YouTube
+                                                                                ('History of Rock Music', 'The evolution of rock music.', 110, 50, 11, 12, 'https://www.youtube.com/embed/3Kx5n5z5z5k'), -- Video de YouTube
+                                                                                ('Famous Composers in Classical Music', 'Discussion on famous composers and their works.', 105, 48, 12, 12, NULL),
+                                                                                ('Healthy Diets', 'Guide to maintaining a healthy diet.', 120, 55, 13, 13, 'https://i.imgur.com/5xO8pKm.jpg'),
+                                                                                ('Traveling on a Budget', 'Tips for traveling without breaking the bank.', 115, 52, 14, 14, 'https://i.imgur.com/3ZCkHlN.png'),
+                                                                                ('Best Online Learning Platforms', 'Review of the best platforms for online learning.', 130, 60, 15, 15, 'https://www.youtube.com/embed/JwV5YjUdMqA'), -- Video de YouTube
+                                                                                ('Java Debugging Techniques', 'Effective debugging techniques in Java.', 15, 7, 1, 4, 'https://www.youtube.com/embed/dQw4w9WgXcQ'), -- Video de YouTube
+                                                                                ('Microservices with Spring Boot', 'Building microservices using Spring Boot.', 20, 9, 3, 1, NULL),
+                                                                                ('AI Ethics', 'Discussion on the ethical considerations in AI.', 22, 11, 4, 5, 'https://i.imgur.com/8hY9fGk.jpeg'),
+                                                                                ('Quantum Computing', 'Basics of quantum computing and its applications.', 24, 13, 6, 8, 'https://i.imgur.com/6vZTJ8z.jpg'),
+                                                                                ('Cubism: Art Movement', 'Exploring Cubism and its impact on art.', 26, 15, 8, 10, 'https://www.youtube.com/embed/3Kx5n5z5z5k'), -- Video de YouTube
+                                                                                ('Postmodern Literature', 'Analysis of postmodern literary works.', 28, 17, 10, 11, 'https://i.imgur.com/9Xb4qLr.png'),
+                                                                                ('Jazz Music History', 'The history and evolution of jazz music.', 32, 19, 11, 12, 'https://www.youtube.com/embed/JwV5YjUdMqA'), -- Video de YouTube
+                                                                                ('Home Workouts', 'Effective workout routines you can do at home.', 34, 21, 13, 13, NULL),
+                                                                                ('Solo Travel Tips', 'Tips and advice for solo travelers.', 36, 23, 14, 14, 'https://i.imgur.com/7yRjFtZ.jpeg');
 
 -- COMMENT
 

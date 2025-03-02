@@ -25,10 +25,22 @@ public class ThreadService {
         return threadRepository.findAll(pageable).stream().map(Thread::toDTO).toList();
     }
 
+    public List<ThreadDTO> listThreadsByCreationDate(Pageable pageable) {
+        return threadRepository.findByOrderByCreationDateDesc(pageable).stream().map(Thread::toDTO).toList();
+    }
+
+    public List<ThreadDTO> listThreadsByInteractions(Pageable pageable) {
+        return threadRepository.findByOrderByLikesDesc(pageable).stream().map(Thread::toDTO).toList();
+    }
+
     public ThreadDTO createThread(CreateThreadDTO request) {
         User user = userService.getAuthenticatedUser();
         Topic topic = topicService.getTopic(request.getSlug());
-        Thread thread = new Thread(null, request.getTitle(), request.getMessage(), topic, user, new ArrayList<>());
+        String file = null;
+        if(request.getFile() != null) {
+            file = request.getFile();
+        }
+        Thread thread = new Thread(null, request.getTitle(), request.getMessage(), 0, 0, file, topic, user, new ArrayList<>());
         threadRepository.save(thread);
         return Thread.toDTO(thread);
     }

@@ -24,6 +24,16 @@ public class ThreadController {
         return new ResponseEntity<>(threadService.listThreads(PageRequest.of(page, 10)), HttpStatus.OK);
     }
 
+    @GetMapping("/list/creation-date/")
+    public ResponseEntity<List<ThreadDTO>> listThreadsByCreationDate(@RequestParam int page) {
+        return new ResponseEntity<>(threadService.listThreadsByCreationDate(PageRequest.of(page, 10)), HttpStatus.OK);
+    }
+
+    @GetMapping("/list/interactions/")
+    public ResponseEntity<List<ThreadDTO>> listThreadsByInteractions(@RequestParam int page) {
+        return new ResponseEntity<>(threadService.listThreadsByInteractions(PageRequest.of(page, 10)), HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ThreadDTO> getThread(@PathVariable int id) {
         return new ResponseEntity<>(Thread.toDTO(threadService.getThread(id)), HttpStatus.FOUND);
