@@ -25,8 +25,9 @@ public class ThreadService {
         return threadRepository.findAll(pageable).stream().map(Thread::toDTO).toList();
     }
 
-    public List<ThreadDTO> listThreadsByCreationDate(Pageable pageable) {
-        return threadRepository.findByOrderByCreationDateDesc(pageable).stream().map(Thread::toDTO).toList();
+    public List<ThreadDTO> listThreadsByCreationDate(String slug, Pageable pageable) {
+        Topic topic = topicService.getTopic(slug);
+        return threadRepository.findByTopicOrderByCreationDateDesc(topic, pageable).stream().map(Thread::toDTO).toList();
     }
 
     public List<ThreadDTO> listThreadsByInteractions(Pageable pageable) {
