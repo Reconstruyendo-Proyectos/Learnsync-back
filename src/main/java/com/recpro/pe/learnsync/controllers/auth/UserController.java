@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     @Autowired private UserService userService;
 
-    @GetMapping("/get-user/{username}")
-    public ResponseEntity<UserDTO> getUser(@PathVariable String username) {
-        return new ResponseEntity<>(User.toDto(userService.findByUser(username)), HttpStatus.OK);
+    @GetMapping("/get-authenticated-user/")
+    public ResponseEntity<UserDTO> getAuthenticatedUser() {
+        return new ResponseEntity<>(User.toDto(userService.getAuthenticatedUser()), HttpStatus.OK);
     }
 
     @PatchMapping("/upload-profile/photo/")

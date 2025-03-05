@@ -24,11 +24,6 @@ public class TopicController {
         return new ResponseEntity<>(topicService.listTopics(PageRequest.of(page, 10)), HttpStatus.OK);
     }
 
-    @GetMapping("/list/category/{idCategory}")
-    public ResponseEntity<List<TopicDTO>> listTopicsByCategory(@PathVariable int idCategory) {
-        return new ResponseEntity<>(topicService.listTopicsByCategory(idCategory), HttpStatus.OK);
-    }
-
     @GetMapping("/{slug}")
     public ResponseEntity<TopicDTO> getTopic(@PathVariable String slug) {
         return new ResponseEntity<>(Topic.toDTO(topicService.getTopic(slug)), HttpStatus.OK);
