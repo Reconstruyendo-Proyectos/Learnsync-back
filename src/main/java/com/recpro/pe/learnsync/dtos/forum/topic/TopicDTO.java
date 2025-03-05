@@ -12,4 +12,5 @@ public class TopicDTO {
     private String slug;
     private String topicIcon;
     private String topicPoster;
+    private Integer nroThreads;
 }

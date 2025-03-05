@@ -47,7 +47,7 @@ public class Topic {
     private List<Thread> threads;
 
     public static TopicDTO toDTO(Topic topic){
-        return new TopicDTO(topic.getIdTopic(), topic.getName(), topic.getDescription(), topic.getSlug(), topic.getTopicIcon(), topic.getTopicPoster());
+        return new TopicDTO(topic.getIdTopic(), topic.getName(), topic.getDescription(), topic.getSlug(), topic.getTopicIcon(), topic.getTopicPoster(), topic.getThreads().size());
     }
 
     public static String transformName(String input) {
