@@ -31,11 +31,6 @@ public class Category {
     private List<Topic> topics;
 
     public static CategoryDTO toDTO(Category category) {
-        List<TopicDTO> topics = new ArrayList<>();
-        for (Topic topic : category.getTopics()){
-            TopicDTO topicDTO = Topic.toDTO(topic);
-            topics.add(topicDTO);
-        }
-        return new CategoryDTO(category.getIdCategory(), category.getName(), category.getDescription(), topics);
+        return new CategoryDTO(category.getIdCategory(), category.getName(), category.getDescription());
     }
 }

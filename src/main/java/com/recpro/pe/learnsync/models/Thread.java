@@ -1,6 +1,5 @@
 package com.recpro.pe.learnsync.models;
 
-import com.recpro.pe.learnsync.dtos.forum.comment.CommentDTO;
 import com.recpro.pe.learnsync.dtos.forum.thread.ThreadDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -8,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -52,11 +50,6 @@ public class Thread {
     private List<Comment> comments;
 
     public static ThreadDTO toDTO(Thread thread){
-        List<CommentDTO> comments = new ArrayList<>();
-        for (Comment comment : thread.getComments()) {
-            CommentDTO commentDTO = Comment.toDto(comment);
-            comments.add(commentDTO);
-        }
-        return new ThreadDTO(thread.getIdThread(), thread.getTitle(), thread.getMessage(), thread.getCreationDate(), thread.likes, thread.stars, thread.file, User.toDto(thread.getUser()), comments);
+        return new ThreadDTO(thread.getIdThread(), thread.getTitle(), thread.getMessage(), thread.getCreationDate(), thread.likes, thread.stars, thread.file, thread.getUser().getUsername(), thread.getUser().getProfilePhoto(), thread.getTopic().getName(), thread.getComments().size());
     }
 }

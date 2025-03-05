@@ -27,6 +27,11 @@ public class TopicService {
         return topicRepository.findAll(pageable).stream().map(Topic::toDTO).toList();
     }
 
+    public List<TopicDTO> listTopicsByCategory(int idCategory) {
+        Category category = categoryService.getCategoryById(idCategory);
+        return topicRepository.findByCategory(category).stream().map(Topic::toDTO).toList();
+    }
+
     public TopicDTO createTopic(CreateTopicDTO request) {
         String nameTransformed = Topic.transformName(request.getName());
         if (topicRepository.existsTopicByName(Topic.transformName(nameTransformed))) {

@@ -33,6 +33,6 @@ public class Comment {
     private User user;
 
     public static CommentDTO toDto(Comment comment) {
-        return new CommentDTO(comment.getIdComment(), comment.getMessage(), comment.getCreationDate(), User.toDto(comment.getUser()));
+        return new CommentDTO(comment.getIdComment(), comment.getMessage(), comment.getCreationDate(), comment.getUser().getUsername(), comment.getUser().getProfilePhoto());
     }
 }

@@ -35,4 +35,8 @@ public class CategoryService {
     public Category getCategory(String name) {
         return categoryRepository.findByName(name).orElseThrow(() -> new ResourceNotExistsException("La categoria "+name+" no existe"));
     }
+
+    public Category getCategoryById(Integer id) {
+        return categoryRepository.findById(id).orElseThrow(() -> new ResourceNotExistsException("La categoria con ID "+id+" no existe"));
+    }
 }

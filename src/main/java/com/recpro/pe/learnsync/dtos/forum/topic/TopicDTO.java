@@ -1,10 +1,7 @@
 package com.recpro.pe.learnsync.dtos.forum.topic;
 
-import com.recpro.pe.learnsync.dtos.forum.thread.ThreadDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-
-import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -15,5 +12,4 @@ public class TopicDTO {
     private String slug;
     private String topicIcon;
     private String topicPoster;
-    private List<ThreadDTO> threads;
 }

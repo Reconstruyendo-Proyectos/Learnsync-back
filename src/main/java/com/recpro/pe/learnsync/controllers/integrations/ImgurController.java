@@ -13,9 +13,9 @@ import org.springframework.web.multipart.MultipartFile;
 public class ImgurController {
     @Autowired private ImgurService imgurService;
 
-    @PostMapping("/upload-file/{typeFile}")
-    public ResponseEntity<ImageResponseDTO> uploadFile(@RequestParam("file") MultipartFile file, @PathVariable String typeFile) {
-        return new ResponseEntity<>(imgurService.uploadImage(file, typeFile), HttpStatus.OK);
+    @PostMapping("/upload-file/")
+    public ResponseEntity<ImageResponseDTO> uploadFile(@RequestParam("file") MultipartFile file) {
+        return new ResponseEntity<>(imgurService.uploadImage(file), HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{deleteHash}")

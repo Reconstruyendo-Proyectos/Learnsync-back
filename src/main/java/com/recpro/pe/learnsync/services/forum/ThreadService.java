@@ -22,7 +22,7 @@ public class ThreadService {
     @Autowired private TopicService topicService;
 
     public List<ThreadDTO> listThreads(Pageable pageable) {
-        return threadRepository.findAll(pageable).stream().map(Thread::toDTO).toList();
+        return threadRepository.findAllByOrderByCreationDateDesc(pageable).stream().map(Thread::toDTO).toList();
     }
 
     public List<ThreadDTO> listThreadsByCreationDate(String slug, Pageable pageable) {
@@ -48,10 +48,5 @@ public class ThreadService {
 
     public Thread getThread(Integer id) {
         return threadRepository.findById(id).orElseThrow(() -> new ResourceNotExistsException("No existe el hilo #"+id));
-    }
-
-    public Integer getThreadsByTopic(String slug) {
-        Topic topic = topicService.getTopic(slug);
-        return threadRepository.countByTopic(topic);
     }
 }

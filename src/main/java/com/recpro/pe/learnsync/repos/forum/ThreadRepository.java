@@ -9,8 +9,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ThreadRepository extends JpaRepository<Thread, Integer> {
-    Page<Thread> findAll(Pageable pageable);
+    Page<Thread> findAllByOrderByCreationDateDesc(Pageable pageable);
     Page<Thread> findByTopicOrderByCreationDateDesc(Topic topic, Pageable pageable);
     Page<Thread> findByOrderByLikesDesc(Pageable pageable);
-    Integer countByTopic(Topic topic);
 }

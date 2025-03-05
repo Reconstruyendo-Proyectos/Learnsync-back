@@ -25,11 +25,11 @@ public class ImgurService {
     @Value("${imgur.bearer.token}")
     private String accessToken;
 
-    public ImageResponseDTO uploadImage(MultipartFile file, String typeFile) {
+    public ImageResponseDTO uploadImage(MultipartFile file) {
         try {
             MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
             body.add("image", file.getResource());
-            body.add("type", typeFile);
+            body.add("type", "image");
 
             Mono<String> responseMono = webClient.post()
                     .uri(imgurUrl)
