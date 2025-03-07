@@ -23,9 +23,6 @@ public class Category {
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    @Column(name = "description", nullable = false)
-    private String description;
-
     // Mapear 1 a muchos con Topic
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<Topic> topics;
@@ -36,6 +33,6 @@ public class Category {
             TopicDTO topicDTO = Topic.toDTO(topic);
             topics.add(topicDTO);
         }
-        return new CategoryDTO(category.getIdCategory(), category.getName(), category.getDescription(), topics);
+        return new CategoryDTO(category.getIdCategory(), category.getName(), topics);
     }
 }

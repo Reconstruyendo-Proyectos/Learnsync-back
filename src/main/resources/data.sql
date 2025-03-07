@@ -4,8 +4,7 @@
 
 CREATE TABLE categories (
                             id_category SERIAL PRIMARY KEY,
-                            name VARCHAR(255) NOT NULL UNIQUE,
-                            description VARCHAR(255) NOT NULL
+                            name VARCHAR(255) NOT NULL UNIQUE
 );
 
 -- TOPIC
@@ -88,17 +87,17 @@ CREATE TABLE comments (
 -- INSERTANDO VALORES PARA LAS TABLAS
 
 -- CATEGORY
-INSERT INTO categories (name, description) VALUES
-                                               ('Technology', 'All about technology'),
-                                               ('Science', 'Scientific discoveries and research'),
-                                               ('Art', 'Artistic expressions and creativity'),
-                                               ('Literature', 'Books and literary works'),
-                                               ('Music', 'Musical genres and artists'),
-                                               ('Health', 'Well-being and medical topics'),
-                                               ('Travel', 'Travel destinations and tips'),
-                                               ('Education', 'Learning and educational resources'),
-                                               ('Sports', 'All about sports and activities'),
-                                               ('Food', 'Culinary delights and recipes');
+INSERT INTO categories (name) VALUES
+                                               ('Technology'),
+                                               ('Science'),
+                                               ('Art'),
+                                               ('Literature'),
+                                               ('Music'),
+                                               ('Health'),
+                                               ('Travel'),
+                                               ('Education'),
+                                               ('Sports'),
+                                               ('Food');
 
 -- TOPIC
 INSERT INTO topics (name, description, slug, topic_icon, topic_poster, id_category) VALUES

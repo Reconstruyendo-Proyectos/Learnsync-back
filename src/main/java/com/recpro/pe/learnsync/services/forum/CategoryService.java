@@ -27,16 +27,12 @@ public class CategoryService {
         if(categoryRepository.existsCategoryByName(request.getName())) {
             throw new ResourceAlreadyExistsException("La categoría "+ request.getName() +" existe");
         }
-        Category category = new Category(null, request.getName(), request.getDescription(), new ArrayList<>());
+        Category category = new Category(null, request.getName(), new ArrayList<>());
         categoryRepository.save(category);
         return Category.toDTO(category);
     }
 
     public Category getCategory(String name) {
         return categoryRepository.findByName(name).orElseThrow(() -> new ResourceNotExistsException("La categoria "+name+" no existe"));
-    }
-
-    public Category getCategoryById(Integer id) {
-        return categoryRepository.findById(id).orElseThrow(() -> new ResourceNotExistsException("La categoria con ID "+id+" no existe"));
     }
 }

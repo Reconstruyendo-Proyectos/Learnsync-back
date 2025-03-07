@@ -12,6 +12,5 @@ import java.util.List;
 public class CategoryDTO {
     private Integer idCategory;
     private String name;
-    private String description;
     private List<TopicDTO> topics;
 }
