@@ -44,7 +44,7 @@ public class AuthService {
 
     public UserDTO register(CreateUserDTO request) {
         Role role = roleService.getRole("STUDENT");
-        User user = new User(null, request.getUsername(), request.getEmail(), passwordEncoder.encode(request.getPassword()), false, false, null, 0, null, new ArrayList<>(), new ArrayList<>(), role, null);
+        User user = new User(null, request.getUsername(), request.getEmail(), passwordEncoder.encode(request.getPassword()), false, false, null, 0, null, new ArrayList<>(), new ArrayList<>(), role, null, new ArrayList<>());
         if(userRepository.existsByUsername(user.getUsername())){
             throw new ResourceAlreadyExistsException("El usuario "+user.getUsername()+" existe");
         }
@@ -113,7 +113,7 @@ public class AuthService {
         Optional<User> user = userRepository.findByUsername(request.getUsername());
         if(user.isEmpty()) {
             Role role = roleService.getRole("STUDENT");
-            User newUser = new User(null, request.getUsername(), request.getEmail(), null, true, false, null, 0, request.getProfilePhoto(), new ArrayList<>(), new ArrayList<>(), role, null);
+            User newUser = new User(null, request.getUsername(), request.getEmail(), null, true, false, null, 0, request.getProfilePhoto(), new ArrayList<>(), new ArrayList<>(), role, null, new ArrayList<>());
             userRepository.save(newUser);
         }
     }

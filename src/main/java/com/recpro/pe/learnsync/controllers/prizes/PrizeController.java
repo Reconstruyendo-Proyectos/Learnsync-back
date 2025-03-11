@@ -2,6 +2,7 @@ package com.recpro.pe.learnsync.controllers.prizes;
 
 import com.recpro.pe.learnsync.dtos.prizes.CreatePrizeDTO;
 import com.recpro.pe.learnsync.dtos.prizes.PrizeDTO;
+import com.recpro.pe.learnsync.dtos.prizes.PrizeToExchangeDTO;
 import com.recpro.pe.learnsync.services.prizes.PrizeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -34,5 +35,10 @@ public class PrizeController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deletePrize(@PathVariable int id) {
         return new ResponseEntity<>(prizeService.deletePrize(id), HttpStatus.NO_CONTENT);
+    }
+
+    @PostMapping("/exchange-prize/{id}")
+    public ResponseEntity<PrizeToExchangeDTO> exchangePrize(@PathVariable int id) {
+        return new ResponseEntity<>(prizeService.redeemPrize(id), HttpStatus.OK);
     }
 }
