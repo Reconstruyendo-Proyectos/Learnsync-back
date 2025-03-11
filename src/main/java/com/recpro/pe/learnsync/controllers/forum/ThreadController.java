@@ -36,7 +36,7 @@ public class ThreadController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ThreadDTO> getThread(@PathVariable int id) {
-        return new ResponseEntity<>(Thread.toDTO(threadService.getThread(id)), HttpStatus.FOUND);
+        return new ResponseEntity<>(Thread.toDTO(threadService.getThread(id)), HttpStatus.OK);
     }
 
     @PostMapping("/create/")

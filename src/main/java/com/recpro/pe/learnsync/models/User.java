@@ -47,26 +47,23 @@ public class User {
     @Column(name = "profile_photo")
     private String profilePhoto;
 
-    // Mapear 1 a Muchos con Comment
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Comment> comments;
 
-    // Mapear 1 a Muchos con Thread
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Thread> threads;
 
     // Mapear 1 a Muchos con Maze
 
-    // Mapear Muchos a 1 con Role
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_role", nullable = false, referencedColumnName = "id_role")
     private Role role;
 
-    // Mapear 1 a 1 con ConfirmationToken
     @OneToOne(mappedBy = "user")
     private ConfirmationToken token;
 
-    // Mapear Muchos a Uno con Prize
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Exchange> exchanges;
 
     public static UserDTO toDto(User user) {
         return new UserDTO(user.getUsername(), user.getEmail(), user.getCreationDate(), user.getBanDate(), user.getPoints(), user.getProfilePhoto(), Role.toDto(user.getRole()));
