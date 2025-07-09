@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("topic")
+@RequestMapping("api/topic")
 public class TopicController {
 
     @Autowired private TopicService topicService;
 
-    @GetMapping("/list/")
+    @GetMapping("")
     public ResponseEntity<List<TopicDTO>> listTopics(@RequestParam int page) {
         return new ResponseEntity<>(topicService.listTopics(PageRequest.of(page, 10)), HttpStatus.OK);
     }
@@ -29,7 +29,7 @@ public class TopicController {
         return new ResponseEntity<>(Topic.toDTO(topicService.getTopic(slug)), HttpStatus.OK);
     }
 
-    @PostMapping("/create/")
+    @PostMapping("")
     public ResponseEntity<TopicDTO> createTopic(@Valid @RequestBody CreateTopicDTO request) {
         return new ResponseEntity<>(topicService.createTopic(request), HttpStatus.CREATED);
     }

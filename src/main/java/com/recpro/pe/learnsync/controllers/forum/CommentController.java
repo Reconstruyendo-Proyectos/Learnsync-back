@@ -13,17 +13,17 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("comment")
+@RequestMapping("api/comment")
 public class CommentController {
 
     @Autowired private CommentService commentService;
 
-    @GetMapping("/list/")
-    public ResponseEntity<List<CommentDTO>> listComments(@RequestParam int page) {
+    @GetMapping("")
+    public ResponseEntity<List<CommentDTO>> getComments(@RequestParam int page) {
         return new ResponseEntity<>(commentService.listComments(PageRequest.of(page, 10)), HttpStatus.OK);
     }
 
-    @PostMapping("/create/")
+    @PostMapping("")
     public ResponseEntity<CommentDTO> createComment(@Valid @RequestBody CreateCommentDTO request) {
         return new ResponseEntity<>(commentService.createComment(request), HttpStatus.CREATED);
     }

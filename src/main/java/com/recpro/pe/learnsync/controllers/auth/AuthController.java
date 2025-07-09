@@ -12,12 +12,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("auth")
+@RequestMapping("api/auth")
 @CrossOrigin("http://localhost:4200")
 public class AuthController {
     @Autowired private AuthService authService;
 
-    @PostMapping("/register/")
+    @PostMapping("/register")
     public ResponseEntity<UserDTO> register(@Valid @RequestBody CreateUserDTO request) {
         return new ResponseEntity<>(authService.register(request), HttpStatus.CREATED);
     }
@@ -27,13 +27,8 @@ public class AuthController {
         return new ResponseEntity<>(authService.activateAccount(token), HttpStatus.OK);
     }
 
-    @PostMapping("/login/")
+    @PostMapping("/login")
     public ResponseEntity<AuthResponseDTO> login(@Valid @RequestBody AuthRequestDTO request) {
         return new ResponseEntity<>(authService.login(request), HttpStatus.OK);
-    }
-
-    @GetMapping("/user-by-token/")
-    public ResponseEntity<AuthResponseDTO> getUserByToken(@RequestParam String token) {
-        return new ResponseEntity<>(authService.getUserByToken(token), HttpStatus.OK);
     }
 }

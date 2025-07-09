@@ -13,17 +13,17 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("category")
+@RequestMapping("api/category")
 @CrossOrigin(origins = "http://localhost:4200")
 public class CategoryController {
     @Autowired private CategoryService categoryService;
 
-    @GetMapping("/list/")
+    @GetMapping("")
     public ResponseEntity<List<CategoryDTO>> getCategories(@RequestParam int page) {
         return new ResponseEntity<>(categoryService.listCategory(PageRequest.of(page, 10)), HttpStatus.OK);
     }
 
-    @PostMapping("/create/")
+    @PostMapping("")
     public ResponseEntity<CategoryDTO> createCategory(@Valid @RequestBody CreateCategoryDTO request) {
         return new ResponseEntity<>(categoryService.createCategory(request), HttpStatus.CREATED);
     }

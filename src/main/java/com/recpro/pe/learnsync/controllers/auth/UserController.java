@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("user")
+@RequestMapping("api/user")
 @CrossOrigin("http://localhost:4200")
 public class UserController {
     @Autowired private UserService userService;
@@ -20,17 +20,17 @@ public class UserController {
         return new ResponseEntity<>(User.toDto(userService.getAuthenticatedUser()), HttpStatus.OK);
     }
 
-    @PatchMapping("/upload-profile/photo/")
+    @PatchMapping("/photo")
     public ResponseEntity<Void> uploadProfilePhoto(@RequestBody ImageUserDTO request) {
         return new ResponseEntity<>(userService.uploadProfilePhoto(request), HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping("/delete-profile-photo/")
+    @DeleteMapping("/photo")
     public ResponseEntity<Void> deleteProfilePhoto() {
         return new ResponseEntity<>(userService.deleteProfilePhoto(), HttpStatus.NO_CONTENT);
     }
 
-    @PatchMapping("/upload-profile/username/")
+    @PatchMapping("/username")
     public ResponseEntity<Void> uploadProfileUsername(@RequestParam String username) {
         return new ResponseEntity<>(userService.uploadUsername(username), HttpStatus.NO_CONTENT);
     }

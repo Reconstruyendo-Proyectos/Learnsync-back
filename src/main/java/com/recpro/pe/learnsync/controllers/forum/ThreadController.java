@@ -14,16 +14,17 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("thread")
+@RequestMapping("api/thread")
 public class ThreadController {
 
     @Autowired private ThreadService threadService;
 
-    @GetMapping("/list/")
-    public ResponseEntity<List<ThreadDTO>> listThreads(@RequestParam int page) {
+    @GetMapping("")
+    public ResponseEntity<List<ThreadDTO>> getThreads(@RequestParam int page) {
         return new ResponseEntity<>(threadService.listThreads(PageRequest.of(page, 10)), HttpStatus.OK);
     }
 
+    // Refactorizar en el listado
     @GetMapping("/list/creation-date/{slug}")
     public ResponseEntity<List<ThreadDTO>> listThreadsByCreationDate(@PathVariable String slug, @RequestParam int page) {
         return new ResponseEntity<>(threadService.listThreadsByCreationDate(slug, PageRequest.of(page, 10)), HttpStatus.OK);
@@ -39,7 +40,7 @@ public class ThreadController {
         return new ResponseEntity<>(Thread.toDTO(threadService.getThread(id)), HttpStatus.OK);
     }
 
-    @PostMapping("/create/")
+    @PostMapping("")
     public ResponseEntity<ThreadDTO> createThread(@Valid @RequestBody CreateThreadDTO request) {
         return new ResponseEntity<>(threadService.createThread(request), HttpStatus.CREATED);
     }

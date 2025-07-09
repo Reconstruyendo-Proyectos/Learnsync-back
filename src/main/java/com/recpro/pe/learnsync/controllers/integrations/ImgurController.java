@@ -9,16 +9,16 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequestMapping("file")
+@RequestMapping("api/file")
 public class ImgurController {
     @Autowired private ImgurService imgurService;
 
-    @PostMapping("/upload-file/")
+    @PostMapping("")
     public ResponseEntity<ImageResponseDTO> uploadFile(@RequestParam("file") MultipartFile file) {
         return new ResponseEntity<>(imgurService.uploadImage(file), HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete/{deleteHash}")
+    @DeleteMapping("/{deleteHash}")
     public ResponseEntity<Void> deleteFile(@PathVariable String deleteHash) {
         return new ResponseEntity<>(imgurService.deleteImage(deleteHash), HttpStatus.NO_CONTENT);
     }
