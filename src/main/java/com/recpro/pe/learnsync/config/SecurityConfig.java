@@ -40,12 +40,12 @@ public class SecurityConfig {
                 // Permit request to all endpoints of AuthController without authentication
                 .authorizeHttpRequests(auth -> {
                     // Configure public endpoints
-                    auth.requestMatchers(HttpMethod.GET, "/auth/**").permitAll();
-                    auth.requestMatchers(HttpMethod.POST, "/auth/**").permitAll();
-                    auth.requestMatchers(HttpMethod.PATCH, "/auth/**").permitAll();
-                    auth.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
+                    auth.requestMatchers(HttpMethod.GET, "/api/auth/**").permitAll();
+                    auth.requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll();
+                    auth.requestMatchers(HttpMethod.PATCH, "/api/auth/**").permitAll();
+                    auth.requestMatchers(HttpMethod.OPTIONS, "/api/**").permitAll();
                     auth.requestMatchers(HttpMethod.GET, "/assets/**").permitAll();
-                    auth.requestMatchers(HttpMethod.GET, "/topic/**", "/thread/**", "/category/**", "/comment/**").permitAll();
+                    auth.requestMatchers(HttpMethod.GET, "/api/topic/**", "/api/thread/**", "/api/category/**", "/api/comment/**").permitAll();
                     auth.requestMatchers("/doc/**", "/v3/api-docs/**").permitAll();
                     auth.requestMatchers("/h2-console").permitAll();
                     // Configure the others endpoints

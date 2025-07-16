@@ -36,7 +36,7 @@ public class CategoryControllerTest {
         AuthRequestDTO request = new AuthRequestDTO("jluyo", "upao2025");
         String authJson = objectMapper.writeValueAsString(request);
         ResultActions resultActions = this.mockMvc
-                .perform(post("/auth/login/")
+                .perform(post("/api/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(authJson));
         MvcResult mvcResult = resultActions.andDo(print()).andExpect(status().isOk()).andReturn();
@@ -49,21 +49,20 @@ public class CategoryControllerTest {
 
     @Test
     void testListCategories() throws Exception {
-        mockMvc.perform(get("/category/list/")
+        mockMvc.perform(get("/api/category")
                         .param("page", "0"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(not(0))))
-                .andExpect(jsonPath("$[0].idCategory").value(1))
-                .andExpect(jsonPath("$[1].name").value("Science"))
-                .andExpect(jsonPath("$[2].description").value("Artistic expressions and creativity"));
+                .andExpect(jsonPath("$[0].idCategory").value(3))
+                .andExpect(jsonPath("$[1].name").value("Education"));
     }
 
     @Test
     void testCreateCategory() throws Exception {
-        CreateCategoryDTO request = new CreateCategoryDTO("Ciclo I", "Categoria para el ciclo I");
+        CreateCategoryDTO request = new CreateCategoryDTO("Ciclo I");
         String categoryJson = objectMapper.writeValueAsString(request);
 
-        mockMvc.perform(post("/category/create/")
+        mockMvc.perform(post("/api/category")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(categoryJson)
                         .header("Authorization", token))
@@ -72,16 +71,15 @@ public class CategoryControllerTest {
                 .andExpect(jsonPath("$", notNullValue()))
                 .andExpect(jsonPath("$.idCategory").value(11))
                 .andExpect(jsonPath("$.name").value("Ciclo I"))
-                .andExpect(jsonPath("$.description").value("Categoria para el ciclo I"))
                 .andExpect(jsonPath("$.topics").isEmpty());
     }
 
     @Test
     void testCreateCategoryWhenCategoryExists() throws Exception {
-        CreateCategoryDTO request = new CreateCategoryDTO("Technology", "Categoria para el ciclo I");
+        CreateCategoryDTO request = new CreateCategoryDTO("Technology");
         String categoryJson = objectMapper.writeValueAsString(request);
 
-        mockMvc.perform(post("/category/create/")
+        mockMvc.perform(post("/api/category")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(categoryJson)
                         .header("Authorization", token))
@@ -91,18 +89,16 @@ public class CategoryControllerTest {
 
     @Test
     void testCreateCategoryWhenAtributtesAreEmptyOrNull() throws Exception {
-        CreateCategoryDTO request = new CreateCategoryDTO(" ", "ESTO ES UNA DESCRIPCION DE MAS DE 50 CARACTERES DE TAMAÑO");
+        CreateCategoryDTO request = new CreateCategoryDTO(" ");
         String categoryJson = objectMapper.writeValueAsString(request);
 
-        mockMvc.perform(post("/category/create/")
+        mockMvc.perform(post("/api/category")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(categoryJson)
                         .header("Authorization", token))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message").value("Validation failed"))
                 .andExpect(jsonPath("$.errors", hasKey("name")))
-                .andExpect(jsonPath("$.errors", hasKey("description")))
-                .andExpect(jsonPath("$.errors.name", containsInAnyOrder("No es valido un dato con solo espacio en blanco")))
-                .andExpect(jsonPath("$.errors.description", containsInAnyOrder("La descripción tiene un maximo de 50 caracteres")));
+                .andExpect(jsonPath("$.errors.name", containsInAnyOrder("No es valido un dato con solo espacio en blanco")));
     }
 }

@@ -41,14 +41,14 @@ public class TopicServiceTest {
 
     @BeforeEach
     void setUp() {
-        category = new Category(1, "General", "General discussion topics", new ArrayList<>());
+        category = new Category(1, "General", new ArrayList<>());
 
         topics = List.of(
-                new Topic(1, "Java Basics", "Introduction to Java programming", "java-basics", category, new ArrayList<>()),
-                new Topic(2, "Advanced Java", "Deep dive into Java programming", "advanced-java", category, new ArrayList<>()),
-                new Topic(3, "Spring Framework", "Introduction to Spring Framework", "spring-framework", category, new ArrayList<>()),
-                new Topic(4, "Machine Learning", "Introduction to machine learning", "machine-learning", category, new ArrayList<>()),
-                new Topic(5, "Deep Learning", "Understanding deep learning algorithms", "deep-learning", category, new ArrayList<>())
+                new Topic(1, "Java Basics", "Introduction to Java programming", "java-basics", "icon-java", "poster-java", category, new ArrayList<>()),
+                new Topic(2, "Advanced Java", "Deep dive into Java programming", "advanced-java", "icon-advanced", "poster-advanced", category, new ArrayList<>()),
+                new Topic(3, "Spring Framework", "Introduction to Spring Framework", "spring-framework", "icon-java", "poster-java", category, new ArrayList<>()),
+                new Topic(4, "Machine Learning", "Introduction to machine learning", "machine-learning", "icon-java", "poster-java", category, new ArrayList<>()),
+                new Topic(5, "Deep Learning", "Understanding deep learning algorithms", "deep-learning", "icon-java", "poster-java", category, new ArrayList<>())
         );
     }
 
@@ -74,7 +74,7 @@ public class TopicServiceTest {
     @Test
     void testCreateTopic() {
         // Given
-        CreateTopicDTO createTopic = new CreateTopicDTO("New Topic", "New Description", "General");
+        CreateTopicDTO createTopic = new CreateTopicDTO("New Topic", "New Description", "General", "icon-java", "poster-java");
 
         // When
         when(categoryService.getCategory(anyString())).thenReturn(category);
@@ -93,7 +93,7 @@ public class TopicServiceTest {
     @Test
     void testCreateTopicWhenTopicNameExists() {
         // Given
-        CreateTopicDTO createTopic = new CreateTopicDTO("Java Basics", "New Description", "General");
+        CreateTopicDTO createTopic = new CreateTopicDTO("Java Basics", "New Description", "General", "icon-java", "poster-java");
 
         // When
         when(topicRepository.existsTopicByName(anyString())).thenReturn(true);
@@ -106,7 +106,7 @@ public class TopicServiceTest {
     @Test
     void testCreateTopicWhenCategoryNotExists() {
         // Given
-        CreateTopicDTO createTopic = new CreateTopicDTO("New Topic", "New Description", "CATEGORY_NOT_EXISTS");
+        CreateTopicDTO createTopic = new CreateTopicDTO("New Topic", "New Description", "CATEGORY_NOT_EXISTS", "icon-java", "poster-java");
 
         // When
         when(categoryService.getCategory(anyString())).thenThrow(new ResourceNotExistsException("La categoria "+createTopic.getCategoryName()+" no existe"));

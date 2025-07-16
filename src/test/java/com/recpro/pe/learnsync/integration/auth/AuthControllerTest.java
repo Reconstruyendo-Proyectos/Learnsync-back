@@ -33,7 +33,7 @@ public class AuthControllerTest {
     void testRegister() throws Exception {
         CreateUserDTO request = new CreateUserDTO("admin", "newAccount", "josemarialuyocampos@gmail.com");
         String userJson = objectMapper.writeValueAsString(request);
-        mockMvc.perform(post("/auth/register/")
+        mockMvc.perform(post("/api/auth/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(userJson))
                 .andExpect(status().isCreated())
@@ -49,7 +49,7 @@ public class AuthControllerTest {
     void testRegisterWhenUsernameExists() throws Exception {
         CreateUserDTO request = new CreateUserDTO("jluyo", "newAccount", "josemarialuyocampos@gmail.com");
         String userJson = objectMapper.writeValueAsString(request);
-        mockMvc.perform(post("/auth/register/")
+        mockMvc.perform(post("/api/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(userJson))
                 .andExpect(status().isConflict())
@@ -60,7 +60,7 @@ public class AuthControllerTest {
     void testRegisterWhenEmailExists() throws Exception {
         CreateUserDTO request = new CreateUserDTO("new_user", "newAccount", "jluyoc1@upao.edu.pe");
         String userJson = objectMapper.writeValueAsString(request);
-        mockMvc.perform(post("/auth/register/")
+        mockMvc.perform(post("/api/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(userJson))
                 .andExpect(status().isConflict())
@@ -71,7 +71,7 @@ public class AuthControllerTest {
     void testRegisterWhenAtributtesAreEmptyOrNull() throws Exception {
         CreateUserDTO request = new CreateUserDTO("", " ", "hola");
         String userJson = objectMapper.writeValueAsString(request);
-        mockMvc.perform(post("/auth/register/")
+        mockMvc.perform(post("/api/auth/register")
                         .content(userJson)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
@@ -86,7 +86,7 @@ public class AuthControllerTest {
 
     @Test
     void testActiveAccount() throws Exception {
-        mockMvc.perform(get("/auth/confirmation-token/550e8400-e29b-41d4-a716-446655440001")
+        mockMvc.perform(get("/api/auth/confirmation-token/550e8400-e29b-41d4-a716-446655440001")
                         .pathInfo("/550e8400-e29b-41d4-a716-446655440001")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -98,7 +98,7 @@ public class AuthControllerTest {
 
     @Test
     void testActiveAccountWhenTokenNotExists() throws Exception {
-        mockMvc.perform(get("/auth/confirmation-token/a-sdf")
+        mockMvc.perform(get("/api/auth/confirmation-token/a-sdf")
                         .pathInfo("/a-sdf")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
@@ -107,7 +107,7 @@ public class AuthControllerTest {
 
     @Test
     void testActiveAccountWhenEmailHasConfirmed() throws Exception {
-        mockMvc.perform(get("/auth/confirmation-token/550e8400-e29b-41d4-a716-446655440003")
+        mockMvc.perform(get("/api/auth/confirmation-token/550e8400-e29b-41d4-a716-446655440003")
                         .pathInfo("/550e8400-e29b-41d4-a716-446655440000")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isConflict())
@@ -116,7 +116,7 @@ public class AuthControllerTest {
 
     @Test
     void testActiveAccountWhenTokenWasExpired() throws Exception {
-        mockMvc.perform(get("/auth/confirmation-token/550e8400-e29b-41d4-a716-446655440002")
+        mockMvc.perform(get("/api/auth/confirmation-token/550e8400-e29b-41d4-a716-446655440002")
                         .contentType(MediaType.APPLICATION_JSON)
                         .pathInfo("/550e8400-e29b-41d4-a716-446655440002"))
                 .andExpect(status().isConflict())
@@ -128,16 +128,14 @@ public class AuthControllerTest {
         AuthRequestDTO request = new AuthRequestDTO("jluyo", "upao2025");
         String authJson = objectMapper.writeValueAsString(request);
 
-        mockMvc.perform(post("/auth/login/")
+        mockMvc.perform(post("/api/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(authJson))
                 .andExpect(jsonPath("$", notNullValue()))
-                .andExpect(jsonPath("$.user").value("jluyo"))
-                .andExpect(jsonPath("$.role").value("[ROLE_ADMIN]"))
                 .andExpect(jsonPath("$.token", not(emptyOrNullString())))
                 .andExpect(jsonPath("$.token").value(matchesPattern("^[A-Za-z0-9-_]+\\.[A-Za-z0-9-_]+\\.[A-Za-z0-9-_]+$")));
 
-        String token = mockMvc.perform(post("/auth/login/")
+        String token = mockMvc.perform(post("/api/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(authJson))
                 .andReturn()
@@ -156,7 +154,7 @@ public class AuthControllerTest {
     void testLoginWhenUserNotExists() throws Exception {
         AuthRequestDTO request = new AuthRequestDTO("USER_NOT_EXISTS", "password");
         String authJson = objectMapper.writeValueAsString(request);
-        mockMvc.perform(post("/auth/login/")
+        mockMvc.perform(post("/api/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(authJson))
                 .andExpect(status().isNotFound())
@@ -167,12 +165,10 @@ public class AuthControllerTest {
     void testLoginWhenPasswordNotMatches() throws Exception {
         AuthRequestDTO request = new AuthRequestDTO("jluyo", "PASSWORD_NOT_MATCHES");
         String authJson = objectMapper.writeValueAsString(request);
-        mockMvc.perform(post("/auth/login/")
+        mockMvc.perform(post("/api/auth/login")
                 .content(authJson)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$").value("Contraseña inválida"));
     }
-
-
 }

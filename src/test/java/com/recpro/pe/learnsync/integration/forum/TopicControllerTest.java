@@ -37,7 +37,7 @@ public class TopicControllerTest {
         AuthRequestDTO request = new AuthRequestDTO("jluyo", "upao2025");
         String authJson = objectMapper.writeValueAsString(request);
         ResultActions resultActions = this.mockMvc
-                .perform(post("/auth/login/")
+                .perform(post("/api/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(authJson));
         MvcResult mvcResult = resultActions.andDo(print()).andExpect(status().isOk()).andReturn();
@@ -50,7 +50,7 @@ public class TopicControllerTest {
 
     @Test
     void testListTopics() throws Exception {
-        mockMvc.perform(get("/topic/list/")
+        mockMvc.perform(get("/api/topic")
                 .param("page", "0"))
                 .andExpect(jsonPath("$", hasSize(not(0))))
                 .andExpect(jsonPath("$[0].idTopic").value(1))
@@ -61,10 +61,10 @@ public class TopicControllerTest {
 
     @Test
     void createTopic() throws Exception {
-        CreateTopicDTO request = new CreateTopicDTO("Formativa I", "Descripcion para Formativa I", "Music");
+        CreateTopicDTO request = new CreateTopicDTO("Formativa I", "Descripcion para Formativa I", "Music", "icon", "poster");
         String topicJson = objectMapper.writeValueAsString(request);
 
-        mockMvc.perform(post("/topic/create/")
+        mockMvc.perform(post("/api/topic")
                 .header("Authorization", token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(topicJson))
@@ -74,16 +74,15 @@ public class TopicControllerTest {
                 .andExpect(jsonPath("$.idTopic").value(16))
                 .andExpect(jsonPath("$.name").value("Formativa I"))
                 .andExpect(jsonPath("$.description").value("Descripcion para Formativa I"))
-                .andExpect(jsonPath("$.slug").value("formativa-i"))
-                .andExpect(jsonPath("$.threads").isEmpty());
+                .andExpect(jsonPath("$.slug").value("formativa-i"));
     }
 
     @Test
     void createTopicWhenTopicNameExists() throws Exception {
-        CreateTopicDTO request = new CreateTopicDTO("Advanced Java", "Descripcion para Formativa I", "Music");
+        CreateTopicDTO request = new CreateTopicDTO("Advanced Java", "Descripcion para Formativa I", "Music", "icon", "poster");
         String topicJson = objectMapper.writeValueAsString(request);
 
-        mockMvc.perform(post("/topic/create/")
+        mockMvc.perform(post("/api/topic")
                 .header("Authorization", token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(topicJson))
@@ -93,10 +92,10 @@ public class TopicControllerTest {
 
     @Test
     void createTopicWhenCategoryNotExists() throws Exception {
-        CreateTopicDTO request = new CreateTopicDTO("Formativa II", "Descripcion para Formativa I", "Musicaaa");
+        CreateTopicDTO request = new CreateTopicDTO("Formativa II", "Descripcion para Formativa I", "Musicaaa", "icon", "poster");
         String topicJson = objectMapper.writeValueAsString(request);
 
-        mockMvc.perform(post("/topic/create/")
+        mockMvc.perform(post("/api/topic")
                         .header("Authorization", token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(topicJson))
@@ -106,10 +105,10 @@ public class TopicControllerTest {
 
     @Test
     void testCreateTopicWhenAtributtesAreEmptyOrNull() throws Exception {
-        CreateTopicDTO request = new CreateTopicDTO(" ", "ESTO ES UNA DESCRIPCION DE MAS DE 50 CARACTERES DE TAMAÑO", null);
+        CreateTopicDTO request = new CreateTopicDTO(" ", "ESTO ES UNA DESCRIPCION DE MAS DE 50 CARACTERES DE TAMAÑO", null, "icon", "poster");
         String topicJson = objectMapper.writeValueAsString(request);
 
-        mockMvc.perform(post("/topic/create/")
+        mockMvc.perform(post("/api/topic")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(topicJson)
                         .header("Authorization", token))
@@ -125,9 +124,9 @@ public class TopicControllerTest {
 
     @Test
     void testGetTopic() throws Exception {
-        mockMvc.perform(get("/topic/advanced-java")
+        mockMvc.perform(get("/api/topic/advanced-java")
                 .pathInfo("/advanced-java"))
-                .andExpect(status().isFound())
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$", notNullValue()))
                 .andExpect(jsonPath("$.idTopic").value(2))
                 .andExpect(jsonPath("$.name").value("Advanced Java"))
@@ -137,7 +136,7 @@ public class TopicControllerTest {
 
     @Test
     void testGetTopicWhenTopicNotExists() throws Exception {
-        mockMvc.perform(get("/topic/topic-not-exists")
+        mockMvc.perform(get("/api/topic/topic-not-exists")
                 .pathInfo("/topic-not-exists"))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$").value("El tópico Topic Not Exists no existe"));

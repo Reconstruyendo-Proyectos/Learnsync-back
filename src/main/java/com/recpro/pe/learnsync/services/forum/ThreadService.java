@@ -22,12 +22,12 @@ public class ThreadService {
     @Autowired private TopicService topicService;
 
     public List<ThreadDTO> listThreads(Pageable pageable) {
-        return threadRepository.findAllByOrderByCreationDateDesc(pageable).stream().map(Thread::toDTO).toList();
+        return threadRepository.findAllByOrderByIdThreadDesc(pageable).stream().map(Thread::toDTO).toList();
     }
 
     public List<ThreadDTO> listThreadsByCreationDate(String slug, Pageable pageable) {
         Topic topic = topicService.getTopic(slug);
-        return threadRepository.findByTopicOrderByCreationDateDesc(topic, pageable).stream().map(Thread::toDTO).toList();
+        return threadRepository.findByTopicOrderByIdThreadDesc(topic, pageable).stream().map(Thread::toDTO).toList();
     }
 
     public List<ThreadDTO> listThreadsByInteractions(Pageable pageable) {

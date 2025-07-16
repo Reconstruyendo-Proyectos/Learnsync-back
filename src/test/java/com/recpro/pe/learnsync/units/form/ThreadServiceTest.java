@@ -44,14 +44,14 @@ public class ThreadServiceTest {
 
     @BeforeEach
     void setUp() {
-        user = new User(1, "jluyo", "jluyoc1@upao.edu.pe", "upao2025", true, false, null, 100, new ArrayList<>(), new ArrayList<>(), new Role(1, ERole.ADMIN, new ArrayList<>()), null);
-        topic = new Topic(1, "Java Basics", "Introduction to Java programming", "java-basics", new Category(1, "Programming", "All about programming topics", new ArrayList<>()), new ArrayList<>());
+        user = new User(1, "jluyo", "jluyoc1@upao.edu.pe", "upao2025", true, false, null, 100, null, new ArrayList<>(), new ArrayList<>(), new Role(1, ERole.ADMIN, new ArrayList<>()), null, new ArrayList<>());
+        topic = new Topic(1, "Java Basics", "Introduction to Java programming", "java-basics", "icon-java", "poster-java", new Category(1, "Programming", new ArrayList<>()), new ArrayList<>());
         threads = List.of(
-                new Thread(1, "Getting Started with Java", "This thread is for beginners starting with Java.", topic, user, new ArrayList<>()),
-                new Thread(2, "Java Collections", "Discussion on Java Collections Framework.", topic, user, new ArrayList<>()),
-                new Thread(3, "Java Concurrency", "Let's talk about concurrency and multithreading in Java.", topic, user, new ArrayList<>()),
-                new Thread(4, "Java Streams API", "Exploring the Java Streams API.", topic, user, new ArrayList<>()),
-                new Thread(5, "Java Best Practices", "Share your best practices for writing Java code.", topic, user, new ArrayList<>())
+                new Thread(1, "Getting Started with Java", "This thread is for beginners starting with Java.", 0, 0, null, topic, user, new ArrayList<>()),
+                new Thread(2, "Java Collections", "Discussion on Java Collections Framework.", 0, 0, null, topic, user, new ArrayList<>()),
+                new Thread(3, "Java Concurrency", "Let's talk about concurrency and multithreading in Java.", 0, 0, null, topic, user, new ArrayList<>()),
+                new Thread(4, "Java Streams API", "Exploring the Java Streams API.", 0, 0, null, topic, user, new ArrayList<>()),
+                new Thread(5, "Java Best Practices", "Share your best practices for writing Java code.", 0, 0, null, topic, user, new ArrayList<>())
         );
     }
 
@@ -62,7 +62,7 @@ public class ThreadServiceTest {
         Page<Thread> page = new PageImpl<>(threads.subList(0, 3), pageable, threads.size());
 
         // When
-        when(threadRepository.findAll(pageable)).thenReturn(page);
+        when(threadRepository.findAllByOrderByIdThreadDesc(pageable)).thenReturn(page);
 
         List<ThreadDTO> result = threadService.listThreads(pageable);
 
@@ -80,7 +80,7 @@ public class ThreadServiceTest {
         CreateThreadDTO createThread = new CreateThreadDTO("New Thread", "New Description", "jluyo", "Java Basics");
 
         // When
-        when(userService.findByUser(anyString())).thenReturn(user);
+        when(userService.getAuthenticatedUser()).thenReturn(user);
         when(topicService.getTopic(anyString())).thenReturn(topic);
         ThreadDTO result = threadService.createThread(createThread);
 
@@ -95,23 +95,9 @@ public class ThreadServiceTest {
     }
 
     @Test
-    void testCreateThreadWhenUserNotExists() {
-        // Given
-        CreateThreadDTO createThread = new CreateThreadDTO("New Thread", "New Description", "USER_NOT_EXISTS", "Java Basics");
-
-        // When
-        when(userService.findByUser(anyString())).thenThrow(new ResourceNotExistsException("El usuario "+ createThread.getUsername() + " no fue encontrado"));
-        ResourceNotExistsException ex = assertThrows(ResourceNotExistsException.class, () -> threadService.createThread(createThread));
-
-        // Then
-        verify(userService).findByUser(anyString());
-        assertThat(ex.getMessage()).isEqualTo("El usuario USER_NOT_EXISTS no fue encontrado");
-    }
-
-    @Test
     void testCreateThreadWhenTopicNotExists() {
         // Given
-        CreateThreadDTO createThread = new CreateThreadDTO("New Thread", "New Description", "jluyo", "TOPIC-NOT-EXISTS");
+        CreateThreadDTO createThread = new CreateThreadDTO("New Thread", "New Description", "TOPIC-NOT-EXISTS", null);
 
         // When
         when(topicService.getTopic(anyString())).thenThrow(new ResourceNotExistsException("El tópico " + Topic.transformName(createThread.getSlug().replaceAll("-", " ")) + " no existe"));

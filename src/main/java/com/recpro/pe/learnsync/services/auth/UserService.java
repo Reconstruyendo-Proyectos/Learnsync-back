@@ -24,7 +24,7 @@ public class UserService {
 
     public User findByUser(String username) {
         String finalUsername = username.replace("-", " ");
-        return userRepository.findByUsername(finalUsername).orElseThrow(() -> new ResourceNotExistsException("El usuario "+ finalUsername + " no fue encontrado"));
+        return userRepository.findByUsername(finalUsername).orElseThrow(() -> new ResourceNotExistsException("El usuario no fue encontrado"));
     }
 
     public UserDTO banUser(BanUserDTO request) {

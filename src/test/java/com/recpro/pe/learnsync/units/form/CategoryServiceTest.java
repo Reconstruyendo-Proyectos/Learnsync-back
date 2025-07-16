@@ -39,11 +39,11 @@ public class CategoryServiceTest {
     @BeforeEach
     void setUp() {
         categories = List.of(
-                new Category(1, "Technology", "All about technology", new ArrayList<>()),
-                new Category(2, "Science", "Scientific discoveries and research", new ArrayList<>()),
-                new Category(3, "Art", "Artistic expressions and creativity", new ArrayList<>()),
-                new Category(4, "Literature", "Books and literary works", new ArrayList<>()),
-                new Category(5, "Music", "Musical genres and artists", new ArrayList<>())
+                new Category(1, "Technology", new ArrayList<>()),
+                new Category(2, "Science", new ArrayList<>()),
+                new Category(3, "Art", new ArrayList<>()),
+                new Category(4, "Literature", new ArrayList<>()),
+                new Category(5, "Music", new ArrayList<>())
         );
     }
 
@@ -63,13 +63,12 @@ public class CategoryServiceTest {
         assertThat(result).hasSize(3);
         assertThat(result.getFirst().getIdCategory()).isEqualTo(1);
         assertThat(result.get(1).getName()).isEqualTo("Science");
-        assertThat(result.getLast().getDescription()).isEqualTo("Artistic expressions and creativity");
     }
 
     @Test
     void testCreateCategory() {
         // Given
-        CreateCategoryDTO createCategory = new CreateCategoryDTO("Ciclo I", "Esta es la categoria para el ciclo I");
+        CreateCategoryDTO createCategory = new CreateCategoryDTO("Ciclo I");
 
         // When
         CategoryDTO result = categoryService.createCategory(createCategory);
@@ -80,13 +79,12 @@ public class CategoryServiceTest {
         assertThat(categoryArgumentCaptor.getValue().getName()).isEqualTo("Ciclo I");
 
         assertThat(result).isNotNull();
-        assertThat(result.getDescription()).isEqualTo("Esta es la categoria para el ciclo I");
     }
 
     @Test
     void testCreateCategoryWhenCategoryNameExists() {
         // Given
-        CreateCategoryDTO categoryDTO = new CreateCategoryDTO("Ciclo I", "Ciclo I - Descripcion");
+        CreateCategoryDTO categoryDTO = new CreateCategoryDTO("Ciclo I");
 
         // When
         when(categoryRepository.existsCategoryByName("Ciclo I")).thenReturn(true);
@@ -110,7 +108,6 @@ public class CategoryServiceTest {
         assertThat(result).isNotNull();
         assertThat(result.getIdCategory()).isEqualTo(1);
         assertThat(result.getName()).isEqualTo("Technology");
-        assertThat(result.getDescription()).isEqualTo("All about technology");
     }
 
     @Test

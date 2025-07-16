@@ -45,9 +45,9 @@ public class CommentServiceTest {
 
     @BeforeEach
     void setUp() {
-        user = new User(1, "jluyo", "jluyoc1@upao.edu.pe", "upao2025", true, false, null, 100, new ArrayList<>(), new ArrayList<>(), new Role(1, ERole.ADMIN, new ArrayList<>()), null);
-        Topic topic = new Topic(1, "Java Basics", "Introduction to Java programming", "java-basics",  new Category(1, "Programming", "All about programming topics", new ArrayList<>()), new ArrayList<>());
-        thread = new Thread(1, "Getting Started with Java", "This thread is for beginners starting with Java.", topic, user, new ArrayList<>());
+        user = new User(1, "jluyo", "jluyoc1@upao.edu.pe", "upao2025", true, false, null, 100, null, new ArrayList<>(), new ArrayList<>(), new Role(1, ERole.ADMIN, new ArrayList<>()), null, new ArrayList<>());
+        Topic topic = new Topic(1, "Java Basics", "Introduction to Java programming", "java-basics", "icon-java", "poster-java",  new Category(1, "Programming", new ArrayList<>()), new ArrayList<>());
+        thread = new Thread(1, "Getting Started with Java", "This thread is for beginners starting with Java.", 0, 0, null, topic, user, new ArrayList<>());
 
         comments = List.of(
                 new Comment(1, "This is a great starting point!", thread, user),

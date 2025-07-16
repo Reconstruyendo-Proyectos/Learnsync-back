@@ -246,16 +246,12 @@ public class AuthServiceTest {
         // Given
         AuthRequestDTO request = new AuthRequestDTO("username", "password");
         UserDetails userDetails = mock(UserDetails.class);
-        DecodedJWT decodedJWT = mock(DecodedJWT.class);
-        Claim claim = mock(Claim.class);
 
         // When
         when(userDetailsService.loadUserByUsername("username")).thenReturn(userDetails);
-        when(passwordEncoder.matches("password", userDetails.getPassword())).thenReturn(true);
+        when(userDetails.getPassword()).thenReturn("$2a$10$C6wCl1T//l1uD9rOgbWV..SNN3puoSw9n.iEfHIMMrZmelmN5Ivya");
+        when(passwordEncoder.matches("password", "$2a$10$C6wCl1T//l1uD9rOgbWV..SNN3puoSw9n.iEfHIMMrZmelmN5Ivya")).thenReturn(true);
         when(jwtUtils.generateToken(any(Authentication.class))).thenReturn("accessToken");
-        when(jwtUtils.validateJWT("accessToken")).thenReturn(decodedJWT);
-        when(jwtUtils.extractSpecificClaim(any(DecodedJWT.class), eq("authorities"))).thenReturn(claim);
-        when(claim.asString()).thenReturn("ROLE_STUDENT");
 
         AuthResponseDTO result = authService.login(request);
 

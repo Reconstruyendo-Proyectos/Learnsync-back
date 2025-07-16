@@ -63,8 +63,8 @@ CREATE TABLE threads (
                          title VARCHAR(255) NOT NULL,
                          message TEXT NOT NULL,
                          creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                         likes INT NOT NULL,
-                         stars INT NOT NULL,
+                         likes INT NOT NULL DEFAULT 0,
+                         stars INT NOT NULL DEFAULT 0,
                          file VARCHAR(255),
                          id_topic INT NOT NULL,
                          id_user INT NOT NULL,
@@ -84,53 +84,62 @@ CREATE TABLE comments (
                           FOREIGN KEY (id_user) REFERENCES users(id_user)
 );
 
+-- PRIZE
+
+CREATE TABLE prizes (
+                        id_prize SERIAL PRIMARY KEY,
+                        name VARCHAR(255) NOT NULL,
+                        description VARCHAR(255) NOT NULL,
+                        price INT NOT NULL,
+                        image VARCHAR(255) NOT NULL
+);
+
+-- EXCHANGE
+
+CREATE TABLE exchanges (
+                           id_user INT NOT NULL,
+                           id_prize INT NOT NULL,
+                           redemption_date TIMESTAMP,
+                           PRIMARY KEY (id_user, id_prize),
+                           FOREIGN KEY (id_user) REFERENCES users(id_user),
+                           FOREIGN KEY (id_prize) REFERENCES prizes(id_prize)
+);
+
 -- INSERTANDO VALORES PARA LAS TABLAS
 
 -- CATEGORY
+
 INSERT INTO categories (name) VALUES
-                                               ('Technology'),
-                                               ('Science'),
-                                               ('Art'),
-                                               ('Literature'),
-                                               ('Music'),
-                                               ('Health'),
-                                               ('Travel'),
-                                               ('Education'),
-                                               ('Sports'),
-                                               ('Food');
+                                  ('Technology'),
+                                  ('Science'),
+                                  ('Art'),
+                                  ('Literature'),
+                                  ('Music'),
+                                  ('Health'),
+                                  ('Travel'),
+                                  ('Education'),
+                                  ('Sports'),
+                                  ('Food');
 
 -- TOPIC
+
 INSERT INTO topics (name, description, slug, topic_icon, topic_poster, id_category) VALUES
-                                                                                        ('Introduction to Java', 'A beginner''s guide to Java programming', 'introduction-to-java',
-                                                                                         'https://picsum.photos/64/64?random=1', 'https://picsum.photos/1200/600?random=1', 1),
-                                                                                        ('Advanced Java', 'Deep dive into Java programming', 'advanced-java',
-                                                                                         'https://picsum.photos/64/64?random=2', 'https://picsum.photos/1200/600?random=2', 1),
-                                                                                        ('Spring Framework', 'Introduction to Spring Framework', 'spring-framework',
-                                                                                         'https://picsum.photos/64/64?random=3', 'https://picsum.photos/1200/600?random=3', 1),
-                                                                                        ('Machine Learning Basics', 'An introduction to machine learning concepts', 'machine-learning-basics',
-                                                                                         'https://picsum.photos/64/64?random=4', 'https://picsum.photos/1200/600?random=4', 2),
-                                                                                        ('Deep Learning', 'Understanding deep learning algorithms', 'deep-learning',
-                                                                                         'https://picsum.photos/64/64?random=5', 'https://picsum.photos/1200/600?random=5', 2),
-                                                                                        ('Physics Fundamentals', 'Basic concepts in physics', 'physics-fundamentals',
-                                                                                         'https://picsum.photos/64/64?random=6', 'https://picsum.photos/1200/600?random=6', 2),
-                                                                                        ('Impressionist Art', 'Exploring the world of Impressionism', 'impressionist-art',
-                                                                                         'https://picsum.photos/64/64?random=7', 'https://picsum.photos/1200/600?random=7', 3),
-                                                                                        ('Modern Art', 'A look into modern art movements', 'modern-art',
-                                                                                         'https://picsum.photos/64/64?random=8', 'https://picsum.photos/1200/600?random=8', 3),
-                                                                                        ('Classical Literature', 'Great works of classical literature', 'classical-literature',
-                                                                                         'https://picsum.photos/64/64?random=9', 'https://picsum.photos/1200/600?random=9', 4),
-                                                                                        ('Contemporary Novels', 'Analysis of contemporary novels', 'contemporary-novels',
-                                                                                         'https://picsum.photos/64/64?random=10', 'https://picsum.photos/1200/600?random=10', 4),
-                                                                                        ('Rock Music History', 'The history of rock music', 'rock-music-history',
-                                                                                         'https://picsum.photos/64/64?random=11', 'https://picsum.photos/1200/600?random=11', 5),
-                                                                                        ('Classical Music', 'Exploring classical music compositions', 'classical-music',
-                                                                                         'https://picsum.photos/64/64?random=12', 'https://picsum.photos/1200/600?random=12', 5),
-                                                                                        ('Healthy Eating', 'Guide to healthy eating habits', 'healthy-eating',
-                                                                                         'https://picsum.photos/64/64?random=13', 'https://picsum.photos/1200/600?random=13', 6),
-                                                                                        ('Travel Tips', 'Tips for international travel', 'travel-tips',
-                                                                                         'https://picsum.photos/64/64?random=14', 'https://picsum.photos/1200/600?random=14', 7),
-                                                                                        ('Online Learning Resources', 'Best resources for online learning', 'online-learning-resources',
-                                                                                         'https://picsum.photos/64/64?random=15', 'https://picsum.photos/1200/600?random=15', 8);
+                                                                                        ('Introduction to Java', 'A beginner''s guide to Java programming', 'introduction-to-java', 'java-icon.png', 'java-poster.jpg', 1),
+                                                                                        ('Advanced Java', 'Deep dive into Java programming', 'advanced-java', 'java-advanced-icon.png', 'java-advanced-poster.jpg', 1),
+                                                                                        ('Spring Framework', 'Introduction to Spring Framework', 'spring-framework', 'spring-icon.png', 'spring-poster.jpg', 1),
+                                                                                        ('Machine Learning Basics', 'An introduction to machine learning concepts', 'machine-learning-basics', 'ml-icon.png', 'ml-poster.jpg', 2),
+                                                                                        ('Deep Learning', 'Understanding deep learning algorithms', 'deep-learning', 'dl-icon.png', 'dl-poster.jpg', 2),
+                                                                                        ('Physics Fundamentals', 'Basic concepts in physics', 'physics-fundamentals', 'physics-icon.png', 'physics-poster.jpg', 2),
+                                                                                        ('Impressionist Art', 'Exploring the world of Impressionism', 'impressionist-art', 'art-icon.png', 'art-poster.jpg', 3),
+                                                                                        ('Modern Art', 'A look into modern art movements', 'modern-art', 'modern-art-icon.png', 'modern-art-poster.jpg', 3),
+                                                                                        ('Classical Literature', 'Great works of classical literature', 'classical-literature', 'literature-icon.png', 'literature-poster.jpg', 4),
+                                                                                        ('Contemporary Novels', 'Analysis of contemporary novels', 'contemporary-novels', 'novels-icon.png', 'novels-poster.jpg', 4),
+                                                                                        ('Rock Music History', 'The history of rock music', 'rock-music-history', 'rock-icon.png', 'rock-poster.jpg', 5),
+                                                                                        ('Classical Music', 'Exploring classical music compositions', 'classical-music', 'classical-music-icon.png', 'classical-music-poster.jpg', 5),
+                                                                                        ('Healthy Eating', 'Guide to healthy eating habits', 'healthy-eating', 'health-icon.png', 'health-poster.jpg', 6),
+                                                                                        ('Travel Tips', 'Tips for international travel', 'travel-tips', 'travel-icon.png', 'travel-poster.jpg', 7),
+                                                                                        ('Online Learning Resources', 'Best resources for online learning', 'online-learning-resources', 'education-icon.png', 'education-poster.jpg', 8);
+
 -- ROLE
 
 INSERT INTO roles (role_name) VALUES
@@ -140,21 +149,21 @@ INSERT INTO roles (role_name) VALUES
 -- USER
 
 INSERT INTO users (username, email, password, creation_date, enable, banned, ban_date, points, profile_photo, id_role) VALUES
-                                                                                                            ('jluyo', 'jluyoc1@upao.edu.pe', '$2a$10$459Kv.wQEQVP8YOETbkS7.KEm16iNW8k.v.2pI/XD1qol3dbd7ml6', '2023-01-01T00:00:00', true, false, NULL, 100, NULL, 1),
-                                                                                                            ('activate_user', 'user2@example.com', 'activate', NOW(), false, false, NULL, 200, NULL, 2),
-                                                                                                            ('user3', 'user3@example.com', 'password3', '2023-01-03T00:00:00', false, false, NULL, 150, NULL, 1),
-                                                                                                            ('user4', 'user4@example.com', 'password4', '2023-01-04T00:00:00', true, false, NULL, 300, NULL, 2),
-                                                                                                            ('user5', 'user5@example.com', 'password5', '2023-01-05T00:00:00', true, true, '2024-01-05T00:00:00', 250, NULL, 1),
-                                                                                                            ('user6', 'user6@example.com', 'password6', '2023-01-06T00:00:00', true, false, NULL, 120, NULL, 2),
-                                                                                                            ('user7', 'user7@example.com', 'password7', '2023-01-07T00:00:00', true, false, NULL, 180, NULL, 1),
-                                                                                                            ('user8', 'user8@example.com', 'password8', '2023-01-08T00:00:00', true, true, '2024-01-08T00:00:00', 220, NULL, 2),
-                                                                                                            ('user9', 'user9@example.com', 'password9', '2023-01-09T00:00:00', true, false, NULL, 170, NULL, 1),
-                                                                                                            ('user10', 'user10@example.com', 'password10', '2023-01-10T00:00:00', true, false, NULL, 190, NULL, 2),
-                                                                                                            ('user11', 'user11@example.com', 'password11', '2023-01-11T00:00:00', true, true, '2024-01-11T00:00:00', 140, NULL, 1),
-                                                                                                            ('user12', 'user12@example.com', 'password12', '2023-01-12T00:00:00', true, false, NULL, 160, NULL, 2),
-                                                                                                            ('user13', 'user13@example.com', 'password13', '2023-01-13T00:00:00', true, false, NULL, 210, NULL, 1),
-                                                                                                            ('user14', 'user14@example.com', 'password14', '2023-01-14T00:00:00', true, false, NULL, 230, NULL, 2),
-                                                                                                            ('user15', 'user15@example.com', 'password15', '2023-01-15T00:00:00', true, false, NULL, 280, NULL, 1);
+                                                                                                                           ('jluyo', 'jluyoc1@upao.edu.pe', '$2a$10$459Kv.wQEQVP8YOETbkS7.KEm16iNW8k.v.2pI/XD1qol3dbd7ml6', '2023-01-01T00:00:00', true, false, NULL, 100, 'profile1.jpg', 1),
+                                                                                                                           ('activate_user', 'user2@example.com', 'activate', NOW(), false, false, NULL, 200, 'profile2.jpg', 2),
+                                                                                                                           ('user3', 'user3@example.com', 'password3', '2023-01-03T00:00:00', false, false, NULL, 150, 'profile3.jpg', 1),
+                                                                                                                           ('user4', 'user4@example.com', 'password4', '2023-01-04T00:00:00', true, false, NULL, 300, 'profile4.jpg', 2),
+                                                                                                                           ('user5', 'user5@example.com', 'password5', '2023-01-05T00:00:00', true, true, '2024-01-05T00:00:00', 250, 'profile5.jpg', 1),
+                                                                                                                           ('user6', 'user6@example.com', 'password6', '2023-01-06T00:00:00', true, false, NULL, 120, 'profile6.jpg', 2),
+                                                                                                                           ('user7', 'user7@example.com', 'password7', '2023-01-07T00:00:00', true, false, NULL, 180, 'profile7.jpg', 1),
+                                                                                                                           ('user8', 'user8@example.com', 'password8', '2023-01-08T00:00:00', true, true, '2024-01-08T00:00:00', 220, 'profile8.jpg', 2),
+                                                                                                                           ('user9', 'user9@example.com', 'password9', '2023-01-09T00:00:00', true, false, NULL, 170, 'profile9.jpg', 1),
+                                                                                                                           ('user10', 'user10@example.com', 'password10', '2023-01-10T00:00:00', true, false, NULL, 190, 'profile10.jpg', 2),
+                                                                                                                           ('user11', 'user11@example.com', 'password11', '2023-01-11T00:00:00', true, true, '2024-01-11T00:00:00', 140, 'profile11.jpg', 1),
+                                                                                                                           ('user12', 'user12@example.com', 'password12', '2023-01-12T00:00:00', true, false, NULL, 160, 'profile12.jpg', 2),
+                                                                                                                           ('user13', 'user13@example.com', 'password13', '2023-01-13T00:00:00', true, false, NULL, 210, 'profile13.jpg', 1),
+                                                                                                                           ('user14', 'user14@example.com', 'password14', '2023-01-14T00:00:00', true, false, NULL, 230, 'profile14.jpg', 2),
+                                                                                                                           ('user15', 'user15@example.com', 'password15', '2023-01-15T00:00:00', true, false, NULL, 280, 'profile15.jpg', 1);
 
 -- CONFIRMATION TOKEN
 
@@ -177,39 +186,40 @@ INSERT INTO confirmation_tokens (token, expiration_date, activation_date, id_use
 
 -- THREAD
 
-INSERT INTO threads (title, message, likes, stars, id_topic, id_user, file) VALUES
-                                                                                ('Introduction to Java: Getting Started', 'This thread is for beginners starting with Java.', 12, 5, 1, 1, 'https://i.imgur.com/tf6bOkk.jpg'),
-                                                                                ('Java Collections Framework', 'Discussion on the different collections available in Java.', 25, 8, 1, 2, 'https://i.imgur.com/Zk5cN33.png'),
-                                                                                ('Concurrency in Java', 'Let''s talk about concurrency and multithreading in Java.', 30, 10, 1, 3, NULL),
-                                                                                ('Advanced Java Topics', 'Deep dive into advanced Java topics.', 40, 15, 2, 1, 'https://i.imgur.com/GnFRs4l.mp4'), -- Video funcional
-                                                                                ('Java Performance Tuning', 'Tips and tricks for optimizing Java code.', 35, 12, 2, 4, 'https://i.imgur.com/tf6bOkk.jpg'),
-                                                                                ('Spring Boot Basics', 'An introduction to Spring Boot framework.', 50, 20, 3, 1, 'https://i.imgur.com/Zk5cN33.png'),
-                                                                                ('Spring Boot with Docker', 'How to containerize Spring Boot applications using Docker.', 45, 18, 3, 2, NULL),
-                                                                                ('Machine Learning 101', 'Beginner''s guide to machine learning.', 60, 25, 4, 5, 'https://i.imgur.com/GnFRs4l.mp4'), -- Video funcional
-                                                                                ('Supervised vs Unsupervised Learning', 'Discussion on different types of machine learning.', 55, 22, 4, 6, 'https://i.imgur.com/tf6bOkk.jpg'),
-                                                                                ('Neural Networks', 'Basics of neural networks and deep learning.', 70, 30, 5, 5, 'https://i.imgur.com/Zk5cN33.png'),
-                                                                                ('Deep Learning Libraries', 'Overview of popular deep learning libraries.', 65, 28, 5, 7, 'https://i.imgur.com/GnFRs4l.mp4'), -- Video funcional
-                                                                                ('Quantum Mechanics Basics', 'Introduction to quantum mechanics.', 80, 35, 6, 8, 'https://i.imgur.com/tf6bOkk.jpg'),
-                                                                                ('Classical Mechanics vs Quantum Mechanics', 'Discussion on the differences between classical and quantum mechanics.', 75, 32, 6, 9, NULL),
-                                                                                ('Impressionism: An Overview', 'Exploring the world of Impressionist art.', 90, 40, 7, 10, 'https://i.imgur.com/Zk5cN33.png'),
-                                                                                ('Modern Art Movements', 'A look into various modern art movements.', 85, 38, 8, 10, 'https://i.imgur.com/tf6bOkk.jpg'),
-                                                                                ('Literary Classics', 'Discussing great works of classical literature.', 100, 45, 9, 11, 'https://i.imgur.com/GnFRs4l.mp4'), -- Video funcional
-                                                                                ('Contemporary Literature', 'Analysis of contemporary novels and works.', 95, 42, 10, 11, 'https://i.imgur.com/Zk5cN33.png'),
-                                                                                ('History of Rock Music', 'The evolution of rock music.', 110, 50, 11, 12, 'https://i.imgur.com/GnFRs4l.mp4'), -- Video funcional
-                                                                                ('Famous Composers in Classical Music', 'Discussion on famous composers and their works.', 105, 48, 12, 12, NULL),
-                                                                                ('Healthy Diets', 'Guide to maintaining a healthy diet.', 120, 55, 13, 13, 'https://i.imgur.com/tf6bOkk.jpg'),
-                                                                                ('Traveling on a Budget', 'Tips for traveling without breaking the bank.', 115, 52, 14, 14, 'https://i.imgur.com/Zk5cN33.png'),
-                                                                                ('Best Online Learning Platforms', 'Review of the best platforms for online learning.', 130, 60, 15, 15, 'https://i.imgur.com/GnFRs4l.mp4'), -- Video funcional
-                                                                                ('Java Debugging Techniques', 'Effective debugging techniques in Java.', 15, 7, 1, 4, 'https://i.imgur.com/tf6bOkk.jpg'),
-                                                                                ('Microservices with Spring Boot', 'Building microservices using Spring Boot.', 20, 9, 3, 1, NULL),
-                                                                                ('AI Ethics', 'Discussion on the ethical considerations in AI.', 22, 11, 4, 5, 'https://i.imgur.com/Zk5cN33.png'),
-                                                                                ('Quantum Computing', 'Basics of quantum computing and its applications.', 24, 13, 6, 8, 'https://i.imgur.com/GnFRs4l.mp4'), -- Video funcional
-                                                                                ('Cubism: Art Movement', 'Exploring Cubism and its impact on art.', 26, 15, 8, 10, 'https://i.imgur.com/tf6bOkk.jpg'),
-                                                                                ('Postmodern Literature', 'Analysis of postmodern literary works.', 28, 17, 10, 11, 'https://i.imgur.com/Zk5cN33.png'),
-                                                                                ('Jazz Music History', 'The history and evolution of jazz music.', 32, 19, 11, 12, 'https://i.imgur.com/GnFRs4l.mp4'), -- Video funcional
-                                                                                ('Home Workouts', 'Effective workout routines you can do at home.', 34, 21, 13, 13, NULL),
-                                                                                ('Solo Travel Tips', 'Tips and advice for solo travelers.', 36, 23, 14, 14, 'https://i.imgur.com/tf6bOkk.jpg');
--- COMMENT
+INSERT INTO threads (title, message, likes, stars, file, id_topic, id_user) VALUES
+                                                                                ('Introduction to Java: Getting Started', 'This thread is for beginners starting with Java.', 15, 8, NULL, 1, 1),
+                                                                                ('Java Collections Framework', 'Discussion on the different collections available in Java.', 12, 6, 'collections.pdf', 1, 2),
+                                                                                ('Concurrency in Java', 'Let''s talk about concurrency and multithreading in Java.', 20, 10, NULL, 1, 3),
+                                                                                ('Advanced Java Topics', 'Deep dive into advanced Java topics.', 18, 9, 'advanced-java.zip', 2, 1),
+                                                                                ('Java Performance Tuning', 'Tips and tricks for optimizing Java code.', 25, 12, NULL, 2, 4),
+                                                                                ('Spring Boot Basics', 'An introduction to Spring Boot framework.', 30, 15, 'spring-boot-guide.pdf', 3, 1),
+                                                                                ('Spring Boot with Docker', 'How to containerize Spring Boot applications using Docker.', 22, 11, 'docker-spring.zip', 3, 2),
+                                                                                ('Machine Learning 101', 'Beginner''s guide to machine learning.', 35, 18, NULL, 4, 5),
+                                                                                ('Supervised vs Unsupervised Learning', 'Discussion on different types of machine learning.', 28, 14, 'ml-types.pdf', 4, 6),
+                                                                                ('Neural Networks', 'Basics of neural networks and deep learning.', 40, 20, NULL, 5, 5),
+                                                                                ('Deep Learning Libraries', 'Overview of popular deep learning libraries.', 33, 16, 'dl-libraries.pdf', 5, 7),
+                                                                                ('Quantum Mechanics Basics', 'Introduction to quantum mechanics.', 18, 9, NULL, 6, 8),
+                                                                                ('Classical Mechanics vs Quantum Mechanics', 'Discussion on the differences between classical and quantum mechanics.', 24, 12, 'mechanics-comparison.pdf', 6, 9),
+                                                                                ('Impressionism: An Overview', 'Exploring the world of Impressionist art.', 16, 8, NULL, 7, 10),
+                                                                                ('Modern Art Movements', 'A look into various modern art movements.', 14, 7, 'modern-art-guide.pdf', 8, 10),
+                                                                                ('Literary Classics', 'Discussing great works of classical literature.', 26, 13, NULL, 9, 11),
+                                                                                ('Contemporary Literature', 'Analysis of contemporary novels and works.', 21, 10, 'contemporary-analysis.pdf', 10, 11),
+                                                                                ('History of Rock Music', 'The evolution of rock music.', 19, 9, NULL, 11, 12),
+                                                                                ('Famous Composers in Classical Music', 'Discussion on famous composers and their works.', 17, 8, 'composers-list.pdf', 12, 12),
+                                                                                ('Healthy Diets', 'Guide to maintaining a healthy diet.', 23, 11, NULL, 13, 13),
+                                                                                ('Traveling on a Budget', 'Tips for traveling without breaking the bank.', 27, 13, 'budget-travel.pdf', 14, 14),
+                                                                                ('Best Online Learning Platforms', 'Review of the best platforms for online learning.', 32, 16, NULL, 15, 15),
+                                                                                ('Java Debugging Techniques', 'Effective debugging techniques in Java.', 29, 14, 'debugging-guide.pdf', 1, 4),
+                                                                                ('Microservices with Spring Boot', 'Building microservices using Spring Boot.', 31, 15, NULL, 3, 1),
+                                                                                ('AI Ethics', 'Discussion on the ethical considerations in AI.', 36, 18, 'ai-ethics.pdf', 4, 5),
+                                                                                ('Quantum Computing', 'Basics of quantum computing and its applications.', 25, 12, NULL, 6, 8),
+                                                                                ('Cubism: Art Movement', 'Exploring Cubism and its impact on art.', 15, 7, 'cubism-guide.pdf', 8, 10),
+                                                                                ('Postmodern Literature', 'Analysis of postmodern literary works.', 20, 10, NULL, 10, 11),
+                                                                                ('Jazz Music History', 'The history and evolution of jazz music.', 18, 9, 'jazz-history.pdf', 11, 12),
+                                                                                ('Home Workouts', 'Effective workout routines you can do at home.', 24, 12, NULL, 13, 13),
+                                                                                ('Solo Travel Tips', 'Tips and advice for solo travelers.', 28, 14, 'solo-travel.pdf', 14, 14);
+
+-- COMMENT (mismos datos, no necesitan actualización)
 
 INSERT INTO comments (message, creation_date, id_thread, id_user) VALUES
                                                                       ('This is comment 1', '2023-01-01T01:00:00', 1, 1),
@@ -281,4 +291,29 @@ INSERT INTO comments (message, creation_date, id_thread, id_user) VALUES
                                                                       ('This is comment 67', '2023-01-05T07:00:00', 7, 7),
                                                                       ('This is comment 68', '2023-01-05T08:00:00', 8, 8),
                                                                       ('This is comment 69', '2023-01-05T09:00:00', 9, 9),
-                                                                      ('This is comment 70', '2023-01-05T10:00:00', 10, 10)
+                                                                      ('This is comment 70', '2023-01-05T10:00:00', 10, 10);
+
+-- PRIZE
+
+INSERT INTO prizes (name, description, price, image) VALUES
+                                                         ('Premium Course Access', 'Access to premium programming courses for 3 months', 500, 'course-premium.jpg'),
+                                                         ('Programming Book Bundle', 'Collection of 5 essential programming books', 300, 'book-bundle.jpg'),
+                                                         ('Tech Conference Ticket', 'Ticket to annual tech conference', 800, 'conference-ticket.jpg'),
+                                                         ('Online Certification', 'Professional certification in chosen technology', 400, 'certification.jpg'),
+                                                         ('Laptop Upgrade Voucher', 'Voucher for laptop hardware upgrade', 1000, 'laptop-voucher.jpg'),
+                                                         ('Programming T-Shirt', 'Exclusive programming themed t-shirt', 100, 'programming-tshirt.jpg'),
+                                                         ('Development Tools License', '1-year license for development tools', 600, 'dev-tools.jpg'),
+                                                         ('Coding Bootcamp Discount', '50% discount on coding bootcamp enrollment', 750, 'bootcamp-discount.jpg');
+
+-- EXCHANGE
+
+INSERT INTO exchanges (id_user, id_prize, redemption_date) VALUES
+                                                               (1, 1, '2023-02-01T10:00:00'),
+                                                               (2, 6, '2023-02-05T14:30:00'),
+                                                               (4, 2, '2023-02-10T09:15:00'),
+                                                               (5, 4, '2023-02-15T16:20:00'),
+                                                               (7, 3, '2023-02-20T11:45:00'),
+                                                               (10, 6, '2023-02-25T13:10:00'),
+                                                               (12, 1, '2023-03-01T08:30:00'),
+                                                               (13, 5, '2023-03-05T15:50:00'),
+                                                               (15, 7, '2023-03-10T12:25:00');
