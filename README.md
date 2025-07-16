@@ -30,7 +30,7 @@ Sigue estos pasos para configurar e instalar el proyecto:
 
 1. Clona el repositorio:
    ```bash
-   git clone https://github.com/tu-usuario/learnsync.git
+   git clone https://github.com/jmlc643/learnsync.git
    cd learnsync
    ```
 2. Configura Docker: Asegúrate de tener Docker instalado y en funcionamiento en tu máquina. Construye y ejecuta los contenedores de Docker:
@@ -59,7 +59,7 @@ Para ejecutar los test unitarios y de integración debes abrir tu terminal y eje
 > Debes de tener en cuenta que es posible que algunos tests fallen al usar este comando debido a que se ejecutan en orden aleatorio. 
 
 > [!WARNING]
-> El test sendEmail de ConfirmationToken solo funciona cuando en el servicio que se testea no se usa el @Value porque al entrar en el contexto de solo ese metodo no se puede usar el valor correctamente.
+> El test sendEmail de ConfirmationToken solo funciona cuando en el servicio que se testea no se usa el @Value porque al entrar en el contexto de solo ese método no se puede usar el valor correctamente.
 
 ## Sugerencias
 
