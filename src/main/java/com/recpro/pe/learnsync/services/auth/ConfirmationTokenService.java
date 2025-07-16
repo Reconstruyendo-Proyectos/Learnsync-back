@@ -24,7 +24,7 @@ public class ConfirmationTokenService {
     public void sendEmail(User user) { //Cambiar URL a la del back desplegado
         Map<String, Object> model = new HashMap<>();
         String token = generateToken(user);
-        String url = "http://localhost:8080/auth/confirmation-token/"+token;
+        String url = "http://localhost:8080/api/auth/confirmation-token/"+token;
         String image = "http://localhost:8080/assets/logo.png";
         model.put("user", user.getUsername());
         model.put("url", url);

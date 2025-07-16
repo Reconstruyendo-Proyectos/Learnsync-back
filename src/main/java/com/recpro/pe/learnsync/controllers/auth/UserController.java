@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     @Autowired private UserService userService;
 
-    @GetMapping("/get-authenticated-user/")
+    @GetMapping("/profile")
     public ResponseEntity<UserDTO> getAuthenticatedUser() {
         return new ResponseEntity<>(User.toDto(userService.getAuthenticatedUser()), HttpStatus.OK);
     }
