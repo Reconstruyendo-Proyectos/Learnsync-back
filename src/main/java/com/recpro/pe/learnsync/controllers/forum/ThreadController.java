@@ -20,19 +20,23 @@ public class ThreadController {
     @Autowired private ThreadService threadService;
 
     @GetMapping("")
-    public ResponseEntity<List<ThreadDTO>> getThreads(@RequestParam int page) {
-        return new ResponseEntity<>(threadService.listThreads(PageRequest.of(page, 10)), HttpStatus.OK);
-    }
+    public ResponseEntity<List<ThreadDTO>> getThreads(
+            @RequestParam int page,
+            @RequestParam(required = false) String slug,
+            @RequestParam(required = false, defaultValue = "creation-date") String sortBy) {
 
-    // Refactorizar en el listado
-    @GetMapping("/list/creation-date/{slug}")
-    public ResponseEntity<List<ThreadDTO>> listThreadsByCreationDate(@PathVariable String slug, @RequestParam int page) {
-        return new ResponseEntity<>(threadService.listThreadsByCreationDate(slug, PageRequest.of(page, 10)), HttpStatus.OK);
-    }
+        PageRequest pageRequest = PageRequest.of(page, 10);
+        List<ThreadDTO> threads;
 
-    @GetMapping("/list/interactions/")
-    public ResponseEntity<List<ThreadDTO>> listThreadsByInteractions(@RequestParam int page) {
-        return new ResponseEntity<>(threadService.listThreadsByInteractions(PageRequest.of(page, 10)), HttpStatus.OK);
+        if (slug != null) {
+            threads = threadService.listThreadsByCreationDate(slug, pageRequest);
+        } else if ("interactions".equals(sortBy)) {
+            threads = threadService.listThreadsByInteractions(pageRequest);
+        } else {
+            threads = threadService.listThreads(pageRequest);
+        }
+
+        return new ResponseEntity<>(threads, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
