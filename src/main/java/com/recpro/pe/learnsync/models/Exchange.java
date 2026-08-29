@@ -2,19 +2,24 @@ package com.recpro.pe.learnsync.models;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "exchanges")
 public class Exchange {
     @EmbeddedId
+    @EqualsAndHashCode.Include
     private ExchangeId id;
 
     @ManyToOne
@@ -32,9 +37,11 @@ public class Exchange {
 }
 
 @Embeddable
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode
 class ExchangeId implements Serializable {
     private Integer idUser;
     private Integer idPrize;

@@ -19,6 +19,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.*;
 
+import org.springframework.test.util.ReflectionTestUtils;
+
 import static org.mockito.Mockito.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -39,6 +41,7 @@ public class ConfirmationTokenServiceTest {
         user = new User(1, "jluyo", "jluyoc1@upao.edu.pe", "upao2025", true, false, null, 100, null, new ArrayList<>(), new ArrayList<>(), new Role(1, ERole.ADMIN, new ArrayList<>()), null, new ArrayList<>());
         confirmationToken = new ConfirmationToken(1, "Token", null, user);
         mailFrom = "eprueba736@gmail.com";
+        ReflectionTestUtils.setField(confirmationTokenService, "mailFrom", mailFrom);
     }
 
     @Test
@@ -100,7 +103,7 @@ public class ConfirmationTokenServiceTest {
     void testSendEmail() {
         // Given
         Map<String, Object> expectedModel = new HashMap<>();
-        String expectedUrl = "http://localhost:8080/auth/confirmation-token/" + confirmationToken.getToken();
+        String expectedUrl = "http://localhost:8080/api/auth/confirmation-token/" + confirmationToken.getToken();
         String expectedImage = "http://localhost:8080/assets/logo.png";
         expectedModel.put("user", user.getUsername());
         expectedModel.put("url", expectedUrl);
@@ -110,7 +113,7 @@ public class ConfirmationTokenServiceTest {
 
         // When
         when(confirmationTokenRepository.save(any(ConfirmationToken.class))).thenReturn(confirmationToken);
-        when(emailService.createMail(anyString(), anyString(), anyMap(), anyString())).thenReturn(mail);
+        when(emailService.createMail(any(), any(), any(), any())).thenReturn(mail);
         confirmationTokenService.sendEmail(user);
 
         // Then

@@ -2,22 +2,25 @@ package com.recpro.pe.learnsync.models;
 
 import com.recpro.pe.learnsync.dtos.auth.user.UserDTO;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity(name = "users")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_user")
+    @EqualsAndHashCode.Include
     private Integer idUser;
 
     @Column(name = "username", nullable = false, unique = true)
@@ -29,8 +32,8 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "creation_date", nullable = false)
-    private final LocalDateTime creationDate = LocalDateTime.now();
+    @Column(name = "creation_date", nullable = false, updatable = false)
+    private LocalDateTime creationDate;
 
     @Column(name = "enable", nullable = false)
     private boolean enable;
@@ -53,8 +56,6 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Thread> threads;
 
-    // Mapear 1 a Muchos con Maze
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_role", nullable = false, referencedColumnName = "id_role")
     private Role role;
@@ -64,6 +65,47 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Exchange> exchanges;
+
+    @PrePersist
+    void prePersist() {
+        if (creationDate == null) creationDate = LocalDateTime.now();
+    }
+
+    public User(Integer idUser, String username, String email, String password, boolean enable, boolean banned, LocalDateTime banDate, int points, String profilePhoto, List<Comment> comments, List<Thread> threads, Role role, ConfirmationToken token, List<Exchange> exchanges) {
+        this.idUser = idUser;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.creationDate = LocalDateTime.now();
+        this.enable = enable;
+        this.banned = banned;
+        this.banDate = banDate;
+        this.points = points;
+        this.profilePhoto = profilePhoto;
+        this.comments = comments;
+        this.threads = threads;
+        this.role = role;
+        this.token = token;
+        this.exchanges = exchanges;
+    }
+
+    public User(Integer idUser, String username, String email, String password, LocalDateTime creationDate, boolean enable, boolean banned, LocalDateTime banDate, int points, String profilePhoto, List<Comment> comments, List<Thread> threads, Role role, ConfirmationToken token, List<Exchange> exchanges) {
+        this.idUser = idUser;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.creationDate = creationDate != null ? creationDate : LocalDateTime.now();
+        this.enable = enable;
+        this.banned = banned;
+        this.banDate = banDate;
+        this.points = points;
+        this.profilePhoto = profilePhoto;
+        this.comments = comments;
+        this.threads = threads;
+        this.role = role;
+        this.token = token;
+        this.exchanges = exchanges;
+    }
 
     public static UserDTO toDto(User user) {
         return new UserDTO(user.getUsername(), user.getEmail(), user.getCreationDate(), user.getBanDate(), user.getPoints(), user.getProfilePhoto(), Role.toDto(user.getRole()));

@@ -1,0 +1,319 @@
+-- MIGRACIOENS
+
+-- CATEGORY
+
+CREATE TABLE categories (
+                            id_category SERIAL PRIMARY KEY,
+                            name VARCHAR(255) NOT NULL UNIQUE
+);
+
+-- TOPIC
+
+CREATE TABLE topics (
+                        id_topic SERIAL PRIMARY KEY,
+                        name VARCHAR(255) NOT NULL UNIQUE,
+                        description VARCHAR(255) NOT NULL,
+                        slug VARCHAR(255) NOT NULL UNIQUE,
+                        creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                        topic_icon VARCHAR(255) NOT NULL,
+                        topic_poster VARCHAR(255) NOT NULL,
+                        id_category INT NOT NULL,
+                        FOREIGN KEY (id_category) REFERENCES categories(id_category)
+);
+
+-- ROLE
+
+CREATE TABLE roles (
+                       id_role SERIAL PRIMARY KEY,
+                       role_name VARCHAR(50) NOT NULL UNIQUE
+);
+
+-- USER
+
+CREATE TABLE users (
+                       id_user SERIAL PRIMARY KEY,
+                       username VARCHAR(255) NOT NULL UNIQUE,
+                       email VARCHAR(255) NOT NULL UNIQUE,
+                       password VARCHAR(255),
+                       creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                       enable BOOLEAN NOT NULL,
+                       banned BOOLEAN NOT NULL,
+                       ban_date TIMESTAMP,
+                       points INT NOT NULL,
+                       profile_photo VARCHAR(255),
+                       id_role INT NOT NULL,
+                       FOREIGN KEY (id_role) REFERENCES roles(id_role)
+);
+
+-- CONFIRMATION TOKEN
+
+CREATE TABLE confirmation_tokens (
+                                     id_token SERIAL PRIMARY KEY,
+                                     token VARCHAR(255) NOT NULL UNIQUE,
+                                     expiration_date TIMESTAMP NOT NULL,
+                                     activation_date TIMESTAMP,
+                                     id_user INT NOT NULL,
+                                     FOREIGN KEY (id_user) REFERENCES users(id_user)
+);
+
+-- THREAD
+
+CREATE TABLE threads (
+                         id_thread SERIAL PRIMARY KEY,
+                         title VARCHAR(255) NOT NULL,
+                         message TEXT NOT NULL,
+                         creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                         likes INT NOT NULL DEFAULT 0,
+                         stars INT NOT NULL DEFAULT 0,
+                         file VARCHAR(255),
+                         id_topic INT NOT NULL,
+                         id_user INT NOT NULL,
+                         FOREIGN KEY (id_topic) REFERENCES topics(id_topic),
+                         FOREIGN KEY (id_user) REFERENCES users(id_user)
+);
+
+-- COMMENT
+
+CREATE TABLE comments (
+                          id_comment SERIAL PRIMARY KEY,
+                          message TEXT NOT NULL,
+                          creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                          id_thread INT NOT NULL,
+                          id_user INT NOT NULL,
+                          FOREIGN KEY (id_thread) REFERENCES threads(id_thread),
+                          FOREIGN KEY (id_user) REFERENCES users(id_user)
+);
+
+-- PRIZE
+
+CREATE TABLE prizes (
+                        id_prize SERIAL PRIMARY KEY,
+                        name VARCHAR(255) NOT NULL,
+                        description VARCHAR(255) NOT NULL,
+                        price INT NOT NULL,
+                        image VARCHAR(255) NOT NULL
+);
+
+-- EXCHANGE
+
+CREATE TABLE exchanges (
+                           id_user INT NOT NULL,
+                           id_prize INT NOT NULL,
+                           redemption_date TIMESTAMP,
+                           PRIMARY KEY (id_user, id_prize),
+                           FOREIGN KEY (id_user) REFERENCES users(id_user),
+                           FOREIGN KEY (id_prize) REFERENCES prizes(id_prize)
+);
+
+-- INSERTANDO VALORES PARA LAS TABLAS
+
+-- CATEGORY
+
+INSERT INTO categories (name) VALUES
+                                  ('Technology'),
+                                  ('Science'),
+                                  ('Art'),
+                                  ('Literature'),
+                                  ('Music'),
+                                  ('Health'),
+                                  ('Travel'),
+                                  ('Education'),
+                                  ('Sports'),
+                                  ('Food');
+
+-- TOPIC
+
+INSERT INTO topics (name, description, slug, topic_icon, topic_poster, id_category) VALUES
+                                                                                        ('Introduction to Java', 'A beginner''s guide to Java programming', 'introduction-to-java', 'java-icon.png', 'java-poster.jpg', 1),
+                                                                                        ('Advanced Java', 'Deep dive into Java programming', 'advanced-java', 'java-advanced-icon.png', 'java-advanced-poster.jpg', 1),
+                                                                                        ('Spring Framework', 'Introduction to Spring Framework', 'spring-framework', 'spring-icon.png', 'spring-poster.jpg', 1),
+                                                                                        ('Machine Learning Basics', 'An introduction to machine learning concepts', 'machine-learning-basics', 'ml-icon.png', 'ml-poster.jpg', 2),
+                                                                                        ('Deep Learning', 'Understanding deep learning algorithms', 'deep-learning', 'dl-icon.png', 'dl-poster.jpg', 2),
+                                                                                        ('Physics Fundamentals', 'Basic concepts in physics', 'physics-fundamentals', 'physics-icon.png', 'physics-poster.jpg', 2),
+                                                                                        ('Impressionist Art', 'Exploring the world of Impressionism', 'impressionist-art', 'art-icon.png', 'art-poster.jpg', 3),
+                                                                                        ('Modern Art', 'A look into modern art movements', 'modern-art', 'modern-art-icon.png', 'modern-art-poster.jpg', 3),
+                                                                                        ('Classical Literature', 'Great works of classical literature', 'classical-literature', 'literature-icon.png', 'literature-poster.jpg', 4),
+                                                                                        ('Contemporary Novels', 'Analysis of contemporary novels', 'contemporary-novels', 'novels-icon.png', 'novels-poster.jpg', 4),
+                                                                                        ('Rock Music History', 'The history of rock music', 'rock-music-history', 'rock-icon.png', 'rock-poster.jpg', 5),
+                                                                                        ('Classical Music', 'Exploring classical music compositions', 'classical-music', 'classical-music-icon.png', 'classical-music-poster.jpg', 5),
+                                                                                        ('Healthy Eating', 'Guide to healthy eating habits', 'healthy-eating', 'health-icon.png', 'health-poster.jpg', 6),
+                                                                                        ('Travel Tips', 'Tips for international travel', 'travel-tips', 'travel-icon.png', 'travel-poster.jpg', 7),
+                                                                                        ('Online Learning Resources', 'Best resources for online learning', 'online-learning-resources', 'education-icon.png', 'education-poster.jpg', 8);
+
+-- ROLE
+
+INSERT INTO roles (role_name) VALUES
+                                  ('ADMIN'),
+                                  ('STUDENT');
+
+-- USER
+
+INSERT INTO users (username, email, password, creation_date, enable, banned, ban_date, points, profile_photo, id_role) VALUES
+                                                                                                                           ('jluyo', 'jluyoc1@upao.edu.pe', '$2a$10$459Kv.wQEQVP8YOETbkS7.KEm16iNW8k.v.2pI/XD1qol3dbd7ml6', '2023-01-01T00:00:00', true, false, NULL, 100, 'profile1.jpg', 1),
+                                                                                                                           ('activate_user', 'user2@example.com', 'activate', NOW(), false, false, NULL, 200, 'profile2.jpg', 2),
+                                                                                                                           ('user3', 'user3@example.com', 'password3', '2023-01-03T00:00:00', false, false, NULL, 150, 'profile3.jpg', 1),
+                                                                                                                           ('user4', 'user4@example.com', 'password4', '2023-01-04T00:00:00', true, false, NULL, 300, 'profile4.jpg', 2),
+                                                                                                                           ('user5', 'user5@example.com', 'password5', '2023-01-05T00:00:00', true, true, '2024-01-05T00:00:00', 250, 'profile5.jpg', 1),
+                                                                                                                           ('user6', 'user6@example.com', 'password6', '2023-01-06T00:00:00', true, false, NULL, 120, 'profile6.jpg', 2),
+                                                                                                                           ('user7', 'user7@example.com', 'password7', '2023-01-07T00:00:00', true, false, NULL, 180, 'profile7.jpg', 1),
+                                                                                                                           ('user8', 'user8@example.com', 'password8', '2023-01-08T00:00:00', true, true, '2024-01-08T00:00:00', 220, 'profile8.jpg', 2),
+                                                                                                                           ('user9', 'user9@example.com', 'password9', '2023-01-09T00:00:00', true, false, NULL, 170, 'profile9.jpg', 1),
+                                                                                                                           ('user10', 'user10@example.com', 'password10', '2023-01-10T00:00:00', true, false, NULL, 190, 'profile10.jpg', 2),
+                                                                                                                           ('user11', 'user11@example.com', 'password11', '2023-01-11T00:00:00', true, true, '2024-01-11T00:00:00', 140, 'profile11.jpg', 1),
+                                                                                                                           ('user12', 'user12@example.com', 'password12', '2023-01-12T00:00:00', true, false, NULL, 160, 'profile12.jpg', 2),
+                                                                                                                           ('user13', 'user13@example.com', 'password13', '2023-01-13T00:00:00', true, false, NULL, 210, 'profile13.jpg', 1),
+                                                                                                                           ('user14', 'user14@example.com', 'password14', '2023-01-14T00:00:00', true, false, NULL, 230, 'profile14.jpg', 2),
+                                                                                                                           ('user15', 'user15@example.com', 'password15', '2023-01-15T00:00:00', true, false, NULL, 280, 'profile15.jpg', 1);
+
+-- CONFIRMATION TOKEN
+
+INSERT INTO confirmation_tokens (token, expiration_date, activation_date, id_user) VALUES
+                                                                                       ('550e8400-e29b-41d4-a716-446655440000', '2023-01-01T00:10:00', '2023-01-01T00:05:00', 1),
+                                                                                       ('550e8400-e29b-41d4-a716-446655440001', TIMESTAMPADD(MINUTE, 10, NOW()), null, 2),
+                                                                                       ('550e8400-e29b-41d4-a716-446655440002', '2023-01-03T00:10:00', NULL, 3),
+                                                                                       ('550e8400-e29b-41d4-a716-446655440003', '2023-01-04T00:10:00', '2023-01-04T00:05:00', 4),
+                                                                                       ('550e8400-e29b-41d4-a716-446655440004', '2023-01-05T00:10:00', '2023-01-05T00:05:00', 5),
+                                                                                       ('550e8400-e29b-41d4-a716-446655440005', '2023-01-06T00:10:00', '2023-01-06T00:05:00', 6),
+                                                                                       ('550e8400-e29b-41d4-a716-446655440006', '2023-01-07T00:10:00', '2023-01-07T00:05:00', 7),
+                                                                                       ('550e8400-e29b-41d4-a716-446655440007', '2023-01-08T00:10:00', '2023-01-08T00:05:00', 8),
+                                                                                       ('550e8400-e29b-41d4-a716-446655440008', '2023-01-09T00:10:00', '2023-01-09T00:05:00', 9),
+                                                                                       ('550e8400-e29b-41d4-a716-446655440009', '2023-01-10T00:10:00', '2023-01-10T00:05:00', 10),
+                                                                                       ('550e8400-e29b-41d4-a716-446655440010', '2023-01-11T00:10:00', '2023-01-11T00:05:00', 11),
+                                                                                       ('550e8400-e29b-41d4-a716-446655440011', '2023-01-12T00:10:00', '2023-01-12T00:05:00', 12),
+                                                                                       ('550e8400-e29b-41d4-a716-446655440012', '2023-01-13T00:10:00', '2023-01-13T00:05:00', 13),
+                                                                                       ('550e8400-e29b-41d4-a716-446655440013', '2023-01-14T00:10:00', '2023-01-14T00:05:00', 14),
+                                                                                       ('550e8400-e29b-41d4-a716-446655440014', '2023-01-15T00:10:00', '2023-01-15T00:05:00', 15);
+
+-- THREAD
+
+INSERT INTO threads (title, message, likes, stars, file, id_topic, id_user) VALUES
+                                                                                ('Introduction to Java: Getting Started', 'This thread is for beginners starting with Java.', 15, 8, NULL, 1, 1),
+                                                                                ('Java Collections Framework', 'Discussion on the different collections available in Java.', 12, 6, 'collections.pdf', 1, 2),
+                                                                                ('Concurrency in Java', 'Let''s talk about concurrency and multithreading in Java.', 20, 10, NULL, 1, 3),
+                                                                                ('Advanced Java Topics', 'Deep dive into advanced Java topics.', 18, 9, 'advanced-java.zip', 2, 1),
+                                                                                ('Java Performance Tuning', 'Tips and tricks for optimizing Java code.', 25, 12, NULL, 2, 4),
+                                                                                ('Spring Boot Basics', 'An introduction to Spring Boot framework.', 30, 15, 'spring-boot-guide.pdf', 3, 1),
+                                                                                ('Spring Boot with Docker', 'How to containerize Spring Boot applications using Docker.', 22, 11, 'docker-spring.zip', 3, 2),
+                                                                                ('Machine Learning 101', 'Beginner''s guide to machine learning.', 35, 18, NULL, 4, 5),
+                                                                                ('Supervised vs Unsupervised Learning', 'Discussion on different types of machine learning.', 28, 14, 'ml-types.pdf', 4, 6),
+                                                                                ('Neural Networks', 'Basics of neural networks and deep learning.', 40, 20, NULL, 5, 5),
+                                                                                ('Deep Learning Libraries', 'Overview of popular deep learning libraries.', 33, 16, 'dl-libraries.pdf', 5, 7),
+                                                                                ('Quantum Mechanics Basics', 'Introduction to quantum mechanics.', 18, 9, NULL, 6, 8),
+                                                                                ('Classical Mechanics vs Quantum Mechanics', 'Discussion on the differences between classical and quantum mechanics.', 24, 12, 'mechanics-comparison.pdf', 6, 9),
+                                                                                ('Impressionism: An Overview', 'Exploring the world of Impressionist art.', 16, 8, NULL, 7, 10),
+                                                                                ('Modern Art Movements', 'A look into various modern art movements.', 14, 7, 'modern-art-guide.pdf', 8, 10),
+                                                                                ('Literary Classics', 'Discussing great works of classical literature.', 26, 13, NULL, 9, 11),
+                                                                                ('Contemporary Literature', 'Analysis of contemporary novels and works.', 21, 10, 'contemporary-analysis.pdf', 10, 11),
+                                                                                ('History of Rock Music', 'The evolution of rock music.', 19, 9, NULL, 11, 12),
+                                                                                ('Famous Composers in Classical Music', 'Discussion on famous composers and their works.', 17, 8, 'composers-list.pdf', 12, 12),
+                                                                                ('Healthy Diets', 'Guide to maintaining a healthy diet.', 23, 11, NULL, 13, 13),
+                                                                                ('Traveling on a Budget', 'Tips for traveling without breaking the bank.', 27, 13, 'budget-travel.pdf', 14, 14),
+                                                                                ('Best Online Learning Platforms', 'Review of the best platforms for online learning.', 32, 16, NULL, 15, 15),
+                                                                                ('Java Debugging Techniques', 'Effective debugging techniques in Java.', 29, 14, 'debugging-guide.pdf', 1, 4),
+                                                                                ('Microservices with Spring Boot', 'Building microservices using Spring Boot.', 31, 15, NULL, 3, 1),
+                                                                                ('AI Ethics', 'Discussion on the ethical considerations in AI.', 36, 18, 'ai-ethics.pdf', 4, 5),
+                                                                                ('Quantum Computing', 'Basics of quantum computing and its applications.', 25, 12, NULL, 6, 8),
+                                                                                ('Cubism: Art Movement', 'Exploring Cubism and its impact on art.', 15, 7, 'cubism-guide.pdf', 8, 10),
+                                                                                ('Postmodern Literature', 'Analysis of postmodern literary works.', 20, 10, NULL, 10, 11),
+                                                                                ('Jazz Music History', 'The history and evolution of jazz music.', 18, 9, 'jazz-history.pdf', 11, 12),
+                                                                                ('Home Workouts', 'Effective workout routines you can do at home.', 24, 12, NULL, 13, 13),
+                                                                                ('Solo Travel Tips', 'Tips and advice for solo travelers.', 28, 14, 'solo-travel.pdf', 14, 14);
+
+-- COMMENT (mismos datos, no necesitan actualización)
+
+INSERT INTO comments (message, creation_date, id_thread, id_user) VALUES
+                                                                      ('This is comment 1', '2023-01-01T01:00:00', 1, 1),
+                                                                      ('This is comment 2', '2023-01-01T02:00:00', 2, 2),
+                                                                      ('This is comment 3', '2023-01-01T03:00:00', 3, 3),
+                                                                      ('This is comment 4', '2023-01-01T04:00:00', 4, 4),
+                                                                      ('This is comment 5', '2023-01-01T05:00:00', 5, 5),
+                                                                      ('This is comment 6', '2023-01-01T06:00:00', 6, 6),
+                                                                      ('This is comment 7', '2023-01-01T07:00:00', 7, 7),
+                                                                      ('This is comment 8', '2023-01-01T08:00:00', 8, 8),
+                                                                      ('This is comment 9', '2023-01-01T09:00:00', 9, 9),
+                                                                      ('This is comment 10', '2023-01-01T10:00:00', 10, 10),
+                                                                      ('This is comment 11', '2023-01-01T11:00:00', 11, 11),
+                                                                      ('This is comment 12', '2023-01-01T12:00:00', 12, 12),
+                                                                      ('This is comment 13', '2023-01-01T13:00:00', 13, 13),
+                                                                      ('This is comment 14', '2023-01-01T14:00:00', 14, 14),
+                                                                      ('This is comment 15', '2023-01-01T15:00:00', 15, 15),
+                                                                      ('This is comment 16', '2023-01-02T01:00:00', 1, 1),
+                                                                      ('This is comment 17', '2023-01-02T02:00:00', 2, 2),
+                                                                      ('This is comment 18', '2023-01-02T03:00:00', 3, 3),
+                                                                      ('This is comment 19', '2023-01-02T04:00:00', 4, 4),
+                                                                      ('This is comment 20', '2023-01-02T05:00:00', 5, 5),
+                                                                      ('This is comment 21', '2023-01-02T06:00:00', 6, 6),
+                                                                      ('This is comment 22', '2023-01-02T07:00:00', 7, 7),
+                                                                      ('This is comment 23', '2023-01-02T08:00:00', 8, 8),
+                                                                      ('This is comment 24', '2023-01-02T09:00:00', 9, 9),
+                                                                      ('This is comment 25', '2023-01-02T10:00:00', 10, 10),
+                                                                      ('This is comment 26', '2023-01-02T11:00:00', 11, 11),
+                                                                      ('This is comment 27', '2023-01-02T12:00:00', 12, 12),
+                                                                      ('This is comment 28', '2023-01-02T13:00:00', 13, 13),
+                                                                      ('This is comment 29', '2023-01-02T14:00:00', 14, 14),
+                                                                      ('This is comment 30', '2023-01-02T15:00:00', 15, 15),
+                                                                      ('This is comment 31', '2023-01-03T01:00:00', 1, 1),
+                                                                      ('This is comment 32', '2023-01-03T02:00:00', 2, 2),
+                                                                      ('This is comment 33', '2023-01-03T03:00:00', 3, 3),
+                                                                      ('This is comment 34', '2023-01-03T04:00:00', 4, 4),
+                                                                      ('This is comment 35', '2023-01-03T05:00:00', 5, 5),
+                                                                      ('This is comment 36', '2023-01-03T06:00:00', 6, 6),
+                                                                      ('This is comment 37', '2023-01-03T07:00:00', 7, 7),
+                                                                      ('This is comment 38', '2023-01-03T08:00:00', 8, 8),
+                                                                      ('This is comment 39', '2023-01-03T09:00:00', 9, 9),
+                                                                      ('This is comment 40', '2023-01-03T10:00:00', 10, 10),
+                                                                      ('This is comment 41', '2023-01-03T11:00:00', 11, 11),
+                                                                      ('This is comment 42', '2023-01-03T12:00:00', 12, 12),
+                                                                      ('This is comment 43', '2023-01-03T13:00:00', 13, 13),
+                                                                      ('This is comment 44', '2023-01-03T14:00:00', 14, 14),
+                                                                      ('This is comment 45', '2023-01-03T15:00:00', 15, 15),
+                                                                      ('This is comment 46', '2023-01-04T01:00:00', 1, 1),
+                                                                      ('This is comment 47', '2023-01-04T02:00:00', 2, 2),
+                                                                      ('This is comment 48', '2023-01-04T03:00:00', 3, 3),
+                                                                      ('This is comment 49', '2023-01-04T04:00:00', 4, 4),
+                                                                      ('This is comment 50', '2023-01-04T05:00:00', 5, 5),
+                                                                      ('This is comment 51', '2023-01-04T06:00:00', 6, 6),
+                                                                      ('This is comment 52', '2023-01-04T07:00:00', 7, 7),
+                                                                      ('This is comment 53', '2023-01-04T08:00:00', 8, 8),
+                                                                      ('This is comment 54', '2023-01-04T09:00:00', 9, 9),
+                                                                      ('This is comment 55', '2023-01-04T10:00:00', 10, 10),
+                                                                      ('This is comment 56', '2023-01-04T11:00:00', 11, 11),
+                                                                      ('This is comment 57', '2023-01-04T12:00:00', 12, 12),
+                                                                      ('This is comment 58', '2023-01-04T13:00:00', 13, 13),
+                                                                      ('This is comment 59', '2023-01-04T14:00:00', 14, 14),
+                                                                      ('This is comment 60', '2023-01-04T15:00:00', 15, 15),
+                                                                      ('This is comment 61', '2023-01-05T01:00:00', 1, 1),
+                                                                      ('This is comment 62', '2023-01-05T02:00:00', 2, 2),
+                                                                      ('This is comment 63', '2023-01-05T03:00:00', 3, 3),
+                                                                      ('This is comment 64', '2023-01-05T04:00:00', 4, 4),
+                                                                      ('This is comment 65', '2023-01-05T05:00:00', 5, 5),
+                                                                      ('This is comment 66', '2023-01-05T06:00:00', 6, 6),
+                                                                      ('This is comment 67', '2023-01-05T07:00:00', 7, 7),
+                                                                      ('This is comment 68', '2023-01-05T08:00:00', 8, 8),
+                                                                      ('This is comment 69', '2023-01-05T09:00:00', 9, 9),
+                                                                      ('This is comment 70', '2023-01-05T10:00:00', 10, 10);
+
+-- PRIZE
+
+INSERT INTO prizes (name, description, price, image) VALUES
+                                                         ('Premium Course Access', 'Access to premium programming courses for 3 months', 500, 'course-premium.jpg'),
+                                                         ('Programming Book Bundle', 'Collection of 5 essential programming books', 300, 'book-bundle.jpg'),
+                                                         ('Tech Conference Ticket', 'Ticket to annual tech conference', 800, 'conference-ticket.jpg'),
+                                                         ('Online Certification', 'Professional certification in chosen technology', 400, 'certification.jpg'),
+                                                         ('Laptop Upgrade Voucher', 'Voucher for laptop hardware upgrade', 1000, 'laptop-voucher.jpg'),
+                                                         ('Programming T-Shirt', 'Exclusive programming themed t-shirt', 100, 'programming-tshirt.jpg'),
+                                                         ('Development Tools License', '1-year license for development tools', 600, 'dev-tools.jpg'),
+                                                         ('Coding Bootcamp Discount', '50% discount on coding bootcamp enrollment', 750, 'bootcamp-discount.jpg');
+
+-- EXCHANGE
+
+INSERT INTO exchanges (id_user, id_prize, redemption_date) VALUES
+                                                               (1, 1, '2023-02-01T10:00:00'),
+                                                               (2, 6, '2023-02-05T14:30:00'),
+                                                               (4, 2, '2023-02-10T09:15:00'),
+                                                               (5, 4, '2023-02-15T16:20:00'),
+                                                               (7, 3, '2023-02-20T11:45:00'),
+                                                               (10, 6, '2023-02-25T13:10:00'),
+                                                               (12, 1, '2023-03-01T08:30:00'),
+                                                               (13, 5, '2023-03-05T15:50:00'),
+                                                               (15, 7, '2023-03-10T12:25:00');

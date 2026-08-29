@@ -2,22 +2,25 @@ package com.recpro.pe.learnsync.models;
 
 import com.recpro.pe.learnsync.dtos.forum.thread.ThreadDTO;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity(name = "threads")
 public class Thread {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_thread")
+    @EqualsAndHashCode.Include
     private Integer idThread;
 
     @Column(name = "title", nullable = false)
@@ -26,8 +29,8 @@ public class Thread {
     @Column(name = "message", nullable = false)
     private String message;
 
-    @Column(name = "creation_date", nullable = false)
-    private final LocalDateTime creationDate = LocalDateTime.now();
+    @Column(name = "creation_date", nullable = false, updatable = false)
+    private LocalDateTime creationDate;
 
     @Column(name = "likes", nullable = false)
     private Integer likes;
@@ -48,6 +51,37 @@ public class Thread {
 
     @OneToMany(mappedBy = "thread", cascade = CascadeType.ALL)
     private List<Comment> comments;
+
+    @PrePersist
+    void prePersist() {
+        if (creationDate == null) creationDate = LocalDateTime.now();
+    }
+
+    public Thread(Integer idThread, String title, String message, Integer likes, Integer stars, String file, Topic topic, User user, List<Comment> comments) {
+        this.idThread = idThread;
+        this.title = title;
+        this.message = message;
+        this.creationDate = LocalDateTime.now();
+        this.likes = likes;
+        this.stars = stars;
+        this.file = file;
+        this.topic = topic;
+        this.user = user;
+        this.comments = comments;
+    }
+
+    public Thread(Integer idThread, String title, String message, LocalDateTime creationDate, Integer likes, Integer stars, String file, Topic topic, User user, List<Comment> comments) {
+        this.idThread = idThread;
+        this.title = title;
+        this.message = message;
+        this.creationDate = creationDate != null ? creationDate : LocalDateTime.now();
+        this.likes = likes;
+        this.stars = stars;
+        this.file = file;
+        this.topic = topic;
+        this.user = user;
+        this.comments = comments;
+    }
 
     public static ThreadDTO toDTO(Thread thread){
         return new ThreadDTO(thread.getIdThread(), thread.getTitle(), thread.getMessage(), thread.getCreationDate(), thread.likes, thread.stars, thread.file, thread.getUser().getUsername(), thread.getUser().getProfilePhoto(), thread.getTopic().getName(), thread.getComments().size());
