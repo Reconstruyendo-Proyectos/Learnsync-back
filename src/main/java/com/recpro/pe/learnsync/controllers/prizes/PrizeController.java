@@ -21,9 +21,12 @@ public class PrizeController {
     private final PrizeService prizeService;
 
     @GetMapping("")
-    public ResponseEntity<List<PrizeDTO>> listPrizes(@RequestParam(defaultValue = "0") int page) {
+    public ResponseEntity<List<PrizeDTO>> listPrizes(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
         if (page < 0) page = 0;
-        return new ResponseEntity<>(prizeService.listPrizes(PageRequest.of(page, 10)), HttpStatus.OK);
+        size = Math.min(Math.max(size, 1), 50);
+        return new ResponseEntity<>(prizeService.listPrizes(PageRequest.of(page, size)), HttpStatus.OK);
     }
 
     @PostMapping("")

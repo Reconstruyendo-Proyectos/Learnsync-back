@@ -4,7 +4,10 @@ import com.recpro.pe.learnsync.dtos.auth.auth.AuthRequestDTO;
 import com.recpro.pe.learnsync.dtos.auth.auth.AuthResponseDTO;
 import com.recpro.pe.learnsync.dtos.auth.user.CreateUserDTO;
 import com.recpro.pe.learnsync.dtos.auth.user.UserDTO;
+import com.recpro.pe.learnsync.exceptions.TooManyRequestsException;
 import com.recpro.pe.learnsync.services.auth.AuthService;
+import com.recpro.pe.learnsync.utils.RateLimitService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/auth")
 public class AuthController {
     private final AuthService authService;
+    private final RateLimitService rateLimitService;
 
     @PostMapping("/register")
     public ResponseEntity<UserDTO> register(@Valid @RequestBody CreateUserDTO request) {
@@ -30,7 +34,11 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthResponseDTO> login(@Valid @RequestBody AuthRequestDTO request) {
+    public ResponseEntity<AuthResponseDTO> login(@Valid @RequestBody AuthRequestDTO request, HttpServletRequest httpRequest) {
+        String key = httpRequest.getRemoteAddr() + ":" + request.getUsername();
+        if (!rateLimitService.isAllowed(key)) {
+            throw new TooManyRequestsException("Demasiados intentos, espera 60s");
+        }
         return ResponseEntity.ok(authService.login(request));
     }
 }

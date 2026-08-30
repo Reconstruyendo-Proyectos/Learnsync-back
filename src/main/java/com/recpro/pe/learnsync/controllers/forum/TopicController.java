@@ -23,9 +23,12 @@ public class TopicController {
     private final TopicMapper topicMapper;
 
     @GetMapping("")
-    public ResponseEntity<List<TopicDTO>> listTopics(@RequestParam(defaultValue = "0") int page) {
+    public ResponseEntity<List<TopicDTO>> listTopics(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
         if (page < 0) page = 0;
-        return new ResponseEntity<>(topicService.listTopics(PageRequest.of(page, 10)), HttpStatus.OK);
+        size = Math.min(Math.max(size, 1), 50);
+        return new ResponseEntity<>(topicService.listTopics(PageRequest.of(page, size)), HttpStatus.OK);
     }
 
     @GetMapping("/{slug}")

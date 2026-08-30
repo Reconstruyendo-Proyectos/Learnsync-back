@@ -21,9 +21,12 @@ public class CommentController {
     private final CommentService commentService;
 
     @GetMapping("")
-    public ResponseEntity<List<CommentDTO>> getComments(@RequestParam(defaultValue = "0") int page) {
+    public ResponseEntity<List<CommentDTO>> getComments(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
         if (page < 0) page = 0;
-        return new ResponseEntity<>(commentService.listComments(PageRequest.of(page, 10)), HttpStatus.OK);
+        size = Math.min(Math.max(size, 1), 50);
+        return new ResponseEntity<>(commentService.listComments(PageRequest.of(page, size)), HttpStatus.OK);
     }
 
     @PostMapping("")

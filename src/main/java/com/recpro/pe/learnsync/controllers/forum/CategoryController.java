@@ -21,9 +21,12 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @GetMapping("")
-    public ResponseEntity<List<CategoryDTO>> getCategories(@RequestParam(defaultValue = "0") int page) {
+    public ResponseEntity<List<CategoryDTO>> getCategories(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
         if (page < 0) page = 0;
-        return new ResponseEntity<>(categoryService.listCategory(PageRequest.of(page, 10)), HttpStatus.OK);
+        size = Math.min(Math.max(size, 1), 50);
+        return new ResponseEntity<>(categoryService.listCategory(PageRequest.of(page, size)), HttpStatus.OK);
     }
 
     @PostMapping("")

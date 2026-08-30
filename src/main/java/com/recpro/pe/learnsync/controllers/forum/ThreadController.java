@@ -25,11 +25,16 @@ public class ThreadController {
     @GetMapping("")
     public ResponseEntity<List<ThreadDTO>> getThreads(
             @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
             @RequestParam(required = false) String slug,
             @RequestParam(required = false, defaultValue = "creation-date") String sortBy) {
 
         if (page < 0) page = 0;
-        PageRequest pageRequest = PageRequest.of(page, 10);
+        size = Math.min(Math.max(size, 1), 50);
+        if (!"creation-date".equals(sortBy) && !"interactions".equals(sortBy)) {
+            throw new IllegalArgumentException("sortBy debe ser 'creation-date' o 'interactions'");
+        }
+        PageRequest pageRequest = PageRequest.of(page, size);
         List<ThreadDTO> threads;
 
         if (slug != null) {
