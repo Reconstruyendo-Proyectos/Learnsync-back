@@ -4,12 +4,13 @@ import com.recpro.pe.learnsync.exceptions.ResourceNotExistsException;
 import com.recpro.pe.learnsync.models.Role;
 import com.recpro.pe.learnsync.models.enums.ERole;
 import com.recpro.pe.learnsync.repos.auth.RoleRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class RoleService {
-    @Autowired private RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
 
     public Role getRole(String roleName) {
         ERole enumRole = Role.transformStringtoERole(roleName);

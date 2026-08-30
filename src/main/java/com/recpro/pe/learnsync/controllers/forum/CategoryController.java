@@ -4,7 +4,7 @@ import com.recpro.pe.learnsync.dtos.forum.category.CategoryDTO;
 import com.recpro.pe.learnsync.dtos.forum.category.CreateCategoryDTO;
 import com.recpro.pe.learnsync.services.forum.CategoryService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,19 +12,21 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @RestController
-@RequestMapping("api/category")
-@CrossOrigin(origins = "http://localhost:4200")
+@RequestMapping("/api/v1/categories")
 public class CategoryController {
-    @Autowired private CategoryService categoryService;
+    private final CategoryService categoryService;
 
     @GetMapping("")
-    public ResponseEntity<List<CategoryDTO>> getCategories(@RequestParam int page) {
+    public ResponseEntity<List<CategoryDTO>> getCategories(@RequestParam(defaultValue = "0") int page) {
+        if (page < 0) page = 0;
         return new ResponseEntity<>(categoryService.listCategory(PageRequest.of(page, 10)), HttpStatus.OK);
     }
 
     @PostMapping("")
     public ResponseEntity<CategoryDTO> createCategory(@Valid @RequestBody CreateCategoryDTO request) {
-        return new ResponseEntity<>(categoryService.createCategory(request), HttpStatus.CREATED);
+        CategoryDTO created = categoryService.createCategory(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 }

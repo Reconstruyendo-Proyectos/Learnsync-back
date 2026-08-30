@@ -3,7 +3,7 @@ package com.recpro.pe.learnsync.services.auth;
 import com.recpro.pe.learnsync.models.User;
 import com.recpro.pe.learnsync.repos.auth.UserRepository;
 import com.recpro.pe.learnsync.utils.UserSecurity;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,10 +14,8 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 
 @Service
-public class JwtDetailsService implements UserDetailsService {
-
-    @Autowired
-    private UserRepository userRepository;
+@RequiredArgsConstructor
+public class JwtDetailsService implements UserDetailsService {    private final UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

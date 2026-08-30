@@ -42,6 +42,7 @@ public class ConfirmationTokenServiceTest {
         confirmationToken = new ConfirmationToken(1, "Token", null, user);
         mailFrom = "eprueba736@gmail.com";
         ReflectionTestUtils.setField(confirmationTokenService, "mailFrom", mailFrom);
+        ReflectionTestUtils.setField(confirmationTokenService, "backendUrl", "http://localhost:8080");
     }
 
     @Test
@@ -103,7 +104,7 @@ public class ConfirmationTokenServiceTest {
     void testSendEmail() {
         // Given
         Map<String, Object> expectedModel = new HashMap<>();
-        String expectedUrl = "http://localhost:8080/api/auth/confirmation-token/" + confirmationToken.getToken();
+        String expectedUrl = "http://localhost:8080/api/v1/auth/confirmation-token/" + confirmationToken.getToken();
         String expectedImage = "http://localhost:8080/assets/logo.png";
         expectedModel.put("user", user.getUsername());
         expectedModel.put("url", expectedUrl);

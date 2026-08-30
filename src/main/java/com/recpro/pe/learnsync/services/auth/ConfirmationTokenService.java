@@ -5,7 +5,7 @@ import com.recpro.pe.learnsync.exceptions.ResourceNotExistsException;
 import com.recpro.pe.learnsync.models.ConfirmationToken;
 import com.recpro.pe.learnsync.models.User;
 import com.recpro.pe.learnsync.repos.auth.ConfirmationTokenRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -14,18 +14,22 @@ import java.util.Map;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class ConfirmationTokenService {
 
-    @Autowired private ConfirmationTokenRepository confirmationTokenRepository;
-    @Autowired private EmailService emailService;
+
+    private final ConfirmationTokenRepository confirmationTokenRepository;
+    private final EmailService emailService;
     @Value("${email.sender}")
     private String mailFrom;
+    @Value("${app.backend.url}")
+    private String backendUrl;
 
-    public void sendEmail(User user) { //Cambiar URL a la del back desplegado
+    public void sendEmail(User user) {
         Map<String, Object> model = new HashMap<>();
         String token = generateToken(user);
-        String url = "http://localhost:8080/api/auth/confirmation-token/"+token;
-        String image = "http://localhost:8080/assets/logo.png";
+        String url = backendUrl + "/api/v1/auth/confirmation-token/" + token;
+        String image = backendUrl + "/assets/logo.png";
         model.put("user", user.getUsername());
         model.put("url", url);
         model.put("image", image);

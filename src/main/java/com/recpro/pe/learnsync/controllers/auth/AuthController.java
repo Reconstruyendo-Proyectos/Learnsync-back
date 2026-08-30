@@ -6,29 +6,29 @@ import com.recpro.pe.learnsync.dtos.auth.user.CreateUserDTO;
 import com.recpro.pe.learnsync.dtos.auth.user.UserDTO;
 import com.recpro.pe.learnsync.services.auth.AuthService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@RequiredArgsConstructor
 @RestController
-@RequestMapping("api/auth")
-@CrossOrigin("http://localhost:4200")
+@RequestMapping("/api/v1/auth")
 public class AuthController {
-    @Autowired private AuthService authService;
+    private final AuthService authService;
 
     @PostMapping("/register")
     public ResponseEntity<UserDTO> register(@Valid @RequestBody CreateUserDTO request) {
-        return new ResponseEntity<>(authService.register(request), HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).body(authService.register(request));
     }
 
     @GetMapping("/confirmation-token/{token}")
     public ResponseEntity<String> activateAccount(@PathVariable String token) {
-        return new ResponseEntity<>(authService.activateAccount(token), HttpStatus.OK);
+        return ResponseEntity.ok(authService.activateAccount(token));
     }
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponseDTO> login(@Valid @RequestBody AuthRequestDTO request) {
-        return new ResponseEntity<>(authService.login(request), HttpStatus.OK);
+        return ResponseEntity.ok(authService.login(request));
     }
 }

@@ -36,7 +36,7 @@ public class CategoryControllerTest {
         AuthRequestDTO request = new AuthRequestDTO("jluyo", "upao2025");
         String authJson = objectMapper.writeValueAsString(request);
         ResultActions resultActions = this.mockMvc
-                .perform(post("/api/auth/login")
+                .perform(post("/api/v1/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(authJson));
         MvcResult mvcResult = resultActions.andDo(print()).andExpect(status().isOk()).andReturn();
@@ -49,7 +49,7 @@ public class CategoryControllerTest {
 
     @Test
     void testListCategories() throws Exception {
-        mockMvc.perform(get("/api/category")
+        mockMvc.perform(get("/api/v1/categories")
                         .param("page", "0"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(not(0))))
@@ -62,7 +62,7 @@ public class CategoryControllerTest {
         CreateCategoryDTO request = new CreateCategoryDTO("Ciclo I");
         String categoryJson = objectMapper.writeValueAsString(request);
 
-        mockMvc.perform(post("/api/category")
+        mockMvc.perform(post("/api/v1/categories")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(categoryJson)
                         .header("Authorization", token))
@@ -79,7 +79,7 @@ public class CategoryControllerTest {
         CreateCategoryDTO request = new CreateCategoryDTO("Technology");
         String categoryJson = objectMapper.writeValueAsString(request);
 
-        mockMvc.perform(post("/api/category")
+        mockMvc.perform(post("/api/v1/categories")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(categoryJson)
                         .header("Authorization", token))
@@ -92,7 +92,7 @@ public class CategoryControllerTest {
         CreateCategoryDTO request = new CreateCategoryDTO(" ");
         String categoryJson = objectMapper.writeValueAsString(request);
 
-        mockMvc.perform(post("/api/category")
+        mockMvc.perform(post("/api/v1/categories")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(categoryJson)
                         .header("Authorization", token))

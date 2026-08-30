@@ -7,17 +7,18 @@ import com.recpro.pe.learnsync.models.Thread;
 import com.recpro.pe.learnsync.models.User;
 import com.recpro.pe.learnsync.repos.forum.CommentRepository;
 import com.recpro.pe.learnsync.services.auth.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class CommentService {
-    @Autowired private CommentRepository commentRepository;
-    @Autowired private UserService userService;
-    @Autowired private ThreadService threadService;
+    private final CommentRepository commentRepository;
+    private final UserService userService;
+    private final ThreadService threadService;
 
     public List<CommentDTO> listComments(Pageable pageable) {
         return commentRepository.findAll(pageable).stream().map(Comment::toDto).toList();

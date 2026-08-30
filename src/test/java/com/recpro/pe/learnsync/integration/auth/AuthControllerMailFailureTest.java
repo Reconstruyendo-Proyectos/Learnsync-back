@@ -28,7 +28,7 @@ public class AuthControllerMailFailureTest {
         CreateUserDTO request = new CreateUserDTO("testuser", "password123", "test@example.com");
         String userJson = new ObjectMapper().writeValueAsString(request);
 
-        mockMvc.perform(post("/api/auth/register")
+        mockMvc.perform(post("/api/v1/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(userJson))
                 .andExpect(status().isFailedDependency());

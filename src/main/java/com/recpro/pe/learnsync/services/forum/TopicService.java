@@ -7,7 +7,7 @@ import com.recpro.pe.learnsync.exceptions.ResourceNotExistsException;
 import com.recpro.pe.learnsync.models.Category;
 import com.recpro.pe.learnsync.models.Topic;
 import com.recpro.pe.learnsync.repos.forum.TopicRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -15,13 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class TopicService {
-
-    @Autowired
-    private TopicRepository topicRepository;
-
-    @Autowired
-    private CategoryService categoryService;
+    private final TopicRepository topicRepository;
+    private final CategoryService categoryService;
 
     public List<TopicDTO> listTopics(Pageable pageable) {
         return topicRepository.findAll(pageable).stream().map(Topic::toDTO).toList();

@@ -11,7 +11,7 @@ import com.recpro.pe.learnsync.models.User;
 import com.recpro.pe.learnsync.repos.prizes.ExchangeRepository;
 import com.recpro.pe.learnsync.repos.prizes.PrizeRepository;
 import com.recpro.pe.learnsync.services.auth.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -20,10 +20,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class PrizeService {
-    @Autowired private PrizeRepository prizeRepository;
-    @Autowired private UserService userService;
-    @Autowired private ExchangeRepository exchangeRepository;
+    private final PrizeRepository prizeRepository;
+    private final UserService userService;
+    private final ExchangeRepository exchangeRepository;
 
     public List<PrizeDTO> listPrizes(Pageable pageable) {
         return prizeRepository.findAll(pageable).stream().map(Prize::toDto).toList();

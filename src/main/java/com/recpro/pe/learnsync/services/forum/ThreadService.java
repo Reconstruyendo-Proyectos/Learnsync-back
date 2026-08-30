@@ -8,7 +8,7 @@ import com.recpro.pe.learnsync.models.Topic;
 import com.recpro.pe.learnsync.models.User;
 import com.recpro.pe.learnsync.repos.forum.ThreadRepository;
 import com.recpro.pe.learnsync.services.auth.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -16,10 +16,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ThreadService {
-    @Autowired private ThreadRepository threadRepository;
-    @Autowired private UserService userService;
-    @Autowired private TopicService topicService;
+    private final ThreadRepository threadRepository;
+    private final UserService userService;
+    private final TopicService topicService;
 
     public List<ThreadDTO> listThreads(Pageable pageable) {
         return threadRepository.findAllByOrderByIdThreadDesc(pageable).stream().map(Thread::toDTO).toList();

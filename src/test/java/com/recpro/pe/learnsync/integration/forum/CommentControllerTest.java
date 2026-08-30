@@ -36,7 +36,7 @@ public class CommentControllerTest {
         AuthRequestDTO request = new AuthRequestDTO("jluyo", "upao2025");
         String authJson = objectMapper.writeValueAsString(request);
         ResultActions resultActions = this.mockMvc
-                .perform(post("/api/auth/login")
+                .perform(post("/api/v1/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(authJson));
         MvcResult mvcResult = resultActions.andDo(print()).andExpect(status().isOk()).andReturn();
@@ -49,7 +49,7 @@ public class CommentControllerTest {
 
     @Test
     void testListComments() throws Exception {
-        mockMvc.perform(get("/api/comment")
+        mockMvc.perform(get("/api/v1/comments")
                         .param("page", "0"))
                 .andExpect(jsonPath("$", hasSize(not(0))))
                 .andExpect(jsonPath("$[0].idComment").value(1))
@@ -61,7 +61,7 @@ public class CommentControllerTest {
         CreateCommentDTO request = new CreateCommentDTO("Esto es un comentario", "jluyo", 1);
         String commentJson = objectMapper.writeValueAsString(request);
 
-        mockMvc.perform(post("/api/comment")
+        mockMvc.perform(post("/api/v1/comments")
                         .header("Authorization", token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(commentJson))
@@ -77,7 +77,7 @@ public class CommentControllerTest {
         CreateCommentDTO request = new CreateCommentDTO("Esto es un comentario", "USER_NOT_EXISTS", 1);
         String commentJson = objectMapper.writeValueAsString(request);
 
-        mockMvc.perform(post("/api/comment")
+        mockMvc.perform(post("/api/v1/comments")
                         .header("Authorization", token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(commentJson))
@@ -90,7 +90,7 @@ public class CommentControllerTest {
         CreateCommentDTO request = new CreateCommentDTO("Esto es un comentario", "jluyo", 99999);
         String commentJson = objectMapper.writeValueAsString(request);
 
-        mockMvc.perform(post("/api/comment")
+        mockMvc.perform(post("/api/v1/comments")
                         .header("Authorization", token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(commentJson))
@@ -103,7 +103,7 @@ public class CommentControllerTest {
         CreateCommentDTO request = new CreateCommentDTO(" ", "", null);
         String commentJson = objectMapper.writeValueAsString(request);
 
-        mockMvc.perform(post("/api/comment")
+        mockMvc.perform(post("/api/v1/comments")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(commentJson)
                         .header("Authorization", token))

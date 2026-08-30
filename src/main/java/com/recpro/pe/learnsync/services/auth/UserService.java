@@ -6,7 +6,7 @@ import com.recpro.pe.learnsync.dtos.auth.user.UserDTO;
 import com.recpro.pe.learnsync.exceptions.ResourceNotExistsException;
 import com.recpro.pe.learnsync.models.User;
 import com.recpro.pe.learnsync.repos.auth.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -14,9 +14,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
-
-    @Autowired private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     public List<UserDTO> listUsers(Pageable pageable) {
         return userRepository.findAll(pageable).stream().map(User::toDto).toList();

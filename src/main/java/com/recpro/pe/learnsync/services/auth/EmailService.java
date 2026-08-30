@@ -3,7 +3,7 @@ package com.recpro.pe.learnsync.services.auth;
 import com.recpro.pe.learnsync.dtos.auth.email.Mail;
 import com.recpro.pe.learnsync.exceptions.ConfigMailException;
 import jakarta.mail.internet.MimeMessage;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.InputStreamSource;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -15,10 +15,10 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 import java.util.Map;
 
 @Service
+@RequiredArgsConstructor
 public class EmailService {
-
-    @Autowired private JavaMailSender mailSender;
-    @Autowired private SpringTemplateEngine templateEngine;
+    private final JavaMailSender mailSender;
+    private final SpringTemplateEngine templateEngine;
 
     // ENVIAR MAIL CON TEMPLATE
 

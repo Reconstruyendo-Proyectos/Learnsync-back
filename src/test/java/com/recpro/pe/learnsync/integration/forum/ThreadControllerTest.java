@@ -36,7 +36,7 @@ public class ThreadControllerTest {
         AuthRequestDTO request = new AuthRequestDTO("jluyo", "upao2025");
         String authJson = objectMapper.writeValueAsString(request);
         ResultActions resultActions = this.mockMvc
-                .perform(post("/api/auth/login")
+                .perform(post("/api/v1/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(authJson));
         MvcResult mvcResult = resultActions.andDo(print()).andExpect(status().isOk()).andReturn();
@@ -49,7 +49,7 @@ public class ThreadControllerTest {
 
     @Test
     void testListThreads() throws Exception {
-        mockMvc.perform(get("/api/thread")
+        mockMvc.perform(get("/api/v1/threads")
                         .param("page", "0"))
                 .andExpect(jsonPath("$", hasSize(not(0))))
                 .andExpect(jsonPath("$[0].idThread").value(31))
@@ -62,7 +62,7 @@ public class ThreadControllerTest {
         CreateThreadDTO request = new CreateThreadDTO("¿Quien es Antenor Orrego?", "Ayuden que es para mi tarea gente", "physics-fundamentals", null);
         String threadJson = objectMapper.writeValueAsString(request);
 
-        mockMvc.perform(post("/api/thread")
+        mockMvc.perform(post("/api/v1/threads")
                         .header("Authorization", token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(threadJson))
@@ -79,7 +79,7 @@ public class ThreadControllerTest {
         CreateThreadDTO request = new CreateThreadDTO("¿Quien es Antenor Orrego?", "Ayuden que es para mi tarea gente", "topic-not-exists", null);
         String threadJson = objectMapper.writeValueAsString(request);
 
-        mockMvc.perform(post("/api/thread")
+        mockMvc.perform(post("/api/v1/threads")
                         .header("Authorization", token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(threadJson))
@@ -92,7 +92,7 @@ public class ThreadControllerTest {
         CreateThreadDTO request = new CreateThreadDTO(" ", "", " ", null);
         String threadJson = objectMapper.writeValueAsString(request);
 
-        mockMvc.perform(post("/api/thread")
+        mockMvc.perform(post("/api/v1/threads")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(threadJson)
                         .header("Authorization", token))
@@ -108,7 +108,7 @@ public class ThreadControllerTest {
 
     @Test
     void testGetThread() throws Exception {
-        mockMvc.perform(get("/api/thread/1")
+        mockMvc.perform(get("/api/v1/threads/1")
                         .pathInfo("/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", notNullValue()))
@@ -120,7 +120,7 @@ public class ThreadControllerTest {
 
     @Test
     void testGetThreadWhenThreadNotExists() throws Exception {
-        mockMvc.perform(get("/api/thread/99999")
+        mockMvc.perform(get("/api/v1/threads/99999")
                         .pathInfo("/99999"))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$").value("No existe el hilo #99999"));

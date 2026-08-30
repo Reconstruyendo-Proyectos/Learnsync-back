@@ -3,7 +3,7 @@ package com.recpro.pe.learnsync.services.integrations;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.recpro.pe.learnsync.dtos.image.ImageResponseDTO;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -14,10 +14,12 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 @Service
+@RequiredArgsConstructor
 public class ImgurService {
 
+
     private final WebClient webClient = WebClient.builder().build();
-    @Autowired private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
 
     @Value("${imgur.api.url}")
     private String imgurUrl;

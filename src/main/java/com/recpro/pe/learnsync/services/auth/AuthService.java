@@ -14,7 +14,8 @@ import com.recpro.pe.learnsync.models.Role;
 import com.recpro.pe.learnsync.models.User;
 import com.recpro.pe.learnsync.repos.auth.UserRepository;
 import com.recpro.pe.learnsync.utils.JwtUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -32,15 +33,19 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class AuthService {
 
-    @Autowired private UserRepository userRepository;
-    @Autowired private PasswordEncoder passwordEncoder;
-    @Autowired private JwtUtils jwtUtils;
-    @Autowired private JwtDetailsService userDetailsService;
-    @Autowired private ConfirmationTokenService confirmationTokenService;
-    @Autowired private RoleService roleService;
-    @Autowired private SpringTemplateEngine templateEngine;
+
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtUtils jwtUtils;
+    private final JwtDetailsService userDetailsService;
+    private final ConfirmationTokenService confirmationTokenService;
+    private final RoleService roleService;
+    private final SpringTemplateEngine templateEngine;
+    @Value("${app.backend.url}")
+    private String backendUrl;
 
     public UserDTO register(CreateUserDTO request) {
         Role role = roleService.getRole("STUDENT");
@@ -71,7 +76,7 @@ public class AuthService {
         user.setEnable(true);
         userRepository.save(user);
         Map<String, Object> model = new HashMap<>();
-        model.put("image", "http://localhost:8080/assets/logo.png");
+        model.put("image", backendUrl + "/assets/logo.png");
         Context context = new Context();
         context.setVariables(model);
         return templateEngine.process("account-activated-template", context);

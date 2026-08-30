@@ -6,7 +6,7 @@ import com.recpro.pe.learnsync.exceptions.ResourceAlreadyExistsException;
 import com.recpro.pe.learnsync.exceptions.ResourceNotExistsException;
 import com.recpro.pe.learnsync.models.Category;
 import com.recpro.pe.learnsync.repos.forum.CategoryRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class CategoryService {
-
-    @Autowired
-    private CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
 
     public List<CategoryDTO> listCategory(Pageable pageable) {
         return categoryRepository.findAll(pageable).stream().map(Category::toDTO).toList();

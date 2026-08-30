@@ -37,7 +37,7 @@ public class TopicControllerTest {
         AuthRequestDTO request = new AuthRequestDTO("jluyo", "upao2025");
         String authJson = objectMapper.writeValueAsString(request);
         ResultActions resultActions = this.mockMvc
-                .perform(post("/api/auth/login")
+                .perform(post("/api/v1/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(authJson));
         MvcResult mvcResult = resultActions.andDo(print()).andExpect(status().isOk()).andReturn();
@@ -50,7 +50,7 @@ public class TopicControllerTest {
 
     @Test
     void testListTopics() throws Exception {
-        mockMvc.perform(get("/api/topic")
+        mockMvc.perform(get("/api/v1/topics")
                 .param("page", "0"))
                 .andExpect(jsonPath("$", hasSize(not(0))))
                 .andExpect(jsonPath("$[0].idTopic").value(1))
@@ -64,7 +64,7 @@ public class TopicControllerTest {
         CreateTopicDTO request = new CreateTopicDTO("Formativa I", "Descripcion para Formativa I", "Music", "icon", "poster");
         String topicJson = objectMapper.writeValueAsString(request);
 
-        mockMvc.perform(post("/api/topic")
+        mockMvc.perform(post("/api/v1/topics")
                 .header("Authorization", token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(topicJson))
@@ -82,7 +82,7 @@ public class TopicControllerTest {
         CreateTopicDTO request = new CreateTopicDTO("Advanced Java", "Descripcion para Formativa I", "Music", "icon", "poster");
         String topicJson = objectMapper.writeValueAsString(request);
 
-        mockMvc.perform(post("/api/topic")
+        mockMvc.perform(post("/api/v1/topics")
                 .header("Authorization", token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(topicJson))
@@ -95,7 +95,7 @@ public class TopicControllerTest {
         CreateTopicDTO request = new CreateTopicDTO("Formativa II", "Descripcion para Formativa I", "Musicaaa", "icon", "poster");
         String topicJson = objectMapper.writeValueAsString(request);
 
-        mockMvc.perform(post("/api/topic")
+        mockMvc.perform(post("/api/v1/topics")
                         .header("Authorization", token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(topicJson))
@@ -108,7 +108,7 @@ public class TopicControllerTest {
         CreateTopicDTO request = new CreateTopicDTO(" ", "ESTO ES UNA DESCRIPCION DE MAS DE 50 CARACTERES DE TAMAÑO", null, "icon", "poster");
         String topicJson = objectMapper.writeValueAsString(request);
 
-        mockMvc.perform(post("/api/topic")
+        mockMvc.perform(post("/api/v1/topics")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(topicJson)
                         .header("Authorization", token))
@@ -124,7 +124,7 @@ public class TopicControllerTest {
 
     @Test
     void testGetTopic() throws Exception {
-        mockMvc.perform(get("/api/topic/advanced-java")
+        mockMvc.perform(get("/api/v1/topics/advanced-java")
                 .pathInfo("/advanced-java"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", notNullValue()))
@@ -136,7 +136,7 @@ public class TopicControllerTest {
 
     @Test
     void testGetTopicWhenTopicNotExists() throws Exception {
-        mockMvc.perform(get("/api/topic/topic-not-exists")
+        mockMvc.perform(get("/api/v1/topics/topic-not-exists")
                 .pathInfo("/topic-not-exists"))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$").value("El tópico Topic Not Exists no existe"));

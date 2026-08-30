@@ -2,7 +2,7 @@ package com.recpro.pe.learnsync.config;
 
 import com.recpro.pe.learnsync.services.auth.JwtDetailsService;
 import com.recpro.pe.learnsync.utils.JwtUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -23,13 +23,11 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
 
-    // To create AuthenticationManager
-    @Autowired
-    AuthenticationConfiguration authenticationConfiguration;
-
-    @Autowired private JwtUtils jwtUtils;
+    private final AuthenticationConfiguration authenticationConfiguration;
+    private final JwtUtils jwtUtils;
 
     // Configure the security
     // HttpSecurity is very important
@@ -39,16 +37,14 @@ public class SecurityConfig {
                 csrf(AbstractHttpConfigurer::disable)
                 // Permit request to all endpoints of AuthController without authentication
                 .authorizeHttpRequests(auth -> {
-                    // Configure public endpoints
-                    auth.requestMatchers(HttpMethod.GET, "/api/auth/**").permitAll();
-                    auth.requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll();
-                    auth.requestMatchers(HttpMethod.PATCH, "/api/auth/**").permitAll();
+                    auth.requestMatchers(HttpMethod.GET, "/api/v1/auth/**").permitAll();
+                    auth.requestMatchers(HttpMethod.POST, "/api/v1/auth/**").permitAll();
+                    auth.requestMatchers(HttpMethod.PATCH, "/api/v1/auth/**").permitAll();
                     auth.requestMatchers(HttpMethod.OPTIONS, "/api/**").permitAll();
                     auth.requestMatchers(HttpMethod.GET, "/assets/**").permitAll();
-                    auth.requestMatchers(HttpMethod.GET, "/api/topic/**", "/api/thread/**", "/api/category/**", "/api/comment/**").permitAll();
+                    auth.requestMatchers(HttpMethod.GET, "/api/v1/topics/**", "/api/v1/threads/**", "/api/v1/categories/**", "/api/v1/comments/**", "/api/v1/prizes/**").permitAll();
                     auth.requestMatchers("/doc/**", "/v3/api-docs/**").permitAll();
-                    auth.requestMatchers("/h2-console").permitAll();
-                    // Configure the others endpoints
+                    auth.requestMatchers("/h2-console/**").permitAll();
                     auth.anyRequest().authenticated();
                 })
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

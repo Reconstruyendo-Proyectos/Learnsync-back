@@ -5,7 +5,7 @@ import com.recpro.pe.learnsync.dtos.forum.thread.ThreadDTO;
 import com.recpro.pe.learnsync.models.Thread;
 import com.recpro.pe.learnsync.services.forum.ThreadService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,18 +13,19 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @RestController
-@RequestMapping("api/thread")
+@RequestMapping("/api/v1/threads")
 public class ThreadController {
-
-    @Autowired private ThreadService threadService;
+    private final ThreadService threadService;
 
     @GetMapping("")
     public ResponseEntity<List<ThreadDTO>> getThreads(
-            @RequestParam int page,
+            @RequestParam(defaultValue = "0") int page,
             @RequestParam(required = false) String slug,
             @RequestParam(required = false, defaultValue = "creation-date") String sortBy) {
 
+        if (page < 0) page = 0;
         PageRequest pageRequest = PageRequest.of(page, 10);
         List<ThreadDTO> threads;
 
@@ -46,6 +47,7 @@ public class ThreadController {
 
     @PostMapping("")
     public ResponseEntity<ThreadDTO> createThread(@Valid @RequestBody CreateThreadDTO request) {
-        return new ResponseEntity<>(threadService.createThread(request), HttpStatus.CREATED);
+        ThreadDTO created = threadService.createThread(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 }

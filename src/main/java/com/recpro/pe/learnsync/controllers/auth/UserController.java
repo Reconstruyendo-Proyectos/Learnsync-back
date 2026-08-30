@@ -4,34 +4,36 @@ import com.recpro.pe.learnsync.dtos.auth.user.ImageUserDTO;
 import com.recpro.pe.learnsync.dtos.auth.user.UserDTO;
 import com.recpro.pe.learnsync.models.User;
 import com.recpro.pe.learnsync.services.auth.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@RequiredArgsConstructor
 @RestController
-@RequestMapping("api/user")
-@CrossOrigin("http://localhost:4200")
+@RequestMapping("/api/v1/users")
 public class UserController {
-    @Autowired private UserService userService;
+    private final UserService userService;
 
     @GetMapping("/profile")
     public ResponseEntity<UserDTO> getAuthenticatedUser() {
-        return new ResponseEntity<>(User.toDto(userService.getAuthenticatedUser()), HttpStatus.OK);
+        return ResponseEntity.ok(User.toDto(userService.getAuthenticatedUser()));
     }
 
     @PatchMapping("/photo")
     public ResponseEntity<Void> uploadProfilePhoto(@RequestBody ImageUserDTO request) {
-        return new ResponseEntity<>(userService.uploadProfilePhoto(request), HttpStatus.NO_CONTENT);
+        userService.uploadProfilePhoto(request);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/photo")
     public ResponseEntity<Void> deleteProfilePhoto() {
-        return new ResponseEntity<>(userService.deleteProfilePhoto(), HttpStatus.NO_CONTENT);
+        userService.deleteProfilePhoto();
+        return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("/username")
     public ResponseEntity<Void> uploadProfileUsername(@RequestParam String username) {
-        return new ResponseEntity<>(userService.uploadUsername(username), HttpStatus.NO_CONTENT);
+        userService.uploadUsername(username);
+        return ResponseEntity.noContent().build();
     }
 }

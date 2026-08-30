@@ -5,7 +5,7 @@ import com.recpro.pe.learnsync.dtos.forum.topic.TopicDTO;
 import com.recpro.pe.learnsync.models.Topic;
 import com.recpro.pe.learnsync.services.forum.TopicService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,14 +13,15 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @RestController
-@RequestMapping("api/topic")
+@RequestMapping("/api/v1/topics")
 public class TopicController {
-
-    @Autowired private TopicService topicService;
+    private final TopicService topicService;
 
     @GetMapping("")
-    public ResponseEntity<List<TopicDTO>> listTopics(@RequestParam int page) {
+    public ResponseEntity<List<TopicDTO>> listTopics(@RequestParam(defaultValue = "0") int page) {
+        if (page < 0) page = 0;
         return new ResponseEntity<>(topicService.listTopics(PageRequest.of(page, 10)), HttpStatus.OK);
     }
 
@@ -31,6 +32,7 @@ public class TopicController {
 
     @PostMapping("")
     public ResponseEntity<TopicDTO> createTopic(@Valid @RequestBody CreateTopicDTO request) {
-        return new ResponseEntity<>(topicService.createTopic(request), HttpStatus.CREATED);
+        TopicDTO created = topicService.createTopic(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 }
