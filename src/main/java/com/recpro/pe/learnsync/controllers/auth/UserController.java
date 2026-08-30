@@ -4,10 +4,12 @@ import com.recpro.pe.learnsync.dtos.auth.user.ImageUserDTO;
 import com.recpro.pe.learnsync.dtos.auth.user.UserDTO;
 import com.recpro.pe.learnsync.models.User;
 import com.recpro.pe.learnsync.services.auth.UserService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Tag(name = "Users")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/users")

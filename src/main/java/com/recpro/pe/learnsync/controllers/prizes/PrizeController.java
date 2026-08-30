@@ -4,6 +4,7 @@ import com.recpro.pe.learnsync.dtos.prizes.CreatePrizeDTO;
 import com.recpro.pe.learnsync.dtos.prizes.PrizeDTO;
 import com.recpro.pe.learnsync.dtos.prizes.PrizeToExchangeDTO;
 import com.recpro.pe.learnsync.services.prizes.PrizeService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "Prizes")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/prizes")

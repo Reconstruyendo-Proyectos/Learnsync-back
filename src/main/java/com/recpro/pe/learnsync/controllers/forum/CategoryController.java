@@ -4,6 +4,7 @@ import com.recpro.pe.learnsync.dtos.forum.category.CategoryDTO;
 import com.recpro.pe.learnsync.dtos.forum.category.CreateCategoryDTO;
 import com.recpro.pe.learnsync.services.forum.CategoryService;
 import jakarta.validation.Valid;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "Categories")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/categories")

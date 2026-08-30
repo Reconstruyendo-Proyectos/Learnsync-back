@@ -38,7 +38,9 @@ public class JwtUtils {
         Algorithm algorithm = Algorithm.HMAC256(this.privateKey);
 
         String username = authentication.getPrincipal().toString();
-        String authorities = authentication.getAuthorities().toString();
+        String authorities = authentication.getAuthorities().stream()
+                .map(g -> g.getAuthority())
+                .collect(java.util.stream.Collectors.joining(","));
 
         return JWT.create()
                 .withIssuer(userGenerator)

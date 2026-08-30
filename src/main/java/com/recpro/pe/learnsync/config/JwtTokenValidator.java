@@ -34,28 +34,36 @@ public class JwtTokenValidator extends OncePerRequestFilter {
             throws ServletException, IOException {
         String jwtToken = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-        if(jwtToken != null && jwtToken.startsWith("Bearer")){
-            jwtToken = jwtToken.substring(7); // Extract only token
-            DecodedJWT decodedJWT = jwtUtils.validateJWT(jwtToken);
+        try {
+            if(jwtToken != null && jwtToken.startsWith("Bearer ")){
+                jwtToken = jwtToken.substring(7);
+                DecodedJWT decodedJWT = jwtUtils.validateJWT(jwtToken);
 
-            String username = jwtUtils.extractUsername(decodedJWT);
-            String stringAuthorities = jwtUtils.extractSpecificClaim(decodedJWT, "authorities").asString();
+                String username = jwtUtils.extractUsername(decodedJWT);
+                String stringAuthorities = jwtUtils.extractSpecificClaim(decodedJWT, "authorities").asString();
 
-            Collection<? extends GrantedAuthority> authorities = AuthorityUtils.commaSeparatedStringToAuthorityList(stringAuthorities);
-            SecurityContext context = SecurityContextHolder.getContext();
-            Authentication authentication = new UsernamePasswordAuthenticationToken(username, null, authorities);
-            context.setAuthentication(authentication);
-            SecurityContextHolder.setContext(context);
-        } else if (jwtToken != null && jwtToken.startsWith("Google")) {
-            jwtToken = jwtToken.substring(7);
-            Payload payload = jwtUtils.validateGoogleJWT(jwtToken);
-            String username = jwtUtils.extractUsername(payload);
+                Collection<? extends GrantedAuthority> authorities = AuthorityUtils.commaSeparatedStringToAuthorityList(stringAuthorities == null ? "" : stringAuthorities);
+                SecurityContext context = SecurityContextHolder.getContext();
+                Authentication authentication = new UsernamePasswordAuthenticationToken(username, null, authorities);
+                context.setAuthentication(authentication);
+                SecurityContextHolder.setContext(context);
+            } else if (jwtToken != null && jwtToken.startsWith("Google ")){
+                jwtToken = jwtToken.substring(7);
+                Payload payload = jwtUtils.validateGoogleJWT(jwtToken);
+                String username = jwtUtils.extractUsername(payload);
 
-            Collection<? extends GrantedAuthority> authorities = AuthorityUtils.createAuthorityList("ROLE_STUDENT");
-            SecurityContext context = SecurityContextHolder.getContext();
-            Authentication authentication = new UsernamePasswordAuthenticationToken(username, null, authorities);
-            context.setAuthentication(authentication);
-            SecurityContextHolder.setContext(context);
+                Collection<? extends GrantedAuthority> authorities = AuthorityUtils.createAuthorityList("ROLE_STUDENT");
+                SecurityContext context = SecurityContextHolder.getContext();
+                Authentication authentication = new UsernamePasswordAuthenticationToken(username, null, authorities);
+                context.setAuthentication(authentication);
+                SecurityContextHolder.setContext(context);
+            }
+        } catch (Exception ex) {
+            SecurityContextHolder.clearContext();
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType("application/json");
+            response.getWriter().write("{\"error\":\"Token inválido, no estás autorizado\"}");
+            return;
         }
         filterChain.doFilter(request, response);
     }

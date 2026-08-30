@@ -4,6 +4,7 @@ import com.recpro.pe.learnsync.dtos.forum.comment.CommentDTO;
 import com.recpro.pe.learnsync.dtos.forum.comment.CreateCommentDTO;
 import com.recpro.pe.learnsync.services.forum.CommentService;
 import jakarta.validation.Valid;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "Comments")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/comments")

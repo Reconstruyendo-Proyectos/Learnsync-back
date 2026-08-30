@@ -168,7 +168,7 @@ public class AuthControllerTest {
         mockMvc.perform(post("/api/v1/auth/login")
                 .content(authJson)
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound())
+                .andExpect(status().isUnauthorized())
                 .andExpect(jsonPath("$").value("Contraseña inválida"));
     }
 }

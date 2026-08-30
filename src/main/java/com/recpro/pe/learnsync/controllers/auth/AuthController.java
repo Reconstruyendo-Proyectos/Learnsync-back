@@ -6,11 +6,13 @@ import com.recpro.pe.learnsync.dtos.auth.user.CreateUserDTO;
 import com.recpro.pe.learnsync.dtos.auth.user.UserDTO;
 import com.recpro.pe.learnsync.services.auth.AuthService;
 import jakarta.validation.Valid;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Tag(name = "Auth")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/auth")
