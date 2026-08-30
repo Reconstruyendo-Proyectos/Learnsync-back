@@ -23,6 +23,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
@@ -31,6 +32,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -47,6 +49,7 @@ public class AuthService {
     @Value("${app.backend.url}")
     private String backendUrl;
 
+    @Transactional
     public UserDTO register(CreateUserDTO request) {
         Role role = roleService.getRole("STUDENT");
         User user = new User(null, request.getUsername(), request.getEmail(), passwordEncoder.encode(request.getPassword()), false, false, null, 0, null, new ArrayList<>(), new ArrayList<>(), role, null, new ArrayList<>());
@@ -61,6 +64,7 @@ public class AuthService {
         return User.toDto(user);
     }
 
+    @Transactional
     public String activateAccount(String token) {
         ConfirmationToken confirmationToken = confirmationTokenService.findToken(token);
         if(confirmationToken.getActivationDate() != null) {
@@ -97,11 +101,20 @@ public class AuthService {
             throw new BadCredentialsException("Usuario o contraseña inválida");
         }
 
-        if(!passwordEncoder.matches(password, userDetails.getPassword())){
+        if (!userDetails.isEnabled()) {
+            throw new BadCredentialsException("Cuenta no activada");
+        }
+
+        if (!userDetails.isAccountNonLocked()) {
+            throw new BadCredentialsException("Cuenta baneada");
+        }
+
+        String storedPassword = userDetails.getPassword();
+        if (storedPassword == null || !passwordEncoder.matches(password, storedPassword)){
             throw new BadCredentialsException("Contraseña inválida");
         }
 
-        return new UsernamePasswordAuthenticationToken(username, userDetails.getPassword(), userDetails.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(username, storedPassword, userDetails.getAuthorities());
     }
 
     public AuthResponseDTO getUserByToken(String token) {
@@ -118,7 +131,8 @@ public class AuthService {
         Optional<User> user = userRepository.findByUsername(request.getUsername());
         if(user.isEmpty()) {
             Role role = roleService.getRole("STUDENT");
-            User newUser = new User(null, request.getUsername(), request.getEmail(), null, true, false, null, 0, request.getProfilePhoto(), new ArrayList<>(), new ArrayList<>(), role, null, new ArrayList<>());
+            String dummyPassword = passwordEncoder.encode(UUID.randomUUID().toString());
+            User newUser = new User(null, request.getUsername(), request.getEmail(), dummyPassword, true, false, null, 0, request.getProfilePhoto(), new ArrayList<>(), new ArrayList<>(), role, null, new ArrayList<>());
             userRepository.save(newUser);
         }
     }

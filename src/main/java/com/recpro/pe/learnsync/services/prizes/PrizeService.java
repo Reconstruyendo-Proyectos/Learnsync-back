@@ -14,6 +14,7 @@ import com.recpro.pe.learnsync.services.auth.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -49,12 +50,17 @@ public class PrizeService {
         return null;
     }
 
+    @Transactional
     public PrizeToExchangeDTO redeemPrize(Integer idPrize) {
         User user = userService.getAuthenticatedUser();
         Prize prize = getPrize(idPrize);
 
-        if(user.getExchanges().stream().anyMatch(exchange -> exchange.getPrize().getIdPrize().equals(idPrize))) {
+        if (user.getExchanges().stream().anyMatch(exchange -> exchange.getPrize().getIdPrize().equals(idPrize))) {
             throw new ResourceAlreadyExistsException("Este premio ya ha sido canjeado");
+        }
+
+        if (user.getPoints() < prize.getPrice()) {
+            throw new IllegalArgumentException("Puntos insuficientes: tienes " + user.getPoints() + " necesitas " + prize.getPrice());
         }
 
         Exchange exchange = new Exchange();
@@ -62,6 +68,7 @@ public class PrizeService {
         exchange.setPrize(prize);
         exchange.setRedemptionDate(LocalDateTime.now());
 
+        user.setPoints(user.getPoints() - prize.getPrice());
         user.getExchanges().add(exchange);
         prize.getExchanges().add(exchange);
         exchangeRepository.save(exchange);

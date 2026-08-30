@@ -197,6 +197,8 @@ public class AuthServiceTest {
 
         // When
         when(userDetailsService.loadUserByUsername(username)).thenReturn(userDetails);
+        when(userDetails.isEnabled()).thenReturn(true);
+        when(userDetails.isAccountNonLocked()).thenReturn(true);
         when(userDetails.getPassword()).thenReturn("$2a$10$C6wCl1T//l1uD9rOgbWV..SNN3puoSw9n.iEfHIMMrZmelmN5Ivya");
         when(passwordEncoder.matches(password, "$2a$10$C6wCl1T//l1uD9rOgbWV..SNN3puoSw9n.iEfHIMMrZmelmN5Ivya")).thenReturn(true);
 
@@ -230,7 +232,10 @@ public class AuthServiceTest {
         // Given
         String username = "username";
         String password = "password";
-        UserDetails userDetails = new UserSecurity(username, "real-password", Collections.singleton(new SimpleGrantedAuthority("ROLE_")), new User());
+        User user = new User();
+        user.setEnable(true);
+        user.setBanned(false);
+        UserDetails userDetails = new UserSecurity(username, "real-password", Collections.singleton(new SimpleGrantedAuthority("ROLE_")), user);
 
         // When
         when(userDetailsService.loadUserByUsername(username)).thenReturn(userDetails);
@@ -249,6 +254,8 @@ public class AuthServiceTest {
 
         // When
         when(userDetailsService.loadUserByUsername("username")).thenReturn(userDetails);
+        when(userDetails.isEnabled()).thenReturn(true);
+        when(userDetails.isAccountNonLocked()).thenReturn(true);
         when(userDetails.getPassword()).thenReturn("$2a$10$C6wCl1T//l1uD9rOgbWV..SNN3puoSw9n.iEfHIMMrZmelmN5Ivya");
         when(passwordEncoder.matches("password", "$2a$10$C6wCl1T//l1uD9rOgbWV..SNN3puoSw9n.iEfHIMMrZmelmN5Ivya")).thenReturn(true);
         when(jwtUtils.generateToken(any(Authentication.class))).thenReturn("accessToken");
@@ -268,7 +275,10 @@ public class AuthServiceTest {
 
         // When
         when(userDetailsService.loadUserByUsername("username")).thenReturn(userDetails);
-        when(passwordEncoder.matches("password", userDetails.getPassword())).thenReturn(true);
+        when(userDetails.isEnabled()).thenReturn(true);
+        when(userDetails.isAccountNonLocked()).thenReturn(true);
+        when(userDetails.getPassword()).thenReturn("$2a$10$C6wCl1T//l1uD9rOgbWV..SNN3puoSw9n.iEfHIMMrZmelmN5Ivya");
+        when(passwordEncoder.matches(eq("password"), anyString())).thenReturn(true);
         when(jwtUtils.generateToken(any(Authentication.class))).thenReturn("accessToken");
         doThrow(new JWTVerificationException("Token inválido, no estás autorizado")).when(jwtUtils).validateJWT(anyString());
 
