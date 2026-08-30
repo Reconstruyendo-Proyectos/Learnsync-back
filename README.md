@@ -61,6 +61,31 @@ Para ejecutar los test unitarios y de integración debes abrir tu terminal y eje
 > [!WARNING]
 > El test sendEmail de ConfirmationToken solo funciona cuando en el servicio que se testea no se usa el @Value porque al entrar en el contexto de solo ese método no se puede usar el valor correctamente.
 
+### Tests con Postgres real (Testcontainers) `src/test/resources/application-testcontainers.properties:1`
+
+Por defecto `gradlew test` usa `H2` `application-test.properties:1` rápido y sin Docker. Para validar contra `Postgres` real (paridad con `prod` `application-prod.properties:1` `Flyway` `V1__init.sql`):
+
+**Requisitos:** `Docker Desktop` `Engine running` (ya usado para `Dockerfile:1`).
+
+```bash
+# Opción A: toda la suite contra Postgres real
+./gradlew test -Dspring.profiles.active=testcontainers --no-daemon
+
+# Opción B: solo un test de integración
+./gradlew test --tests "*CategoryControllerTest" -Dspring.profiles.active=testcontainers --no-daemon
+```
+
+O en código cambia `@ActiveProfiles("test")` -> `"testcontainers"` o `extends PostgresTestcontainersBase` `src/test/java/com/recpro/pe/learnsync/config/PostgresTestcontainersBase.java:1`:
+
+```java
+public class CategoryControllerTest extends PostgresTestcontainersBase { ... }
+```
+
+Esto levanta `postgres:16-alpine` efímero `jdbc:tc:postgresql:16-alpine:///learnsync_test` `src/test/resources/application-testcontainers.properties:5` con `ddl-auto=validate` y `Flyway`, igual que `prod`. Si `H2` pasa y `testcontainers` falla, es bug de compatibilidad `SERIAL`/`TIMESTAMP` que en `prod` reventaría.
+
+> [!TIP]
+> Mantén `test` `H2` para unit rápido y migra solo `integration` a `testcontainers` cuando quieras validar `prod`.
+
 ## Sugerencias
 
 Si tienes sugerencias, no dudes en dejar una issue en el repositorio. Nos encantaría recibir tu feedback para mejorar el proyecto.
