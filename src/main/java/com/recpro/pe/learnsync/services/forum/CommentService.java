@@ -2,6 +2,7 @@ package com.recpro.pe.learnsync.services.forum;
 
 import com.recpro.pe.learnsync.dtos.forum.comment.CommentDTO;
 import com.recpro.pe.learnsync.dtos.forum.comment.CreateCommentDTO;
+import com.recpro.pe.learnsync.mappers.CommentMapper;
 import com.recpro.pe.learnsync.models.Comment;
 import com.recpro.pe.learnsync.models.Thread;
 import com.recpro.pe.learnsync.models.User;
@@ -19,9 +20,10 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final UserService userService;
     private final ThreadService threadService;
+    private final CommentMapper commentMapper;
 
     public List<CommentDTO> listComments(Pageable pageable) {
-        return commentRepository.findAll(pageable).stream().map(Comment::toDto).toList();
+        return commentRepository.findAll(pageable).stream().map(commentMapper::toDto).toList();
     }
 
     public CommentDTO createComment(CreateCommentDTO request) {
@@ -29,6 +31,6 @@ public class CommentService {
         User user = userService.findByUser(request.getUsername());
         Comment comment = new Comment(null, request.getMessage(), thread, user);
         commentRepository.save(comment);
-        return Comment.toDto(comment);
+        return commentMapper.toDto(comment);
     }
 }

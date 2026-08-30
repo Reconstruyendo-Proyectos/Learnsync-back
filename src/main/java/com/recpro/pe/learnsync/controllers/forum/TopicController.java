@@ -2,7 +2,7 @@ package com.recpro.pe.learnsync.controllers.forum;
 
 import com.recpro.pe.learnsync.dtos.forum.topic.CreateTopicDTO;
 import com.recpro.pe.learnsync.dtos.forum.topic.TopicDTO;
-import com.recpro.pe.learnsync.models.Topic;
+import com.recpro.pe.learnsync.mappers.TopicMapper;
 import com.recpro.pe.learnsync.services.forum.TopicService;
 import jakarta.validation.Valid;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -20,6 +20,7 @@ import java.util.List;
 @RequestMapping("/api/v1/topics")
 public class TopicController {
     private final TopicService topicService;
+    private final TopicMapper topicMapper;
 
     @GetMapping("")
     public ResponseEntity<List<TopicDTO>> listTopics(@RequestParam(defaultValue = "0") int page) {
@@ -29,7 +30,7 @@ public class TopicController {
 
     @GetMapping("/{slug}")
     public ResponseEntity<TopicDTO> getTopic(@PathVariable String slug) {
-        return new ResponseEntity<>(Topic.toDTO(topicService.getTopic(slug)), HttpStatus.OK);
+        return new ResponseEntity<>(topicMapper.toDto(topicService.getTopic(slug)), HttpStatus.OK);
     }
 
     @PostMapping("")

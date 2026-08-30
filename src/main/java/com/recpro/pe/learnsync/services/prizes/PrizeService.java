@@ -5,6 +5,7 @@ import com.recpro.pe.learnsync.dtos.prizes.PrizeDTO;
 import com.recpro.pe.learnsync.dtos.prizes.PrizeToExchangeDTO;
 import com.recpro.pe.learnsync.exceptions.ResourceAlreadyExistsException;
 import com.recpro.pe.learnsync.exceptions.ResourceNotExistsException;
+import com.recpro.pe.learnsync.mappers.PrizeMapper;
 import com.recpro.pe.learnsync.models.Exchange;
 import com.recpro.pe.learnsync.models.Prize;
 import com.recpro.pe.learnsync.models.User;
@@ -26,14 +27,15 @@ public class PrizeService {
     private final PrizeRepository prizeRepository;
     private final UserService userService;
     private final ExchangeRepository exchangeRepository;
+    private final PrizeMapper prizeMapper;
 
     public List<PrizeDTO> listPrizes(Pageable pageable) {
-        return prizeRepository.findAll(pageable).stream().map(Prize::toDto).toList();
+        return prizeRepository.findAll(pageable).stream().map(prizeMapper::toDto).toList();
     }
 
     public PrizeDTO createPrize(CreatePrizeDTO request) {
         Prize prize = new Prize(null, request.getName(), request.getDescription(), request.getPrice(), request.getImage(), new ArrayList<>());
-        return Prize.toDto(prizeRepository.save(prize));
+        return prizeMapper.toDto(prizeRepository.save(prize));
     }
 
     public PrizeDTO updatePrize(CreatePrizeDTO request, int idPrize) {
@@ -42,7 +44,7 @@ public class PrizeService {
         prize.setDescription(request.getDescription());
         prize.setPrice(request.getPrice());
         prize.setImage(request.getImage());
-        return Prize.toDto(prizeRepository.save(prize));
+        return prizeMapper.toDto(prizeRepository.save(prize));
     }
 
     public Void deletePrize(int idPrize) {

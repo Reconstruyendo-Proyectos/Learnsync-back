@@ -2,7 +2,7 @@ package com.recpro.pe.learnsync.controllers.forum;
 
 import com.recpro.pe.learnsync.dtos.forum.thread.CreateThreadDTO;
 import com.recpro.pe.learnsync.dtos.forum.thread.ThreadDTO;
-import com.recpro.pe.learnsync.models.Thread;
+import com.recpro.pe.learnsync.mappers.ThreadMapper;
 import com.recpro.pe.learnsync.services.forum.ThreadService;
 import jakarta.validation.Valid;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -20,6 +20,7 @@ import java.util.List;
 @RequestMapping("/api/v1/threads")
 public class ThreadController {
     private final ThreadService threadService;
+    private final ThreadMapper threadMapper;
 
     @GetMapping("")
     public ResponseEntity<List<ThreadDTO>> getThreads(
@@ -44,7 +45,7 @@ public class ThreadController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ThreadDTO> getThread(@PathVariable int id) {
-        return new ResponseEntity<>(Thread.toDTO(threadService.getThread(id)), HttpStatus.OK);
+        return new ResponseEntity<>(threadMapper.toDto(threadService.getThread(id)), HttpStatus.OK);
     }
 
     @PostMapping("")

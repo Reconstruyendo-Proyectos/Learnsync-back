@@ -3,6 +3,7 @@ package com.recpro.pe.learnsync.services.forum;
 import com.recpro.pe.learnsync.dtos.forum.thread.CreateThreadDTO;
 import com.recpro.pe.learnsync.dtos.forum.thread.ThreadDTO;
 import com.recpro.pe.learnsync.exceptions.ResourceNotExistsException;
+import com.recpro.pe.learnsync.mappers.ThreadMapper;
 import com.recpro.pe.learnsync.models.Thread;
 import com.recpro.pe.learnsync.models.Topic;
 import com.recpro.pe.learnsync.models.User;
@@ -21,18 +22,19 @@ public class ThreadService {
     private final ThreadRepository threadRepository;
     private final UserService userService;
     private final TopicService topicService;
+    private final ThreadMapper threadMapper;
 
     public List<ThreadDTO> listThreads(Pageable pageable) {
-        return threadRepository.findAllByOrderByIdThreadDesc(pageable).stream().map(Thread::toDTO).toList();
+        return threadRepository.findAllByOrderByIdThreadDesc(pageable).stream().map(threadMapper::toDto).toList();
     }
 
     public List<ThreadDTO> listThreadsByCreationDate(String slug, Pageable pageable) {
         Topic topic = topicService.getTopic(slug);
-        return threadRepository.findByTopicOrderByIdThreadDesc(topic, pageable).stream().map(Thread::toDTO).toList();
+        return threadRepository.findByTopicOrderByIdThreadDesc(topic, pageable).stream().map(threadMapper::toDto).toList();
     }
 
     public List<ThreadDTO> listThreadsByInteractions(Pageable pageable) {
-        return threadRepository.findByOrderByLikesDesc(pageable).stream().map(Thread::toDTO).toList();
+        return threadRepository.findByOrderByLikesDesc(pageable).stream().map(threadMapper::toDto).toList();
     }
 
     public ThreadDTO createThread(CreateThreadDTO request) {
@@ -44,7 +46,7 @@ public class ThreadService {
         }
         Thread thread = new Thread(null, request.getTitle(), request.getMessage(), 0, 0, file, topic, user, new ArrayList<>());
         threadRepository.save(thread);
-        return Thread.toDTO(thread);
+        return threadMapper.toDto(thread);
     }
 
     public Thread getThread(Integer id) {

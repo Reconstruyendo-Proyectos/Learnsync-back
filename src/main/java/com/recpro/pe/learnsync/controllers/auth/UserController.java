@@ -2,7 +2,7 @@ package com.recpro.pe.learnsync.controllers.auth;
 
 import com.recpro.pe.learnsync.dtos.auth.user.ImageUserDTO;
 import com.recpro.pe.learnsync.dtos.auth.user.UserDTO;
-import com.recpro.pe.learnsync.models.User;
+import com.recpro.pe.learnsync.mappers.UserMapper;
 import com.recpro.pe.learnsync.services.auth.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -15,10 +15,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/users")
 public class UserController {
     private final UserService userService;
+    private final UserMapper userMapper;
 
     @GetMapping("/profile")
     public ResponseEntity<UserDTO> getAuthenticatedUser() {
-        return ResponseEntity.ok(User.toDto(userService.getAuthenticatedUser()));
+        return ResponseEntity.ok(userMapper.toDto(userService.getAuthenticatedUser()));
     }
 
     @PatchMapping("/photo")

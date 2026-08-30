@@ -4,6 +4,7 @@ import com.recpro.pe.learnsync.dtos.forum.category.CategoryDTO;
 import com.recpro.pe.learnsync.dtos.forum.category.CreateCategoryDTO;
 import com.recpro.pe.learnsync.exceptions.ResourceAlreadyExistsException;
 import com.recpro.pe.learnsync.exceptions.ResourceNotExistsException;
+import com.recpro.pe.learnsync.mappers.CategoryMapper;
 import com.recpro.pe.learnsync.models.Category;
 import com.recpro.pe.learnsync.repos.forum.CategoryRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,9 +18,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CategoryService {
     private final CategoryRepository categoryRepository;
+    private final CategoryMapper categoryMapper;
 
     public List<CategoryDTO> listCategory(Pageable pageable) {
-        return categoryRepository.findAll(pageable).stream().map(Category::toDTO).toList();
+        return categoryRepository.findAll(pageable).stream().map(categoryMapper::toDto).toList();
     }
 
     public CategoryDTO createCategory(CreateCategoryDTO request) {
@@ -28,7 +30,7 @@ public class CategoryService {
         }
         Category category = new Category(null, request.getName(), new ArrayList<>());
         categoryRepository.save(category);
-        return Category.toDTO(category);
+        return categoryMapper.toDto(category);
     }
 
     public Category getCategory(String name) {

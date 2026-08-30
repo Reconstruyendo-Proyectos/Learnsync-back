@@ -6,19 +6,19 @@ import com.recpro.pe.learnsync.dtos.image.ImageResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestClient;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
+
+import java.time.Duration;
 
 @Service
 @RequiredArgsConstructor
 public class ImgurService {
 
-
-    private final WebClient webClient = WebClient.builder().build();
     private final ObjectMapper objectMapper;
 
     @Value("${imgur.api.url}")
@@ -27,21 +27,26 @@ public class ImgurService {
     @Value("${imgur.bearer.token}")
     private String accessToken;
 
+    private RestClient restClient() {
+        SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
+        factory.setConnectTimeout(Duration.ofSeconds(5));
+        factory.setReadTimeout(Duration.ofSeconds(10));
+        return RestClient.builder().requestFactory(factory).build();
+    }
+
     public ImageResponseDTO uploadImage(MultipartFile file) {
         try {
             MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
             body.add("image", file.getResource());
             body.add("type", "image");
 
-            Mono<String> responseMono = webClient.post()
+            String responseBody = restClient().post()
                     .uri(imgurUrl)
                     .header("Authorization", "Bearer " + accessToken)
                     .contentType(MediaType.MULTIPART_FORM_DATA)
-                    .bodyValue(body)
+                    .body(body)
                     .retrieve()
-                    .bodyToMono(String.class);
-
-            String responseBody = responseMono.block();
+                    .body(String.class);
 
             JsonNode jsonNode = objectMapper.readTree(responseBody);
             if (jsonNode.path("success").asBoolean()) {
@@ -62,12 +67,11 @@ public class ImgurService {
             throw new RuntimeException("Delete Hash inválida: ");
         }
 
-        webClient.delete()
+        restClient().delete()
                 .uri(imgurUrl + "/{deleteHash}", deleteHash)
                 .header("Authorization", "Bearer " + accessToken)
                 .retrieve()
-                .bodyToMono(String.class)
-                .block();
+                .body(String.class);
         return null;
     }
 }

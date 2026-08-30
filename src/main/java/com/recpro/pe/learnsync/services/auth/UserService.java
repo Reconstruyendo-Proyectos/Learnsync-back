@@ -4,6 +4,7 @@ import com.recpro.pe.learnsync.dtos.auth.user.BanUserDTO;
 import com.recpro.pe.learnsync.dtos.auth.user.ImageUserDTO;
 import com.recpro.pe.learnsync.dtos.auth.user.UserDTO;
 import com.recpro.pe.learnsync.exceptions.ResourceNotExistsException;
+import com.recpro.pe.learnsync.mappers.UserMapper;
 import com.recpro.pe.learnsync.models.User;
 import com.recpro.pe.learnsync.repos.auth.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,9 +18,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
     public List<UserDTO> listUsers(Pageable pageable) {
-        return userRepository.findAll(pageable).stream().map(User::toDto).toList();
+        return userRepository.findAll(pageable).stream().map(userMapper::toDto).toList();
     }
 
     public User findByUser(String username) {
@@ -32,7 +34,7 @@ public class UserService {
         user.setBanned(true);
         user.setBanDate(request.getBanDate());
         userRepository.save(user);
-        return User.toDto(user);
+        return userMapper.toDto(user);
     }
 
     public UserDTO unbanUser(String username) {
@@ -40,7 +42,7 @@ public class UserService {
         user.setBanned(false);
         user.setBanDate(null);
         userRepository.save(user);
-        return User.toDto(user);
+        return userMapper.toDto(user);
     }
 
     public User getAuthenticatedUser() {

@@ -4,6 +4,7 @@ import com.recpro.pe.learnsync.dtos.forum.topic.CreateTopicDTO;
 import com.recpro.pe.learnsync.dtos.forum.topic.TopicDTO;
 import com.recpro.pe.learnsync.exceptions.ResourceAlreadyExistsException;
 import com.recpro.pe.learnsync.exceptions.ResourceNotExistsException;
+import com.recpro.pe.learnsync.mappers.TopicMapper;
 import com.recpro.pe.learnsync.models.Category;
 import com.recpro.pe.learnsync.models.Topic;
 import com.recpro.pe.learnsync.repos.forum.TopicRepository;
@@ -19,9 +20,10 @@ import java.util.List;
 public class TopicService {
     private final TopicRepository topicRepository;
     private final CategoryService categoryService;
+    private final TopicMapper topicMapper;
 
     public List<TopicDTO> listTopics(Pageable pageable) {
-        return topicRepository.findAll(pageable).stream().map(Topic::toDTO).toList();
+        return topicRepository.findAll(pageable).stream().map(topicMapper::toDto).toList();
     }
 
     public TopicDTO createTopic(CreateTopicDTO request) {
@@ -33,7 +35,7 @@ public class TopicService {
         Category category = categoryService.getCategory(request.getCategoryName());
         Topic topic = new Topic(null, nameTransformed, request.getDescription(), slug, request.getTopicIcon(), request.getTopicPoster(), category, new ArrayList<>());
         topicRepository.save(topic);
-        return Topic.toDTO(topic);
+        return topicMapper.toDto(topic);
     }
 
     public Topic getTopic(String slug) {
