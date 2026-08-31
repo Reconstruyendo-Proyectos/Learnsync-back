@@ -4,6 +4,7 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
 import com.recpro.pe.learnsync.modules.auth.dto.auth.AuthRequestDTO;
 import com.recpro.pe.learnsync.modules.auth.dto.auth.AuthResponseDTO;
 import com.recpro.pe.learnsync.modules.auth.dto.auth.GoogleLoginDTO;
+import com.recpro.pe.learnsync.modules.auth.dto.auth.GoogleTokenRequestDTO;
 import com.recpro.pe.learnsync.modules.auth.dto.user.CreateUserDTO;
 import com.recpro.pe.learnsync.modules.auth.dto.user.UserDTO;
 import com.recpro.pe.learnsync.shared.exception.EmailConfirmedException;
@@ -118,23 +119,48 @@ public class AuthService {
         return new UsernamePasswordAuthenticationToken(username, storedPassword, userDetails.getAuthorities());
     }
 
-    public AuthResponseDTO getUserByToken(String token) {
-        Payload decodedJWT = jwtUtils.validateGoogleJWT(token);
-        String username = jwtUtils.extractSpecificClaim(decodedJWT, "name").toString();
-        String email = jwtUtils.extractSpecificClaim(decodedJWT, "email").toString();
-        String profilePhoto = jwtUtils.extractSpecificClaim(decodedJWT, "picture").toString();
-        GoogleLoginDTO googleLogin = new GoogleLoginDTO(username, email, profilePhoto);
-        handleGoogleLogin(googleLogin);
-        return new AuthResponseDTO(token);
+    @Transactional
+    public AuthResponseDTO googleLogin(GoogleTokenRequestDTO request) {
+        Payload payload = jwtUtils.validateGoogleJWT(request.getIdToken());
+
+        Object emailVerified = payload.get("email_verified");
+        if (emailVerified instanceof Boolean && !((Boolean) emailVerified)) {
+            throw new BadCredentialsException("Email de Google no verificado");
+        }
+
+        String email = (String) jwtUtils.extractSpecificClaim(payload, "email");
+        String username = (String) jwtUtils.extractSpecificClaim(payload, "name");
+        if (username == null || username.isBlank()) {
+            username = email != null ? email.split("@")[0] : null;
+        }
+        Object pictureObj = jwtUtils.extractSpecificClaim(payload, "picture");
+        String profilePhoto = pictureObj != null ? pictureObj.toString() : null;
+
+        if (email == null || username == null) {
+            throw new BadCredentialsException("Token de Google incompleto");
+        }
+
+        GoogleLoginDTO googleLogin = new GoogleLoginDTO(username, email, profilePhoto != null ? profilePhoto : "");
+        User user = handleGoogleLogin(googleLogin);
+
+        UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUsername());
+        Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails.getUsername(), null, userDetails.getAuthorities());
+        String appToken = jwtUtils.generateToken(authentication);
+        return new AuthResponseDTO(appToken);
     }
 
-    private void handleGoogleLogin(GoogleLoginDTO request) {
-        Optional<User> user = userRepository.findByUsername(request.getUsername());
-        if(user.isEmpty()) {
+    private User handleGoogleLogin(GoogleLoginDTO request) {
+        Optional<User> existing = userRepository.findByUsername(request.getUsername());
+        if (existing.isEmpty()) {
+            Optional<User> byEmail = userRepository.findByEmail(request.getEmail());
+            if (byEmail.isPresent()) {
+                return byEmail.get();
+            }
             Role role = roleService.getRole("STUDENT");
             String dummyPassword = passwordEncoder.encode(UUID.randomUUID().toString());
             User newUser = new User(null, request.getUsername(), request.getEmail(), dummyPassword, true, false, null, 0, request.getProfilePhoto(), new ArrayList<>(), new ArrayList<>(), role, null, new ArrayList<>());
-            userRepository.save(newUser);
+            return userRepository.save(newUser);
         }
+        return existing.get();
     }
 }

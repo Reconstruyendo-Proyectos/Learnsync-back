@@ -13,6 +13,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
+import com.recpro.pe.learnsync.modules.forum.mapper.TopicMapper;
+import org.mockito.Spy;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -33,6 +35,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class TopicServiceTest {
 
     @Mock private TopicRepository topicRepository;
+        @Spy private TopicMapper topicMapper = new TopicMapper();
     @InjectMocks private TopicService topicService;
     @Mock private CategoryService categoryService;
 

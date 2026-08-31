@@ -23,8 +23,11 @@ import com.recpro.pe.learnsync.shared.security.UserSecurity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import com.recpro.pe.learnsync.modules.auth.mapper.UserMapper;
+import com.recpro.pe.learnsync.modules.auth.mapper.RoleMapper;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
@@ -46,6 +49,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class AuthServiceTest {
 
     @Mock private UserRepository userRepository;
+        @Spy private com.recpro.pe.learnsync.modules.auth.mapper.UserMapper userMapper = new com.recpro.pe.learnsync.modules.auth.mapper.UserMapper(new com.recpro.pe.learnsync.modules.auth.mapper.RoleMapper());
     @InjectMocks private AuthService authService;
     @Mock private PasswordEncoder passwordEncoder;
     @Mock private JwtUtils jwtUtils;

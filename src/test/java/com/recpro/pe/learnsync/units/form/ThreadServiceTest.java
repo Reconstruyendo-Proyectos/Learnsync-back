@@ -16,6 +16,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
+import com.recpro.pe.learnsync.modules.forum.mapper.ThreadMapper;
+import org.mockito.Spy;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -36,6 +38,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class ThreadServiceTest {
 
     @Mock private ThreadRepository threadRepository;
+        @Spy private ThreadMapper threadMapper = new ThreadMapper();
     @InjectMocks private ThreadService threadService;
     @Mock private UserService userService;
     @Mock private TopicService topicService;

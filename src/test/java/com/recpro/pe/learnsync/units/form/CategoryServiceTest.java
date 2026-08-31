@@ -11,6 +11,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
+import com.recpro.pe.learnsync.modules.forum.mapper.CategoryMapper;
+import com.recpro.pe.learnsync.modules.forum.mapper.TopicMapper;
+import org.mockito.Spy;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -32,6 +35,7 @@ public class CategoryServiceTest {
 
     @Mock private CategoryRepository categoryRepository;
 
+        @Spy private CategoryMapper categoryMapper = new CategoryMapper(new TopicMapper());
     @InjectMocks private CategoryService categoryService;
 
     private List<Category> categories;
