@@ -1,8 +1,8 @@
 package com.recpro.pe.learnsync.units.auth;
 
-import com.recpro.pe.learnsync.dtos.auth.email.Mail;
-import com.recpro.pe.learnsync.exceptions.ConfigMailException;
-import com.recpro.pe.learnsync.services.auth.EmailService;
+import com.recpro.pe.learnsync.modules.auth.dto.email.Mail;
+import com.recpro.pe.learnsync.shared.exception.ConfigMailException;
+import com.recpro.pe.learnsync.modules.auth.service.EmailService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.junit.jupiter.api.BeforeEach;

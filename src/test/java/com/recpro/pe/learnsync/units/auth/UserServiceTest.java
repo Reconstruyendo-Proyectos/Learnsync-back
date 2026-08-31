@@ -1,22 +1,19 @@
 package com.recpro.pe.learnsync.units.auth;
 
-import com.recpro.pe.learnsync.dtos.auth.user.BanUserDTO;
-import com.recpro.pe.learnsync.dtos.auth.user.UserDTO;
-import com.recpro.pe.learnsync.exceptions.ResourceNotExistsException;
-import com.recpro.pe.learnsync.models.Role;
-import com.recpro.pe.learnsync.models.User;
-import com.recpro.pe.learnsync.models.enums.ERole;
-import com.recpro.pe.learnsync.repos.auth.UserRepository;
-import com.recpro.pe.learnsync.services.auth.UserService;
+import com.recpro.pe.learnsync.modules.auth.dto.user.BanUserDTO;
+import com.recpro.pe.learnsync.modules.auth.dto.user.UserDTO;
+import com.recpro.pe.learnsync.shared.exception.ResourceNotExistsException;
+import com.recpro.pe.learnsync.modules.auth.model.Role;
+import com.recpro.pe.learnsync.modules.auth.model.User;
+import com.recpro.pe.learnsync.modules.auth.model.enums.ERole;
+import com.recpro.pe.learnsync.modules.auth.repository.UserRepository;
+import com.recpro.pe.learnsync.modules.auth.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
-import com.recpro.pe.learnsync.mappers.RoleMapper;
-import com.recpro.pe.learnsync.mappers.UserMapper;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -36,7 +33,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class UserServiceTest {
 
     @Mock private UserRepository userRepository;
-    @Spy private UserMapper userMapper = new UserMapper(new RoleMapper());
     @InjectMocks private UserService userService;
 
     private List<User> users;

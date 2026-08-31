@@ -1,10 +1,10 @@
 package com.recpro.pe.learnsync.units.auth;
 
-import com.recpro.pe.learnsync.models.Role;
-import com.recpro.pe.learnsync.models.User;
-import com.recpro.pe.learnsync.models.enums.ERole;
-import com.recpro.pe.learnsync.repos.auth.UserRepository;
-import com.recpro.pe.learnsync.services.auth.JwtDetailsService;
+import com.recpro.pe.learnsync.modules.auth.model.Role;
+import com.recpro.pe.learnsync.modules.auth.model.User;
+import com.recpro.pe.learnsync.modules.auth.model.enums.ERole;
+import com.recpro.pe.learnsync.modules.auth.repository.UserRepository;
+import com.recpro.pe.learnsync.modules.auth.service.JwtDetailsService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

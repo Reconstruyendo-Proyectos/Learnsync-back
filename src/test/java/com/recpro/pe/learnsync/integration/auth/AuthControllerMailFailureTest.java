@@ -1,7 +1,7 @@
 package com.recpro.pe.learnsync.integration.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.recpro.pe.learnsync.dtos.auth.user.CreateUserDTO;
+import com.recpro.pe.learnsync.modules.auth.dto.user.CreateUserDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

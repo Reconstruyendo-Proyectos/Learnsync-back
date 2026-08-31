@@ -1,20 +1,18 @@
 package com.recpro.pe.learnsync.units.form;
 
-import com.recpro.pe.learnsync.dtos.forum.category.CategoryDTO;
-import com.recpro.pe.learnsync.dtos.forum.category.CreateCategoryDTO;
-import com.recpro.pe.learnsync.exceptions.ResourceAlreadyExistsException;
-import com.recpro.pe.learnsync.exceptions.ResourceNotExistsException;
-import com.recpro.pe.learnsync.models.Category;
-import com.recpro.pe.learnsync.repos.forum.CategoryRepository;
-import com.recpro.pe.learnsync.services.forum.CategoryService;
+import com.recpro.pe.learnsync.modules.forum.dto.category.CategoryDTO;
+import com.recpro.pe.learnsync.modules.forum.dto.category.CreateCategoryDTO;
+import com.recpro.pe.learnsync.shared.exception.ResourceAlreadyExistsException;
+import com.recpro.pe.learnsync.shared.exception.ResourceNotExistsException;
+import com.recpro.pe.learnsync.modules.forum.model.Category;
+import com.recpro.pe.learnsync.modules.forum.repository.CategoryRepository;
+import com.recpro.pe.learnsync.modules.forum.service.CategoryService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
-import com.recpro.pe.learnsync.mappers.CategoryMapper;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -33,7 +31,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class CategoryServiceTest {
 
     @Mock private CategoryRepository categoryRepository;
-    @Spy private CategoryMapper categoryMapper = new CategoryMapper(new com.recpro.pe.learnsync.mappers.TopicMapper());
 
     @InjectMocks private CategoryService categoryService;
 

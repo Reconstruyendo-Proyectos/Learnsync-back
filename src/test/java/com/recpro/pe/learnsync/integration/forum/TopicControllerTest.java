@@ -1,8 +1,8 @@
 package com.recpro.pe.learnsync.integration.forum;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.recpro.pe.learnsync.dtos.auth.auth.AuthRequestDTO;
-import com.recpro.pe.learnsync.dtos.forum.topic.CreateTopicDTO;
+import com.recpro.pe.learnsync.modules.auth.dto.auth.AuthRequestDTO;
+import com.recpro.pe.learnsync.modules.forum.dto.topic.CreateTopicDTO;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

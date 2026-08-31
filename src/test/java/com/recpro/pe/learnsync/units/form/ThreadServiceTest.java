@@ -1,23 +1,23 @@
 package com.recpro.pe.learnsync.units.form;
 
-import com.recpro.pe.learnsync.dtos.forum.thread.CreateThreadDTO;
-import com.recpro.pe.learnsync.dtos.forum.thread.ThreadDTO;
-import com.recpro.pe.learnsync.exceptions.ResourceNotExistsException;
-import com.recpro.pe.learnsync.models.*;
-import com.recpro.pe.learnsync.models.Thread;
-import com.recpro.pe.learnsync.models.enums.ERole;
-import com.recpro.pe.learnsync.repos.forum.ThreadRepository;
-import com.recpro.pe.learnsync.services.auth.UserService;
-import com.recpro.pe.learnsync.services.forum.ThreadService;
-import com.recpro.pe.learnsync.services.forum.TopicService;
+import com.recpro.pe.learnsync.modules.forum.dto.thread.CreateThreadDTO;
+import com.recpro.pe.learnsync.modules.forum.dto.thread.ThreadDTO;
+import com.recpro.pe.learnsync.shared.exception.ResourceNotExistsException;
+import com.recpro.pe.learnsync.modules.auth.model.*;
+import com.recpro.pe.learnsync.modules.forum.model.*;
+import com.recpro.pe.learnsync.modules.gamification.model.*;
+import com.recpro.pe.learnsync.modules.forum.model.Thread;
+import com.recpro.pe.learnsync.modules.auth.model.enums.ERole;
+import com.recpro.pe.learnsync.modules.forum.repository.ThreadRepository;
+import com.recpro.pe.learnsync.modules.auth.service.UserService;
+import com.recpro.pe.learnsync.modules.forum.service.ThreadService;
+import com.recpro.pe.learnsync.modules.forum.service.TopicService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
-import com.recpro.pe.learnsync.mappers.ThreadMapper;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -36,7 +36,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class ThreadServiceTest {
 
     @Mock private ThreadRepository threadRepository;
-    @Spy private ThreadMapper threadMapper = new ThreadMapper();
     @InjectMocks private ThreadService threadService;
     @Mock private UserService userService;
     @Mock private TopicService topicService;
@@ -103,7 +102,7 @@ public class ThreadServiceTest {
         CreateThreadDTO createThread = new CreateThreadDTO("New Thread", "New Description", "TOPIC-NOT-EXISTS", null);
 
         // When
-        when(topicService.getTopic(anyString())).thenThrow(new ResourceNotExistsException("El tópico " + Topic.transformName(createThread.getSlug().replaceAll("-", " ")) + " no existe"));
+        when(topicService.getTopic(anyString())).thenThrow(new ResourceNotExistsException("El tópico " + Topic.transformName(createThread.getSlug().replace("-", " ")) + " no existe"));
         ResourceNotExistsException ex = assertThrows(ResourceNotExistsException.class, () -> threadService.createThread(createThread));
 
         // Then

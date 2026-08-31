@@ -169,7 +169,7 @@ INSERT INTO users (username, email, password, creation_date, enable, banned, ban
 
 INSERT INTO confirmation_tokens (token, expiration_date, activation_date, id_user) VALUES
                                                                                        ('550e8400-e29b-41d4-a716-446655440000', '2023-01-01T00:10:00', '2023-01-01T00:05:00', 1),
-                                                                                       ('550e8400-e29b-41d4-a716-446655440001', TIMESTAMPADD(MINUTE, 10, NOW()), null, 2),
+                                                                                       ('550e8400-e29b-41d4-a716-446655440001', NOW() + INTERVAL '10 minutes', null, 2),
                                                                                        ('550e8400-e29b-41d4-a716-446655440002', '2023-01-03T00:10:00', NULL, 3),
                                                                                        ('550e8400-e29b-41d4-a716-446655440003', '2023-01-04T00:10:00', '2023-01-04T00:05:00', 4),
                                                                                        ('550e8400-e29b-41d4-a716-446655440004', '2023-01-05T00:10:00', '2023-01-05T00:05:00', 5),

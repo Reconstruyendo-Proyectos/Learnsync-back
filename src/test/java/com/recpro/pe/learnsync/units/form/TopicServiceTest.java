@@ -1,22 +1,20 @@
 package com.recpro.pe.learnsync.units.form;
 
-import com.recpro.pe.learnsync.dtos.forum.topic.CreateTopicDTO;
-import com.recpro.pe.learnsync.dtos.forum.topic.TopicDTO;
-import com.recpro.pe.learnsync.exceptions.ResourceAlreadyExistsException;
-import com.recpro.pe.learnsync.exceptions.ResourceNotExistsException;
-import com.recpro.pe.learnsync.models.Category;
-import com.recpro.pe.learnsync.models.Topic;
-import com.recpro.pe.learnsync.repos.forum.TopicRepository;
-import com.recpro.pe.learnsync.services.forum.CategoryService;
-import com.recpro.pe.learnsync.services.forum.TopicService;
+import com.recpro.pe.learnsync.modules.forum.dto.topic.CreateTopicDTO;
+import com.recpro.pe.learnsync.modules.forum.dto.topic.TopicDTO;
+import com.recpro.pe.learnsync.shared.exception.ResourceAlreadyExistsException;
+import com.recpro.pe.learnsync.shared.exception.ResourceNotExistsException;
+import com.recpro.pe.learnsync.modules.forum.model.Category;
+import com.recpro.pe.learnsync.modules.forum.model.Topic;
+import com.recpro.pe.learnsync.modules.forum.repository.TopicRepository;
+import com.recpro.pe.learnsync.modules.forum.service.CategoryService;
+import com.recpro.pe.learnsync.modules.forum.service.TopicService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
-import com.recpro.pe.learnsync.mappers.TopicMapper;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -35,7 +33,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class TopicServiceTest {
 
     @Mock private TopicRepository topicRepository;
-    @Spy private TopicMapper topicMapper = new TopicMapper();
     @InjectMocks private TopicService topicService;
     @Mock private CategoryService categoryService;
 

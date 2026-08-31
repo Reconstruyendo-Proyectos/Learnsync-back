@@ -1,14 +1,14 @@
 package com.recpro.pe.learnsync.units.auth;
 
-import com.recpro.pe.learnsync.dtos.auth.email.Mail;
-import com.recpro.pe.learnsync.exceptions.ResourceNotExistsException;
-import com.recpro.pe.learnsync.models.ConfirmationToken;
-import com.recpro.pe.learnsync.models.Role;
-import com.recpro.pe.learnsync.models.User;
-import com.recpro.pe.learnsync.models.enums.ERole;
-import com.recpro.pe.learnsync.repos.auth.ConfirmationTokenRepository;
-import com.recpro.pe.learnsync.services.auth.ConfirmationTokenService;
-import com.recpro.pe.learnsync.services.auth.EmailService;
+import com.recpro.pe.learnsync.modules.auth.dto.email.Mail;
+import com.recpro.pe.learnsync.shared.exception.ResourceNotExistsException;
+import com.recpro.pe.learnsync.modules.auth.model.ConfirmationToken;
+import com.recpro.pe.learnsync.modules.auth.model.Role;
+import com.recpro.pe.learnsync.modules.auth.model.User;
+import com.recpro.pe.learnsync.modules.auth.model.enums.ERole;
+import com.recpro.pe.learnsync.modules.auth.repository.ConfirmationTokenRepository;
+import com.recpro.pe.learnsync.modules.auth.service.ConfirmationTokenService;
+import com.recpro.pe.learnsync.modules.auth.service.EmailService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

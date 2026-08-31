@@ -1,23 +1,23 @@
 package com.recpro.pe.learnsync.units.form;
 
-import com.recpro.pe.learnsync.dtos.forum.comment.CommentDTO;
-import com.recpro.pe.learnsync.dtos.forum.comment.CreateCommentDTO;
-import com.recpro.pe.learnsync.exceptions.ResourceNotExistsException;
-import com.recpro.pe.learnsync.models.*;
-import com.recpro.pe.learnsync.models.Thread;
-import com.recpro.pe.learnsync.models.enums.ERole;
-import com.recpro.pe.learnsync.repos.forum.CommentRepository;
-import com.recpro.pe.learnsync.services.auth.UserService;
-import com.recpro.pe.learnsync.services.forum.CommentService;
-import com.recpro.pe.learnsync.services.forum.ThreadService;
+import com.recpro.pe.learnsync.modules.forum.dto.comment.CommentDTO;
+import com.recpro.pe.learnsync.modules.forum.dto.comment.CreateCommentDTO;
+import com.recpro.pe.learnsync.shared.exception.ResourceNotExistsException;
+import com.recpro.pe.learnsync.modules.auth.model.*;
+import com.recpro.pe.learnsync.modules.forum.model.*;
+import com.recpro.pe.learnsync.modules.gamification.model.*;
+import com.recpro.pe.learnsync.modules.forum.model.Thread;
+import com.recpro.pe.learnsync.modules.auth.model.enums.ERole;
+import com.recpro.pe.learnsync.modules.forum.repository.CommentRepository;
+import com.recpro.pe.learnsync.modules.auth.service.UserService;
+import com.recpro.pe.learnsync.modules.forum.service.CommentService;
+import com.recpro.pe.learnsync.modules.forum.service.ThreadService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
-import com.recpro.pe.learnsync.mappers.CommentMapper;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -36,7 +36,6 @@ public class CommentServiceTest {
 
     @Mock
     private CommentRepository commentRepository;
-    @Spy private CommentMapper commentMapper = new CommentMapper();
     @InjectMocks
     private CommentService commentService;
     @Mock private UserService userService;
