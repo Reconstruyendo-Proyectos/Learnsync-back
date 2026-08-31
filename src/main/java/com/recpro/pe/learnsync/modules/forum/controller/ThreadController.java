@@ -5,6 +5,13 @@ import com.recpro.pe.learnsync.modules.forum.dto.thread.ThreadDTO;
 import com.recpro.pe.learnsync.modules.forum.mapper.ThreadMapper;
 import com.recpro.pe.learnsync.modules.forum.service.ThreadService;
 import jakarta.validation.Valid;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -22,6 +29,7 @@ public class ThreadController {
     private final ThreadService threadService;
     private final ThreadMapper threadMapper;
 
+    @Operation(summary = "Listar threads", description = "Filtra por ?slug=topic-slug o ?sortBy=creation-date|interactions, paginado")
     @GetMapping("")
     public ResponseEntity<List<ThreadDTO>> getThreads(
             @RequestParam(defaultValue = "0") int page,
@@ -48,11 +56,14 @@ public class ThreadController {
         return new ResponseEntity<>(threads, HttpStatus.OK);
     }
 
+    @Operation(summary = "Obtener thread por id")
     @GetMapping("/{id}")
     public ResponseEntity<ThreadDTO> getThread(@PathVariable int id) {
         return new ResponseEntity<>(threadMapper.toDto(threadService.getThread(id)), HttpStatus.OK);
     }
 
+    @Operation(summary = "Crear thread", description = "Requiere JWT, asocia Topic por slug")
+    @SecurityRequirement(name = "Bearer Authentication")
     @PostMapping("")
     public ResponseEntity<ThreadDTO> createThread(@Valid @RequestBody CreateThreadDTO request) {
         ThreadDTO created = threadService.createThread(request);

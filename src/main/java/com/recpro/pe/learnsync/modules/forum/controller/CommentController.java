@@ -4,6 +4,13 @@ import com.recpro.pe.learnsync.modules.forum.dto.comment.CommentDTO;
 import com.recpro.pe.learnsync.modules.forum.dto.comment.CreateCommentDTO;
 import com.recpro.pe.learnsync.modules.forum.service.CommentService;
 import jakarta.validation.Valid;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -20,6 +27,7 @@ import java.util.List;
 public class CommentController {
     private final CommentService commentService;
 
+    @Operation(summary = "Listar comentarios", description = "GET paginado")
     @GetMapping("")
     public ResponseEntity<List<CommentDTO>> getComments(
             @RequestParam(defaultValue = "0") int page,
@@ -29,6 +37,8 @@ public class CommentController {
         return new ResponseEntity<>(commentService.listComments(PageRequest.of(page, size)), HttpStatus.OK);
     }
 
+    @Operation(summary = "Crear comentario", description = "Requiere JWT, body {message, username, idThread}")
+    @SecurityRequirement(name = "Bearer Authentication")
     @PostMapping("")
     public ResponseEntity<CommentDTO> createComment(@Valid @RequestBody CreateCommentDTO request) {
         CommentDTO created = commentService.createComment(request);

@@ -5,6 +5,13 @@ import com.recpro.pe.learnsync.modules.forum.dto.topic.TopicDTO;
 import com.recpro.pe.learnsync.modules.forum.mapper.TopicMapper;
 import com.recpro.pe.learnsync.modules.forum.service.TopicService;
 import jakarta.validation.Valid;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -22,6 +29,7 @@ public class TopicController {
     private final TopicService topicService;
     private final TopicMapper topicMapper;
 
+    @Operation(summary = "Listar topics", description = "GET paginado ?page=0&size=10")
     @GetMapping("")
     public ResponseEntity<List<TopicDTO>> listTopics(
             @RequestParam(defaultValue = "0") int page,
@@ -31,11 +39,14 @@ public class TopicController {
         return new ResponseEntity<>(topicService.listTopics(PageRequest.of(page, size)), HttpStatus.OK);
     }
 
+    @Operation(summary = "Obtener topic por slug", description = "GET /{slug} con transformName")
     @GetMapping("/{slug}")
     public ResponseEntity<TopicDTO> getTopic(@PathVariable String slug) {
         return new ResponseEntity<>(topicMapper.toDto(topicService.getTopic(slug)), HttpStatus.OK);
     }
 
+    @Operation(summary = "Crear topic", description = "Requiere JWT, slug autogenerado")
+    @SecurityRequirement(name = "Bearer Authentication")
     @PostMapping("")
     public ResponseEntity<TopicDTO> createTopic(@Valid @RequestBody CreateTopicDTO request) {
         TopicDTO created = topicService.createTopic(request);
